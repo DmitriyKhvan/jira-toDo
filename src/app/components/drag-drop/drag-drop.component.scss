@@ -1,0 +1,238 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.list-container {
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 2em;
+}
+
+.column-container {
+  width: 300px;
+  max-width: 100%;
+  margin: 0 25px 25px 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+mat-card {
+  margin: 1em;
+  cursor: pointer;
+}
+
+.list {
+  border-radius: 2px;
+}
+
+.list-item {
+  margin: 10px;
+  padding: 20px 10px;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+a {
+  text-decoration: none;
+  color: dodgerblue;
+}
+.mat-card-header-text {
+  width: 100% !important;
+}
+
+.mat-card-header {
+  width: 100% !important;
+}
+/* 655555555555555555555555555555555555555555 */
+
+.cdk-drag-animating {
+  //   transition: transform 150ms cubic-bezier(0.01, 0.01, 0.01, 0.01);
+}
+// *************************************
+
+.column-container {
+  background-color: #f4f5f7;
+  border-radius: 10px;
+}
+
+.todyBody {
+  border-radius: 10px;
+  background-color: #fff;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.1s;
+  padding: 0;
+  padding-top: 10px;
+}
+.todyBody:hover {
+  background-color: rgb(182, 182, 182);
+}
+.drotText {
+  color: #000;
+}
+.rowItem {
+  width: 100%;
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+  margin-bottom: -10px;
+}
+.rowItem1 {
+  display: flex;
+}
+
+.colorChe {
+  color: rgb(71, 93, 189);
+}
+.colorTextMs {
+  color: #000 !important;
+  margin-left: 6px;
+}
+.aui-avatar-imageRadius {
+  border-radius: 50% !important ;
+  width: 22px;
+  height: 22px;
+}
+
+.dropTitleText {
+  color: #969da8;
+  font-size: 18px;
+  padding-top: 5px;
+  padding-left: 25px;
+}
+.splitBROP {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -10px;
+}
+.aui-button-primaryItem {
+  width: 18px;
+  margin-top: 5px;
+  margin-right: 10px;
+  opacity: 0 !important;
+  transition: all 0.2;
+}
+.splitBROP:hover .aui-button-primaryItem {
+  opacity: 1 !important;
+  transition: all 0.2;
+}
+
+.drotTextItems:hover .aui-button-primaryItem {
+  opacity: 1 !important;
+  transition: all 0.2;
+}
+
+.btnItemSize {
+  width: 20px;
+  margin-left: -12px;
+  background-color: rgb(223, 217, 217);
+}
+.flexItem1 {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-left: 17px;
+  cursor: pointer;
+  padding-top: 10px;
+  margin-top: -10px;
+}
+.flexItem1:hover {
+  background-color: rgb(223, 217, 217);
+}
+.flexItem1:hover .btnIcons {
+  background-color: rgb(223, 217, 217);
+}
+.iconColorsPlus {
+  color: #6e7a8f;
+}
+.pTextIcons {
+  font-size: 16px;
+  margin-left: 5px;
+  color: #6e7a8f;
+}
+.btnIcons {
+  border: none;
+  background-color: #f4f5f7;
+  width: 18px;
+  margin-top: -15px;
+  margin-right: 7px;
+}
+
+.listItemStyle:hover {
+  opacity: 1;
+}
+
+.listItemStyle:hover .flexItem2 {
+  opacity: 1;
+}
+
+.flexItem2 {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-left: 17px;
+  cursor: pointer;
+  padding-top: 10px;
+  margin-top: -10px;
+  opacity: 0;
+}
+.flexItem2:hover {
+  background-color: rgb(223, 217, 217);
+}
+.flexItem2:hover .btnIcons2 {
+  background-color: rgb(223, 217, 217);
+}
+
+.btnIcons2 {
+  border: none;
+  background-color: #f4f5f7;
+  width: 18px;
+  margin-top: -15px;
+  margin-right: 7px;
+}
+
+.mainDivComponents {
+  display: flex;
+}
+.fwss {
+  font-weight: 100 !important;
+}
+.addColumns {
+  border: none;
+  margin-left: -10px;
+  cursor: pointer;
+}

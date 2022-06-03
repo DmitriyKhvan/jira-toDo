@@ -2,3 +2,10 @@
 @import "~@atlassian/aui/dist/aui/aui-prototyping.css";
 @import "~@atlassian/aui/dist/aui/aui-prototyping-browserfocus.css";
 @import "~@atlassian/aui/dist/aui/aui-prototyping.nodeps.css";
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+.mat-card-header-text {
+  width: 100% !important;
+}

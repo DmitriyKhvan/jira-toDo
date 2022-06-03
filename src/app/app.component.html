@@ -1,147 +1,248 @@
-<div class="aui-tabs horizontal-tabs">
-  <ul class="tabs-menu">
-    <li class="menu-item active-tab">
-      <a href="#tabs-example-first">Tab 1</a>
-    </li>
-    <li class="menu-item">
-      <a href="#tabs-example-second">Tab 2</a>
-    </li>
-  </ul>
-  <div class="tabs-pane active-pane" id="tabs-example-first">
-    <h2>This is tab 1</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<div id="page">
+  <header id="header" role="banner">
+    <!-- The skip links make it easier for keyboard-only users to jump to the crucial page content -->
+    <!-- Some of them may be optionally available for unauthenticated users... -->
+    <a class="aui-skip-link" href="https://example.com/log-in">Log in</a>
+    <!-- ...some are helpful anyway. -->
+    <a class="aui-skip-link" href="#main">Skip to main content</a>
+    <!-- Remember to translate all `aria-label` values!
+           Use the `aui.landmarks.site` i18n key here. -->
+    <nav class="aui-header aui-dropdown2-trigger-group" aria-label="site">
+      <div class="aui-header-inner">
+        <div class="aui-header-primary">
+          <span id="logo" class="aui-header-logo aui-header-logo-textonly">
+            <!-- Remember to translate all `aria-label` values!
+                           Use the `aui.header.home.link` i18n key here. -->
+            <a href="https://example.com/" aria-label="Go to home page">
+              <span class="aui-header-logo-device">AUI</span>
+            </a>
+          </span>
+
+          <ul class="aui-nav">
+            <li><a href="https://example.com/">Nav</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div id="content">
+    <!-- Remember to translate all `aria-label` values!
+           Use the `aui.landmarks.sidebar` i18n key here. -->
+    <section class="aui-sidebar" aria-label="sidebar">
+      <!-- <div class="aui-sidebar"> -->
+      <div class="aui-sidebar-wrapper">
+        <div class="aui-sidebar-body">
+          <!-- AUI Page Header pattern placed here -->
+          <div class="aui-page-header">
+            <div class="aui-page-header-inner">
+              <div class="aui-page-header-image">
+                <span class="aui-avatar aui-avatar-project aui-avatar-large">
+                  <span class="aui-avatar-inner">
+                    <img
+                      src="../assets/images/logo.svg"
+                      alt=""
+                      role="presentation"
+                    />
+                  </span>
+                </span>
+              </div>
+              <div class="aui-page-header-main">
+                <h1>AUI Sidebar</h1>
+                <ol class="aui-nav aui-nav-breadcrumbs">
+                  <li>
+                    <a href="#"
+                      ><span class="aui-nav-item-label"
+                        >This is a really really long title for whatever this
+                        is</span
+                      ></a
+                    >
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUI Navigation patterns placed here, make sure the aria-label describes the content of your nav well -->
+          <nav
+            class="aui-navgroup aui-navgroup-vertical"
+            aria-label="Sidebar navigation"
+          >
+            <div class="aui-navgroup-inner">
+              <!-- A Sidebar group will collapse into a single trigger icon when sidebar is collapsed -->
+              <!-- The 'actions' sidebar group type will be styled differently from normal groups when sidebar is collapsed -->
+              <div class="aui-sidebar-group aui-sidebar-group-actions">
+                <!-- the AUI Nav heading will be used as the tooltip text -->
+                <div class="aui-nav-heading" title="Actions">
+                  <strong>Actions</strong>
+                </div>
+
+                <!-- If a sidebar group does not have a nav heading, then the aui-nav's title attribute will be used
+                                 for the tooltip for the group -->
+                <ul class="aui-nav" title="Page actions">
+                  <li>
+                    <a class="aui-nav-item" href="#" title="Edit">Edit</a>
+                  </li>
+                  <li>
+                    <a class="aui-nav-item" href="#" title="View">View</a>
+                  </li>
+                  <li>
+                    <a class="aui-nav-item" href="#" title="Share">Share</a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- A "Tier One" Sidebar group will display all of its nav items, but all nav items MUST have an AUI Icon
+                             which will be used when the sidebar is collapsed -->
+              <div class="aui-sidebar-group aui-sidebar-group-tier-one">
+                <!-- in a "Tier One" Sidebar group, AUI Nav heading is ignored, and each nav item's label will be used
+                                 as the tooltip text instead -->
+                <div class="aui-nav-heading" title="Stuff">
+                  <strong>Simple Nav</strong>
+                </div>
+
+                <ul class="aui-nav">
+                  <li class="aui-nav-selected">
+                    <!-- "selected" Nav items may strictly require or forbid anchoring, depending on the context of use. See "Design Patterns - current and selected items" page for details -->
+                    <a class="aui-nav-item" href="#info-content">
+                      <!-- "selected" Nav items may strictly require or forbid additional assistive labels supporting visually impaired users. See "Design Patterns - current and selected items" page for details -->
+                      <span class="assistive">Selected item:</span>
+
+                      <!-- "Tier One" navigation items MUST have an AUI Icon before the text label -->
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-info"
+                      ></span>
+
+                      <!-- "Tier One" Nav items labels also need an extra SPAN around them with the aui-nav-item-label class -->
+                      <span class="aui-nav-item-label">Summary</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="aui-nav-item"
+                      href="#"
+                      title="This is a really really long title for whatever this is"
+                    >
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-details"
+                      ></span>
+                      <span class="aui-nav-item-label">Issues</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="aui-nav-item" href="#">
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-jira-completed-task"
+                      ></span>
+                      <span class="aui-nav-item-label">Road Map</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="aui-nav-item" href="#">
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-time"
+                      ></span>
+                      <span class="aui-nav-item-label">Versions</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="aui-nav-item" href="#">
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-devtools-submodule"
+                      ></span>
+                      <span class="aui-nav-item-label">Components</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="aui-nav-item" href="#">
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-devtools-tag"
+                      ></span>
+                      <span class="aui-nav-item-label">Labels</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Sidebar footer contains the expand/collapse trigger, and optionally a button or a dropdown with configuration settings -->
+        <div class="aui-sidebar-footer">
+          <!-- <a
+            href="https://example.com"
+            class="aui-button aui-button-subtle aui-sidebar-settings-button"
+            title="Settings"
+          >
+            <span class="aui-icon aui-icon-small aui-iconfont-configure"></span>
+            <span class="aui-button-label">Settings</span>
+          </a> -->
+          <button
+            class="aui-button aui-button-subtle aui-sidebar-toggle aui-sidebar-footer-tipsy"
+            title="Collapse sidebar ( [ )"
+          >
+            <span
+              class="aui-icon aui-icon-small aui-iconfont-chevron-double-left"
+            ></span>
+          </button>
+        </div>
+      </div>
+      <!-- </div> -->
+    </section>
+    <!-- The redundant `role` attribute is required for the VoiceOver + Safari combo -->
+    <main role="main" id="main">
+      <div class="aui-page-header">
+        <div class="aui-page-header-inner">
+          <div class="aui-page-header-main">
+            <ol class="aui-nav aui-nav-breadcrumbs">
+              <li><a href="https://example.com/">Breadcrumbs</a></li>
+              <li>
+                <a href="https://example.com/" class="custom">Sub-page</a>
+              </li>
+              <li class="aui-nav-selected">
+                <span class="assistive">Current page:</span> Direct parent page
+                name
+              </li>
+            </ol>
+            <h1>
+              A typical page header with an avatar, breadcrumbs and actions
+            </h1>
+          </div>
+          <div class="aui-page-header-actions">
+            <div class="aui-buttons">
+              <button class="aui-button aui-button-subtle">
+                Subtle button
+              </button>
+              <button class="aui-button aui-button-subtle">
+                Subtle button
+              </button>
+              <button class="aui-button aui-button-subtle">
+                Subtle button
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+          <section class="aui-page-panel-content">
+            <app-drag-drop></app-drag-drop>
+          </section>
+        </div>
+      </div>
+    </main>
   </div>
-  <div class="tabs-pane" id="tabs-example-second">
-    <h2>This is tab 2</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-  </div>
+
+  <footer id="footer" role="contentinfo">
+    <section class="footer-body">
+      <ul>
+        <li>I &hearts; AUI</li>
+      </ul>
+
+      <div id="footer-logo">
+        <a href="https://www.atlassian.com/" target="_blank">Atlassian</a>
+      </div>
+    </section>
+  </footer>
 </div>
-
-<input
-  #datePicker
-  class="aui-date-picker"
-  id="demo-range-1"
-  type="date"
-  max="2012-01-25"
-  min="2011-12-25"
-/>
-
-<form class="aui">
-  <select id="select2-example" multiple>
-    <option value="CONF">Confluence</option>
-    <option value="JIRA">JIRA</option>
-    <option value="BAM">Bamboo</option>
-    <option value="JAG">JIRA Agile</option>
-    <option value="CAP">JIRA Capture</option>
-    <option value="AUI">AUI</option>
-  </select>
-</form>
-
-<h5>Small spinner</h5>
-<aui-spinner size="big"></aui-spinner>
-
-<span class="aui-icon aui-icon-small aui-iconfont-activity"
-  >Insert meaningful text here for accessibility</span
->
-
-<span class="aui-icon aui-icon-large aui-iconfont-successful-build success"
-  >Insert meaningful text here for accessibility</span
->
-
-<form class="aui">
-  <fieldset class="group">
-    <legend><span>Radio buttons</span></legend>
-    <div class="radio">
-      <input
-        class="radio"
-        type="radio"
-        checked="checked"
-        name="radiobuttons"
-        id="radioButtonOne"
-      />
-      <label for="radioButtonOne">Save as a blog post</label>
-    </div>
-    <div class="radio">
-      <input
-        class="radio"
-        type="radio"
-        name="radiobuttons"
-        id="radioButtonTwo"
-      />
-      <label for="radioButtonTwo">Save as a page</label>
-    </div>
-    <div class="radio">
-      <input
-        class="radio"
-        type="radio"
-        name="radiobuttons"
-        id="radioButtonThree"
-      />
-      <label for="radioButtonThree">Save to your drafts</label>
-    </div>
-  </fieldset>
-</form>
-
-<form class="aui">
-  <fieldset>
-    <div class="field-group">
-      <label for="ffi1">Fancy File Input</label>
-      <label class="ffi" data-ffi-button-text="Загрузить файл">
-        <input
-          type="file"
-          id="ffi1"
-          name="ffi1"
-          aria-label="Fancy File Input"
-          (change)="upload($event)"
-        />
-      </label>
-    </div>
-  </fieldset>
-</form>
-
-<pre>
-  {{ file[0]?.name | json }}
-</pre>
-
-<form class="aui">
-  <div class="field-group">
-    <input type="text" class="text" />
-    <div class="error">Error message here</div>
-  </div>
-</form>
-
-<aui-label for="my-toggle">Click here to toggle</aui-label>
-<aui-toggle label="toggle button" id="my-toggle"></aui-toggle>
-
-<ol class="aui-progress-tracker">
-  <li class="aui-progress-tracker-step" style="width: 25%">
-    <span>Configure instance</span>
-  </li>
-  <li class="aui-progress-tracker-step" style="width: 25%">
-    <span>Select plugins</span>
-  </li>
-  <li class="aui-progress-tracker-step" style="width: 25%">
-    <span>Invite users</span>
-  </li>
-  <li
-    class="aui-progress-tracker-step aui-progress-tracker-step-current"
-    style="width: 25%"
-  >
-    <span>Confirm</span>
-  </li>
-</ol>
-
-<hr />
-
-<aui-progressbar id="with-attributes" value="5" max="100"></aui-progressbar>
-
-<!-- <a
-  id="simple-tooltip"
-  href="https://example.com/"
-  title="This is a simple tooltip"
-  >tooltip</a
-> -->
-
-<hr />
-
-<a id="custom-tooltip" href="https://example.com/">Custom tooltip</a>
