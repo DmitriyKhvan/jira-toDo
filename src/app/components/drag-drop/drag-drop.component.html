@@ -1,4 +1,4 @@
-<div class="" style="margin: 100px">
+<div class="">
   <div class="">
     <div class="list-container mainDivComponents">
       <div class="todo-container column-container heightControl">
@@ -9,7 +9,6 @@
           [cdkDropListData]="todos"
           [cdkDropListConnectedTo]="[todoList1, todoList2, todoList3]"
           (cdkDropListDropped)="onDrop($event)"
-          (cdkDropListEntered)="onDropEnter($event)"
         >
           <div class="splitBROP">
             <p class="dropTitleText">Tech to learn111</p>
@@ -101,7 +100,6 @@
           [cdkDropListData]="completed"
           [cdkDropListConnectedTo]="[todoList1, todoList2, todoList3]"
           (cdkDropListDropped)="onDrop($event)"
-          (cdkDropListEntered)="onDropEnter($event)"
         >
           <div class="splitBROP">
             <p class="dropTitleText">Tech to learn222</p>
@@ -194,7 +192,6 @@
           [cdkDropListData]="finished"
           [cdkDropListConnectedTo]="[todoList1, todoList2, todoList3]"
           (cdkDropListDropped)="onDrop($event)"
-          (cdkDropListEntered)="onDropEnter($event)"
         >
           <div class="splitBROP">
             <p class="dropTitleText">Tech to learn333</p>
@@ -279,7 +276,7 @@
 
       <div>
         <button class="addColumns">
-          <span class="aui-icon aui-icon-large aui-iconfont-add fwss"
+          <span class="aui-icon aui-icon-small aui-iconfont-add fwss"
             >Insert meaningful text here for accessibility</span
           >
         </button>

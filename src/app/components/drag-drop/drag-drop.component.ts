@@ -15,27 +15,27 @@ export class DragDropComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getMaxHeight(els: any) {
-    let maxHeight: any = 0;
+  // getMaxHeight(els: any) {
+  //   let maxHeight: any = 0;
 
-    // debugger;
+  //   // debugger;
 
-    els.forEach((e: any) => {
-      if (e.clientHeight > maxHeight) {
-        maxHeight = e.clientHeight;
-      }
-    });
-    console.log(maxHeight, 'maxHeight');
-    return maxHeight;
-  }
+  //   els.forEach((e: any) => {
+  //     if (e.clientHeight > maxHeight) {
+  //       maxHeight = e.clientHeight;
+  //     }
+  //   });
+  //   console.log(maxHeight, 'maxHeight');
+  //   return maxHeight;
+  // }
 
-  setMaxHeightEl() {
-    const columnsAllHeight = document.querySelectorAll('.heightControl');
-    const maxHeight = this.getMaxHeight(columnsAllHeight);
-    columnsAllHeight.forEach((el: any) => {
-      el.style.height = maxHeight + 'px';
-    });
-  }
+  // setMaxHeightEl() {
+  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
+  //   const maxHeight = this.getMaxHeight(columnsAllHeight);
+  //   columnsAllHeight.forEach((el: any) => {
+  //     el.style.height = maxHeight + 'px';
+  //   });
+  // }
 
   title = 'Drag & Drop in Angular 7';
   website = 'https://samorgill.com';
@@ -115,14 +115,14 @@ export class DragDropComponent implements OnInit {
       );
     }
   }
-  onDropEnter(els: any) {
-    const columnsAllHeight = document.querySelectorAll('.heightControl');
-    columnsAllHeight.forEach((e: any) => {
-      e.style.height = 'auto';
-    });
+  // onDropEnter(els: any) {
+  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
+  //   columnsAllHeight.forEach((e: any) => {
+  //     e.style.height = 'auto';
+  //   });
 
-    setTimeout(() => {
-      this.setMaxHeightEl();
-    }, 4);
-  }
+  //   setTimeout(() => {
+  //     this.setMaxHeightEl();
+  //   }, 4);
+  // }
 }

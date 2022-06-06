@@ -80,7 +80,7 @@ a {
 /* 655555555555555555555555555555555555555555 */
 
 .cdk-drag-animating {
-  //   transition: transform 150ms cubic-bezier(0.01, 0.01, 0.01, 0.01);
+  transition: transform 150ms cubic-bezier(0.01, 0.01, 0.01, 0.01);
 }
 // *************************************
 
@@ -94,7 +94,7 @@ a {
   background-color: #fff;
   color: #fff;
   cursor: pointer;
-  transition: all 0.1s;
+  // transition: all 0.1s;
   padding: 0;
   padding-top: 10px;
 }
@@ -144,16 +144,16 @@ a {
   margin-top: 5px;
   margin-right: 10px;
   opacity: 0 !important;
-  transition: all 0.2;
+  // transition: all 0.2;
 }
 .splitBROP:hover .aui-button-primaryItem {
   opacity: 1 !important;
-  transition: all 0.2;
+  // transition: all 0.2;
 }
 
 .drotTextItems:hover .aui-button-primaryItem {
   opacity: 1 !important;
-  transition: all 0.2;
+  // transition: all 0.2;
 }
 
 .btnItemSize {
@@ -235,4 +235,8 @@ a {
   border: none;
   margin-left: -10px;
   cursor: pointer;
+}
+
+.list {
+  height: 100%;
 }
