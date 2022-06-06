@@ -2,3 +2,48 @@
 @import "~@atlassian/aui/dist/aui/aui-prototyping.css";
 @import "~@atlassian/aui/dist/aui/aui-prototyping-browserfocus.css";
 @import "~@atlassian/aui/dist/aui/aui-prototyping.nodeps.css";
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+// .cdk-drop-list-dragging {
+//   background-color: transparent !important;
+//   //   display: none !important;
+//   //   opacity: 0.15;
+//   //   border: 1px dashed rgb(199, 117, 117);
+// }
+
+// .cdk-drop-placeholder {
+//   //   background-color: #110101 !important;
+//   //   border: 1px dashed rgb(0, 0, 0);
+//   //   display: none !important;
+// }
+
+// .cdk-drag-preview {
+//   display: none !important;
+//   background-color: transparent !important;
+//   //   transition: all 1s !important;
+//   //   background-color: #000 !important;
+// }
+
+// .cdk-drag-dragging {
+//   //   display: block !important;
+//   background-color: transparent !important;
+//   transition: all 1s !important;
+// }
+// ---------------------------------------
+
+// body,
+// html,
+// .mat-card,
+// mat-card-title,
+// mat-card-subtitle,
+// .mat-card-subtitle {
+//   font-family: "Andale Mono", serif;
+//   background-color: RGBA(46, 49, 49, 1);
+//   color: white;
+// }
+
+.mat-card-header-text {
+  width: 100% !important;
+}
