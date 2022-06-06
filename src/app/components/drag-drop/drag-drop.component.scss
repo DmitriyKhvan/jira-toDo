@@ -240,3 +240,28 @@ a {
 .list {
   height: 100%;
 }
+
+// New ----------------------------
+.example-box {
+  padding: 10px 10px 5px 10px;
+  border: solid 1px #ccc;
+  border-radius: 2px;
+  cursor: move;
+  font-size: 14px;
+}
+
+.column-header {
+  border: 1px solid rgb(207, 207, 207);
+}
+
+.bgColorItems {
+  background-color: #f4f5f7;
+  border-radius: 10px;
+  padding-bottom: -40px;
+}
+.MainEl {
+  display: flex;
+}
+// .columnAddEndItem {
+//   margin-bottom: -40px;
+// }

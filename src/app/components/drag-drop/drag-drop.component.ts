@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+
+// NEW ------------------------------------------------------------
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { BoardService } from './drag.service';
+
+// NEW ------------------------------------------------------------
 
 @Component({
   selector: 'app-drag-drop',
@@ -11,9 +17,79 @@ import {
   styleUrls: ['./drag-drop.component.scss'],
 })
 export class DragDropComponent implements OnInit {
-  constructor() {}
+  // NEW ------------------------------------------------------------
+
+  @Input() item: any;
+  @Output() emitText: EventEmitter<{ id: number; text: string }> =
+    new EventEmitter();
+  @Output() emitCardItem: EventEmitter<{ card: any; increase: boolean }> =
+    new EventEmitter();
+  @Output() emitDeleteCard: EventEmitter<number> = new EventEmitter();
+  @Input() question: any;
+
+  // NEW ------------------------------------------------------------
+
+  constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
   ngOnInit(): void {}
+
+  // NEW ------------------------------------------------------------
+
+  open = false;
+
+  newColumnText: any = '';
+  newCartText: any = '';
+
+  addColumn() {
+    if (this.newColumnText) {
+      this.boardService.addColumn(this.newColumnText);
+    }
+  }
+
+  onOpenComment() {
+    this.open = !this.open;
+  }
+
+  onCardItemEmit(card: any, increase: boolean) {
+    this.emitCardItem.emit({ card, increase });
+  }
+
+  onCardDelete(itemId: number, columnId: number) {
+    this.boardService.deleteCard(itemId, columnId);
+  }
+
+  onAddCard(columnId: number) {
+    if (this.newCartText) {
+      this.boardService.addCard(this.newCartText, columnId);
+    }
+  }
+
+  onDeleteColumn(columnId: number) {
+    this.boardService.deleteColumn(columnId);
+  }
+
+  onDeleteCard(cardId: number, columnId: number) {
+    this.boardService.deleteCard(cardId, columnId);
+  }
+
+  drop(event: CdkDragDrop<string[]> | any) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+
+  // NEW ------------------------------------------------------------
 
   // getMaxHeight(els: any) {
   //   let maxHeight: any = 0;
@@ -37,84 +113,6 @@ export class DragDropComponent implements OnInit {
   //   });
   // }
 
-  title = 'Drag & Drop in Angular 7';
-  website = 'https://samorgill.com';
-
-  todos = [
-    {
-      name: 'Angular',
-      category: 'Web Development',
-    },
-    {
-      name: 'Flexbox',
-      category: 'Web Development',
-    },
-    {
-      name: 'iOS',
-      category: 'App Development',
-    },
-    {
-      name: 'Java',
-      category: 'Software development',
-    },
-  ];
-
-  completed = [
-    {
-      name: 'Android',
-      category: 'Mobile Development',
-    },
-    {
-      name: 'MongoDB',
-      category: 'Databases',
-    },
-    {
-      name: 'ARKit',
-      category: 'Augmented Reality',
-    },
-    {
-      name: 'React',
-      category: 'Web Development',
-    },
-  ];
-
-  finished = [
-    {
-      name: 'Android1',
-      category: 'Mobile Development1',
-    },
-    {
-      name: 'MongoDB2',
-      category: 'Databases2',
-    },
-    {
-      name: 'ARKit3',
-      category: 'Augmented Reality3',
-    },
-    {
-      name: 'React4',
-      category: 'Web Development4',
-    },
-  ];
-
-  onDrop(event: CdkDragDrop<any[]>) {
-    console.log(1);
-
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
   // onDropEnter(els: any) {
   //   const columnsAllHeight = document.querySelectorAll('.heightControl');
   //   columnsAllHeight.forEach((e: any) => {

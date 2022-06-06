@@ -1,286 +1,194 @@
-<div class="">
-  <div class="">
-    <div class="list-container mainDivComponents">
-      <div class="todo-container column-container heightControl">
-        <div
-          class="list"
-          cdkDropList
-          #todoList1="cdkDropList"
-          [cdkDropListData]="todos"
-          [cdkDropListConnectedTo]="[todoList1, todoList2, todoList3]"
-          (cdkDropListDropped)="onDrop($event)"
-        >
-          <div class="splitBROP">
-            <p class="dropTitleText">Tech to learn111</p>
+<div mat-dialog-content>
+  <mat-form-field class="w-100">
+    <mat-label><h3 style="color: red">New Column</h3></mat-label>
+    <input matInput [(ngModel)]="newColumnText" />
+  </mat-form-field>
+</div>
+<!-- <div mat-dialog-actions>
+  <button mat-button (click)="addColumn()">
+    <h3 style="color: red">New Column</h3>
+  </button>
+</div> -->
 
-            <div class="aui-buttons">
-              <button
-                class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
-                aria-controls="split-container-dropdown"
-              >
-                Split more
-              </button>
-            </div>
+<!-- create new cart -->
 
-            <aui-dropdown-menu id="split-container-dropdown">
-              <aui-item-link>Menu item 1</aui-item-link>
-              <aui-item-link>Menu item 2</aui-item-link>
-              <aui-item-link>Menu item 3</aui-item-link>
-            </aui-dropdown-menu>
-          </div>
-          <mat-card *ngFor="let todo of todos" cdkDrag class="todyBody">
-            <mat-card-header>
-              <mat-card-title class="drotTextItems">
-                <div class="row">
-                  <div class="col-lg-10">
-                    <mat-card-title class="drotText">{{
-                      todo.name
-                    }}</mat-card-title>
-                  </div>
-                  <div class="col-lg-2">
-                    <div class="aui-buttons">
-                      <button
-                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem btnItemSize"
-                        aria-controls="split-container-dropdown"
-                      >
-                        Split more
-                      </button>
-                    </div>
+<div mat-dialog-content>
+  <mat-form-field class="w-100">
+    <mat-label>New Card</mat-label>
+    <input matInput [(ngModel)]="newCartText" />
+  </mat-form-field>
+</div>
 
-                    <aui-dropdown-menu id="split-container-dropdown">
-                      <aui-item-link>Menu item 1</aui-item-link>
-                      <aui-item-link>Menu item 2</aui-item-link>
-                      <aui-item-link>Menu item 3</aui-item-link>
-                    </aui-dropdown-menu>
-                  </div>
-                </div>
-              </mat-card-title>
+<!-- create new cart -->
 
-              <mat-card-subtitle class="bbg">
-                <div class="rowItem">
-                  <div class="rowItem1">
-                    <div class="checkbox">
-                      <span
-                        class="aui-icon aui-icon-small aui-iconfont-checkbox colorChe"
-                        >Insert meaningful text here for accessibility</span
-                      >
-                      <label for="checkBoxOne " class="colorTextMs"
-                        >MSB-8</label
-                      >
-                    </div>
-                  </div>
+<!-- board -->
 
-                  <img
-                    src="../../../assets/images/jpg.svg"
-                    alt="Person McRealface"
-                    class="aui-avatar-imageRadius"
-                  />
-                </div>
-              </mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-          <div class="flexItem1">
-            <button class="btnIcons">
-              <span
-                class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-                >Insert meaningful text here for accessibility</span
-              >
+<div class="container-fluid MainEl">
+  <div cdkDropListGroup class="row">
+    <div
+      class="col-sm-4 col-lg-3 mb-2"
+      *ngFor="let column of boardService.getBoard$() | async"
+    >
+      <div class="bgColorItems">
+        <div class="splitBROP">
+          <p class="dropTitleText">{{ column.title }}</p>
+
+          <div class="aui-buttons">
+            <button
+              class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
+              aria-controls="split-container-dropdown"
+            >
+              Split more
             </button>
-            <p class="pTextIcons">Create notes</p>
           </div>
-        </div>
-      </div>
-      <!-- -------------- -->
 
-      <div class="todo-container column-container heightControl">
-        <div
-          class="list listItemStyle"
-          cdkDropList
-          #todoList2="cdkDropList"
-          [cdkDropListData]="completed"
-          [cdkDropListConnectedTo]="[todoList1, todoList2, todoList3]"
-          (cdkDropListDropped)="onDrop($event)"
-        >
-          <div class="splitBROP">
-            <p class="dropTitleText">Tech to learn222</p>
+          <aui-dropdown-menu id="split-container-dropdown">
+            <pre>{{ column | json }}</pre>
+            <aui-item-link (click)="onDeleteColumn(column.id)"
+              >delete column</aui-item-link
+            >
+            <aui-item-link>Menu item 2</aui-item-link>
+            <aui-item-link>Menu item 3</aui-item-link>
+          </aui-dropdown-menu>
 
-            <div class="aui-buttons">
-              <button
-                class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
-                aria-controls="split-container-dropdown"
-              >
-                Split more
-              </button>
-            </div>
-
-            <aui-dropdown-menu id="split-container-dropdown">
-              <aui-item-link>Menu item 1</aui-item-link>
-              <aui-item-link>Menu item 2</aui-item-link>
-              <aui-item-link>Menu item 3</aui-item-link>
-            </aui-dropdown-menu>
-          </div>
-          <mat-card *ngFor="let complite of completed" cdkDrag class="todyBody">
-            <mat-card-header>
-              <mat-card-title class="drotTextItems">
-                <div class="row">
-                  <div class="col-lg-10">
-                    <mat-card-title class="drotText">{{
-                      complite.name
-                    }}</mat-card-title>
-                  </div>
-                  <div class="col-lg-2">
-                    <div class="aui-buttons">
-                      <button
-                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem btnItemSize"
-                        aria-controls="split-container-dropdown"
-                      >
-                        Split more
-                      </button>
-                    </div>
-
-                    <aui-dropdown-menu id="split-container-dropdown">
-                      <aui-item-link>Menu item 1</aui-item-link>
-                      <aui-item-link>Menu item 2</aui-item-link>
-                      <aui-item-link>Menu item 3</aui-item-link>
-                    </aui-dropdown-menu>
-                  </div>
-                </div>
-              </mat-card-title>
-
-              <mat-card-subtitle class="bbg">
-                <div class="rowItem">
-                  <div class="rowItem1">
-                    <div class="checkbox">
-                      <span
-                        class="aui-icon aui-icon-small aui-iconfont-checkbox colorChe"
-                        >Insert meaningful text here for accessibility</span
-                      >
-                      <label for="checkBoxOne " class="colorTextMs"
-                        >MSB-8</label
-                      >
-                    </div>
-                  </div>
-
-                  <img
-                    src="../../../assets/images/jpg.svg"
-                    alt="Person McRealface"
-                    class="aui-avatar-imageRadius"
-                  />
-                </div>
-              </mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-          <div class="flexItem2">
-            <button class="btnIcons2">
-              <span
-                class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-                >Insert meaningful text here for accessibility</span
-              >
-            </button>
-            <p class="pTextIcons">Create notes</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- -------------- -->
-
-      <div class="todo-container column-container heightControl">
-        <div
-          class="list listItemStyle"
-          cdkDropList
-          #todoList3="cdkDropList"
-          [cdkDropListData]="finished"
-          [cdkDropListConnectedTo]="[todoList1, todoList2, todoList3]"
-          (cdkDropListDropped)="onDrop($event)"
-        >
-          <div class="splitBROP">
-            <p class="dropTitleText">Tech to learn333</p>
-
-            <div class="aui-buttons">
-              <button
-                class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
-                aria-controls="split-container-dropdown"
-              >
-                Split more
-              </button>
-            </div>
-
-            <aui-dropdown-menu id="split-container-dropdown">
-              <aui-item-link>Menu item 1</aui-item-link>
-              <aui-item-link>Menu item 2</aui-item-link>
-              <aui-item-link>Menu item 3</aui-item-link>
-            </aui-dropdown-menu>
-          </div>
-          <mat-card *ngFor="let finish of finished" cdkDrag class="todyBody">
-            <mat-card-header>
-              <mat-card-title class="drotTextItems">
-                <div class="row">
-                  <div class="col-lg-10">
-                    <mat-card-title class="drotText">{{
-                      finish.name
-                    }}</mat-card-title>
-                  </div>
-                  <div class="col-lg-2">
-                    <div class="aui-buttons">
-                      <button
-                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem btnItemSize"
-                        aria-controls="split-container-dropdown"
-                      >
-                        Split more
-                      </button>
-                    </div>
-
-                    <aui-dropdown-menu id="split-container-dropdown">
-                      <aui-item-link>Menu item 1</aui-item-link>
-                      <aui-item-link>Menu item 2</aui-item-link>
-                      <aui-item-link>Menu item 3</aui-item-link>
-                    </aui-dropdown-menu>
-                  </div>
-                </div>
-              </mat-card-title>
-
-              <mat-card-subtitle class="bbg">
-                <div class="rowItem">
-                  <div class="rowItem1">
-                    <div class="checkbox">
-                      <span
-                        class="aui-icon aui-icon-small aui-iconfont-checkbox colorChe"
-                        >Insert meaningful text here for accessibility</span
-                      >
-                      <label for="checkBoxOne " class="colorTextMs"
-                        >MSB-8</label
-                      >
-                    </div>
-                  </div>
-
-                  <img
-                    src="../../../assets/images/jpg.svg"
-                    alt="Person McRealface"
-                    class="aui-avatar-imageRadius"
-                  />
-                </div>
-              </mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-          <div class="flexItem2">
-            <button class="btnIcons2">
-              <span
-                class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-                >Insert meaningful text here for accessibility</span
-              >
-            </button>
-            <p class="pTextIcons">Create notes</p>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <button class="addColumns">
-          <span class="aui-icon aui-icon-small aui-iconfont-add fwss"
-            >Insert meaningful text here for accessibility</span
+          <!-- <button
+            mat-button
+            [matMenuTriggerFor]="menu"
+            style="background-color: red"
           >
-        </button>
+            Menu
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onDeleteColumn(column.id)">
+              delete column
+            </button>
+            <button mat-menu-item>Item 2</button>
+          </mat-menu> -->
+        </div>
+
+        <!-- create new cart -->
+
+        <!-- create new cart -->
+
+        <div
+          cdkDropList
+          [cdkDropListData]="column.list"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <!-- <div cdkDrag class="example-box" *ngFor="let item of column.list">
+            <div>{{ item.text }}</div>
+            <button
+              mat-icon-button
+              class="icon-delete"
+              (click)="onCardDelete(item.id, column.id)"
+            >
+              <mat-icon style="font-size: 18px">delete</mat-icon>
+            </button>
+          </div> -->
+
+          <mat-card *ngFor="let item of column.list" cdkDrag class="todyBody">
+            <mat-card-header>
+              <mat-card-title class="drotTextItems">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <mat-card-title class="drotText">{{
+                      item.text
+                    }}</mat-card-title>
+                  </div>
+                  <div class="col-lg-2">
+                    <div class="aui-buttons">
+                      <button
+                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem btnItemSize"
+                        aria-controls="split-container-dropdown1"
+                      >
+                        Split more
+                      </button>
+                    </div>
+
+                    <aui-dropdown-menu id="split-container-dropdown1">
+                      <aui-item-link (click)="onCardDelete(item.id, column.id)"
+                        >delete cart</aui-item-link
+                      >
+                      <aui-item-link>Menu item 2</aui-item-link>
+                      <aui-item-link>Menu item 3</aui-item-link>
+                    </aui-dropdown-menu>
+                  </div>
+                </div>
+              </mat-card-title>
+
+              <mat-card-subtitle class="bbg">
+                <div class="rowItem">
+                  <div class="rowItem1">
+                    <div class="checkbox">
+                      <span
+                        class="aui-icon aui-icon-small aui-iconfont-checkbox colorChe"
+                        >Insert meaningful text here for accessibility</span
+                      >
+                      <label for="checkBoxOne " class="colorTextMs"
+                        >MSB-8</label
+                      >
+                    </div>
+                  </div>
+
+                  <img
+                    src="../../../assets/images/jpg.svg"
+                    alt="Person McRealface"
+                    class="aui-avatar-imageRadius"
+                  />
+                </div>
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </div>
+
+        <!-- -- -->
+        <div class="flexItem1 columnAddEndItem" (click)="onAddCard(column.id)">
+          <button class="btnIcons">
+            <span
+              class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+              >Insert meaningful text here for accessibility</span
+            >
+          </button>
+          <p class="pTextIcons">Create notes</p>
+        </div>
+        <!-- ------- -->
+        <div class="flexItem2 columnAddEndItem" (click)="onAddCard(column.id)">
+          <button class="btnIcons2">
+            <span
+              class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+              >Insert meaningful text here for accessibility</span
+            >
+          </button>
+          <p class="pTextIcons">Create notes</p>
+        </div>
       </div>
+      <!-- ---- -->
     </div>
+    <!-- -- -->
+    <!-- <div class="flexItem1">
+      <button class="btnIcons">
+        <span class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+          >Insert meaningful text here for accessibility</span
+        >
+      </button>
+      <p class="pTextIcons">Create notes</p>
+    </div>
+
+    <div class="flexItem2" (click)="onAddCard(column.id)">
+      <button class="btnIcons2">
+        <span class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+          >Insert meaningful text here for accessibility</span
+        >
+      </button>
+      <p class="pTextIcons">Create notes</p>
+    </div> -->
+    <!-- ---- -->
+    <div (click)="addColumn()">
+      <button class="addColumns">
+        <span class="aui-icon aui-icon-large aui-iconfont-add fwss"></span>
+      </button>
+    </div>
+    <!--  -->
   </div>
 </div>
