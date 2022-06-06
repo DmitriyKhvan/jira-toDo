@@ -15,6 +15,8 @@ export interface Column {
   providedIn: 'root',
 })
 export class BoardService {
+  modaleId: any;
+
   private initBoard = [
     {
       id: 1,
@@ -113,14 +115,21 @@ export class BoardService {
     return this.board$.asObservable();
   }
 
-  addColumn(title: string) {
+  addColumn() {
     const newColumn: Column = {
       id: Date.now(),
-      title: title,
+      title: '',
       list: [],
     };
 
     this.board = [...this.board, newColumn];
+    this.board$.next([...this.board]);
+  }
+
+  updateColumn(title: string, id: any) {
+    const idx = this.board.findIndex((el) => el.id === id);
+    this.board[idx].title = title;
+
     this.board$.next([...this.board]);
   }
 

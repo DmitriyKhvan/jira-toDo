@@ -33,4 +33,9 @@ export class AppComponent implements OnInit {
     //   }
     // });
   }
+  openAddCardItem: any = true;
+  closeAddItems() {
+    this.openAddCardItem = true;
+    localStorage.setItem('close', this.openAddCardItem);
+  }
 }

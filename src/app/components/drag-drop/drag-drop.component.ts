@@ -5,7 +5,15 @@ import {
 } from '@angular/cdk/drag-drop';
 
 // NEW ------------------------------------------------------------
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BoardService } from './drag.service';
 
@@ -27,6 +35,8 @@ export class DragDropComponent implements OnInit {
   @Output() emitDeleteCard: EventEmitter<number> = new EventEmitter();
   @Input() question: any;
 
+  @ViewChild('focus', { static: false }) focusRef!: ElementRef;
+
   // NEW ------------------------------------------------------------
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
@@ -41,9 +51,10 @@ export class DragDropComponent implements OnInit {
   newCartText: any = '';
 
   addColumn() {
-    if (this.newColumnText) {
-      this.boardService.addColumn(this.newColumnText);
-    }
+    this.boardService.addColumn();
+    setTimeout(() => {
+      this.focusRef.nativeElement.focus();
+    }, 10);
   }
 
   onOpenComment() {
@@ -58,10 +69,28 @@ export class DragDropComponent implements OnInit {
     this.boardService.deleteCard(itemId, columnId);
   }
 
-  onAddCard(columnId: number) {
+  onAddCard(columnId: number, e: any) {
+    this.boardService.modaleId = columnId;
+    e.stopPropagation();
+    // if (this.newCartText) {
+    //   this.boardService.addCard(this.newCartText, columnId);
+    // }
+  }
+  onAddCards(columnId: number, e: any) {
     if (this.newCartText) {
       this.boardService.addCard(this.newCartText, columnId);
     }
+    this.boardService.modaleId = null;
+    this.newCartText = null;
+
+    e.stopPropagation();
+  }
+  stPr(e: any) {
+    e.stopPropagation();
+  }
+  enableAddCartPanel() {
+    this.newCartText = null;
+    this.boardService.modaleId = null;
   }
 
   onDeleteColumn(columnId: number) {
@@ -87,6 +116,11 @@ export class DragDropComponent implements OnInit {
         event.currentIndex
       );
     }
+  }
+
+  setTitle(event: any, id: any) {
+    console.log(event.target.value);
+    this.boardService.updateColumn(event.target.value, id);
   }
 
   // NEW ------------------------------------------------------------

@@ -4,46 +4,40 @@
     <input matInput [(ngModel)]="newColumnText" />
   </mat-form-field>
 </div>
-<!-- <div mat-dialog-actions>
-  <button mat-button (click)="addColumn()">
-    <h3 style="color: red">New Column</h3>
-  </button>
-</div> -->
 
-<!-- create new cart -->
-
-<div mat-dialog-content>
-  <mat-form-field class="w-100">
-    <mat-label>New Card</mat-label>
-    <input matInput [(ngModel)]="newCartText" />
-  </mat-form-field>
-</div>
-
-<!-- create new cart -->
-
-<!-- board -->
-
-<div class="container-fluid MainEl">
-  <div cdkDropListGroup class="row">
+<div class="container-fluid MainEl" (click)="enableAddCartPanel()">
+  <div cdkDropListGroup class="drag-row">
     <div
-      class="col-sm-4 col-lg-3 mb-2"
-      *ngFor="let column of boardService.getBoard$() | async"
+      class="drag-column"
+      *ngFor="let column of boardService.getBoard$() | async; let idx = index"
     >
       <div class="bgColorItems">
         <div class="splitBROP">
-          <p class="dropTitleText">{{ column.title }}</p>
+          <input
+            *ngIf="!column.title; else title"
+            type="text"
+            name="columnTitle"
+            #focus
+            (change)="setTitle($event, column.id)"
+          />
+
+          <ng-template #title>
+            <p class="dropTitleText">
+              {{ column.title }} {{ column.list.length }} задачи
+            </p>
+          </ng-template>
 
           <div class="aui-buttons">
             <button
               class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
-              aria-controls="split-container-dropdown"
+              [attr.aria-controls]="'split-container-dropdown' + idx"
             >
               Split more
             </button>
           </div>
 
-          <aui-dropdown-menu id="split-container-dropdown">
-            <pre>{{ column | json }}</pre>
+          <aui-dropdown-menu [id]="'split-container-dropdown' + idx">
+            {{ column.id }}
             <aui-item-link (click)="onDeleteColumn(column.id)"
               >delete column</aui-item-link
             >
@@ -87,7 +81,11 @@
             </button>
           </div> -->
 
-          <mat-card *ngFor="let item of column.list" cdkDrag class="todyBody">
+          <mat-card
+            *ngFor="let item of column.list; let idx2 = index"
+            cdkDrag
+            class="todyBody example-box"
+          >
             <mat-card-header>
               <mat-card-title class="drotTextItems">
                 <div class="row">
@@ -100,13 +98,21 @@
                     <div class="aui-buttons">
                       <button
                         class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem btnItemSize"
-                        aria-controls="split-container-dropdown1"
+                        [attr.aria-controls]="
+                          'split-container-dropdown' + idx + idx2
+                        "
                       >
                         Split more
                       </button>
                     </div>
 
-                    <aui-dropdown-menu id="split-container-dropdown1">
+                    <aui-dropdown-menu
+                      [id]="'split-container-dropdown' + idx + idx2"
+                    >
+                      <!-- (click)="onCardDelete(item.id, column.id)" -->
+                      {{ item.id }}
+                      <hr />
+                      {{ column.id }}
                       <aui-item-link (click)="onCardDelete(item.id, column.id)"
                         >delete cart</aui-item-link
                       >
@@ -143,7 +149,11 @@
         </div>
 
         <!-- -- -->
-        <div class="flexItem1 columnAddEndItem" (click)="onAddCard(column.id)">
+        <div
+          *ngIf="boardService.modaleId !== column.id && idx === 0"
+          class="flexItem1 columnAddEndItem"
+          (click)="onAddCard(column.id, $event)"
+        >
           <button class="btnIcons">
             <span
               class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
@@ -153,7 +163,11 @@
           <p class="pTextIcons">Create notes</p>
         </div>
         <!-- ------- -->
-        <div class="flexItem2 columnAddEndItem" (click)="onAddCard(column.id)">
+        <div
+          *ngIf="boardService.modaleId !== column.id && idx !== 0"
+          class="flexItem2 columnAddEndItem"
+          (click)="onAddCard(column.id, $event)"
+        >
           <button class="btnIcons2">
             <span
               class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
@@ -161,6 +175,13 @@
             >
           </button>
           <p class="pTextIcons">Create notes</p>
+        </div>
+
+        <div *ngIf="boardService.modaleId === column.id" (click)="stPr($event)">
+          <input type="textarea" matInput [(ngModel)]="newCartText" />
+          <button (click)="onAddCards(column.id, $event)">
+            Создать задачу
+          </button>
         </div>
       </div>
       <!-- ---- -->

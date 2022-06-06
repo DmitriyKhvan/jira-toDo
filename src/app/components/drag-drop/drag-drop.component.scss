@@ -192,12 +192,13 @@ a {
   margin-right: 7px;
 }
 
-.listItemStyle:hover {
+.MainEl:hover {
   opacity: 1;
 }
 
-.listItemStyle:hover .flexItem2 {
+.MainEl:hover .flexItem2 {
   opacity: 1;
+  transition: all 0.2s;
 }
 
 .flexItem2 {
@@ -265,3 +266,12 @@ a {
 // .columnAddEndItem {
 //   margin-bottom: -40px;
 // }
+
+.drag-row {
+  display: flex;
+}
+
+.drag-column {
+  margin-right: 1rem;
+  width: 270px;
+}
