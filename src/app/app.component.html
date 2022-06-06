@@ -22,6 +22,126 @@
             <li><a href="https://example.com/">Nav</a></li>
           </ul>
         </div>
+
+        <div class="aui-header-secondary">
+          <ul class="aui-nav" resolved="">
+            <li>
+              <!--
+                      Keep in mind the quicksearch should have an unique `id`
+                      so that you can target it with a skip-link.
+
+                      See page layout docs for an example.
+
+                      Also for the purpose of landmark navigation using
+                      screen reader software use the `role="search"`.
+                  -->
+              <form
+                class="aui-quicksearch"
+                method="post"
+                action="/foo"
+                id="search"
+                role="search"
+              >
+                <label class="assistive" for="quicksearchid">Search</label>
+                <input
+                  type="search"
+                  name="quicksearchname"
+                  placeholder="Quick Search"
+                  class="search"
+                  id="quicksearchid"
+                />
+              </form>
+            </li>
+            <li>
+              <a
+                href="#dropdown2-header7"
+                aria-owns="dropdown2-header7"
+                aria-haspopup="true"
+                class="aui-dropdown2-trigger-arrowless aui-dropdown2-trigger"
+                aria-controls="dropdown2-header7"
+                aria-expanded="false"
+                resolved=""
+                ><span class="aui-icon aui-icon-small aui-iconfont-help"
+                  >Help</span
+                ></a
+              >
+
+              <div
+                class="aui-dropdown2 aui-layer aui-alignment-side-bottom aui-alignment-snap-auto"
+                id="dropdown2-header7"
+                resolved=""
+                tabindex="-1"
+                style="z-index: auto; margin: 0px"
+                data-aui-alignment="bottom auto"
+                data-aui-alignment-static="true"
+                x-placement="bottom-start"
+              >
+                <div class="aui-dropdown2-section">
+                  <ul>
+                    <li>
+                      <a href="https://example.com/" class="" tabindex="-1"
+                        >Online help</a
+                      >
+                    </li>
+                    <li>
+                      <a href="https://example.com/" tabindex="-1"
+                        >Keyboard shortcuts</a
+                      >
+                    </li>
+                    <li>
+                      <a href="https://example.com/" tabindex="-1">About</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li>
+              <a
+                href="#dropdown2-header9"
+                aria-owns="dropdown2-header9"
+                aria-haspopup="true"
+                class="aui-dropdown2-trigger-arrowless aui-dropdown2-trigger"
+                aria-controls="dropdown2-header9"
+                aria-expanded="false"
+                resolved=""
+              >
+                <div class="aui-avatar aui-avatar-small">
+                  <div class="aui-avatar-inner">
+                    <img src="../assets/images/avatar-person.svg" />
+                  </div>
+                </div>
+              </a>
+
+              <div
+                class="aui-dropdown2 aui-dropdown2-in-header aui-layer"
+                id="dropdown2-header9"
+                resolved=""
+                tabindex="-1"
+              >
+                <div class="aui-dropdown2-section">
+                  <ul>
+                    <li>
+                      <a href="https://example.com/" class="active">Profile</a>
+                    </li>
+                    <li><a href="https://example.com/">Extensions</a></li>
+                  </ul>
+                </div>
+                <div class="aui-dropdown2-section">
+                  <ul>
+                    <li>
+                      <a href="https://example.com/">Use Agile by default</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="aui-dropdown2-section">
+                  <ul>
+                    <li><a href="https://example.com/">Log out</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   </header>

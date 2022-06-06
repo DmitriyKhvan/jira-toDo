@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+
+// NEW ------------------------------------------------------------
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { BoardService } from './dragnDrop.service';
+// NEW ------------------------------------------------------------
 
 @Component({
   selector: 'app-drag-drop',
@@ -11,95 +16,62 @@ import {
   styleUrls: ['./drag-drop.component.scss'],
 })
 export class DragDropComponent implements OnInit {
-  constructor() {}
+  // NEW ------------------------------------------------------------
+
+  @Input() item: any;
+  @Output() emitText: EventEmitter<{ id: number; text: string }> =
+    new EventEmitter();
+  @Output() emitCardItem: EventEmitter<{ card: any; increase: boolean }> =
+    new EventEmitter();
+  @Output() emitDeleteCard: EventEmitter<number> = new EventEmitter();
+  @Input() question: any;
+
+  // NEW ------------------------------------------------------------
+
+  constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
-  getMaxHeight(els: any) {
-    let maxHeight: any = 0;
+  // NEW ------------------------------------------------------------
 
-    // debugger;
+  open = false;
 
-    els.forEach((e: any) => {
-      if (e.clientHeight > maxHeight) {
-        maxHeight = e.clientHeight;
-      }
-    });
-    console.log(maxHeight, 'maxHeight');
-    return maxHeight;
+  newColumnText: any = '';
+  newCartText: any = '';
+
+  addColumn() {
+    if (this.newColumnText) {
+      this.boardService.addColumn(this.newColumnText);
+    }
   }
 
-  setMaxHeightEl() {
-    const columnsAllHeight = document.querySelectorAll('.heightControl');
-    const maxHeight = this.getMaxHeight(columnsAllHeight);
-    columnsAllHeight.forEach((el: any) => {
-      el.style.height = maxHeight + 'px';
-    });
+  onOpenComment() {
+    this.open = !this.open;
   }
 
-  title = 'Drag & Drop in Angular 7';
-  website = 'https://samorgill.com';
+  onCardItemEmit(card: any, increase: boolean) {
+    this.emitCardItem.emit({ card, increase });
+  }
 
-  todos = [
-    {
-      name: 'Angular',
-      category: 'Web Development',
-    },
-    {
-      name: 'Flexbox',
-      category: 'Web Development',
-    },
-    {
-      name: 'iOS',
-      category: 'App Development',
-    },
-    {
-      name: 'Java',
-      category: 'Software development',
-    },
-  ];
+  onCardDelete(itemId: number, columnId: number) {
+    this.boardService.deleteCard(itemId, columnId);
+  }
 
-  completed = [
-    {
-      name: 'Android',
-      category: 'Mobile Development',
-    },
-    {
-      name: 'MongoDB',
-      category: 'Databases',
-    },
-    {
-      name: 'ARKit',
-      category: 'Augmented Reality',
-    },
-    {
-      name: 'React',
-      category: 'Web Development',
-    },
-  ];
+  onAddCard(columnId: number) {
+    if (this.newCartText) {
+      this.boardService.addCard(this.newCartText, columnId);
+    }
+  }
 
-  finished = [
-    {
-      name: 'Android1',
-      category: 'Mobile Development1',
-    },
-    {
-      name: 'MongoDB2',
-      category: 'Databases2',
-    },
-    {
-      name: 'ARKit3',
-      category: 'Augmented Reality3',
-    },
-    {
-      name: 'React4',
-      category: 'Web Development4',
-    },
-  ];
+  onDeleteColumn(columnId: number) {
+    this.boardService.deleteColumn(columnId);
+  }
 
-  onDrop(event: CdkDragDrop<any[]>) {
-    console.log(1);
+  onDeleteCard(cardId: number, columnId: number) {
+    this.boardService.deleteCard(cardId, columnId);
+  }
 
+  drop(event: CdkDragDrop<string[]> | any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -115,14 +87,39 @@ export class DragDropComponent implements OnInit {
       );
     }
   }
-  onDropEnter(els: any) {
-    const columnsAllHeight = document.querySelectorAll('.heightControl');
-    columnsAllHeight.forEach((e: any) => {
-      e.style.height = 'auto';
-    });
 
-    setTimeout(() => {
-      this.setMaxHeightEl();
-    }, 4);
-  }
+  // NEW ------------------------------------------------------------
+
+  // getMaxHeight(els: any) {
+  //   let maxHeight: any = 0;
+
+  //   // debugger;
+
+  //   els.forEach((e: any) => {
+  //     if (e.clientHeight > maxHeight) {
+  //       maxHeight = e.clientHeight;
+  //     }
+  //   });
+  //   console.log(maxHeight, 'maxHeight');
+  //   return maxHeight;
+  // }
+
+  // setMaxHeightEl() {
+  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
+  //   const maxHeight = this.getMaxHeight(columnsAllHeight);
+  //   columnsAllHeight.forEach((el: any) => {
+  //     el.style.height = maxHeight + 'px';
+  //   });
+  // }
+
+  // onDropEnter(els: any) {
+  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
+  //   columnsAllHeight.forEach((e: any) => {
+  //     e.style.height = 'auto';
+  //   });
+
+  //   setTimeout(() => {
+  //     this.setMaxHeightEl();
+  //   }, 4);
+  // }
 }
