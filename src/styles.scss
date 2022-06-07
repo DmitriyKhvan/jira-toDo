@@ -12,7 +12,7 @@ body {
   overflow: hidden;
 }
 
-.aui-page-panel-content {
+.aui-page-panel {
   height: calc(100vh - 187px);
   overflow: scroll;
 
@@ -35,4 +35,62 @@ body {
 
 .mat-card-header-text {
   width: 100% !important;
+}
+
+.dropMenu {
+  position: relative;
+}
+
+/*hide the inputs/checkmarks and submenu*/
+.inputMenu,
+ul.submenu {
+  position: absolute;
+  display: none;
+  top: 100%;
+  right: 0;
+}
+
+.submenu {
+  min-width: 160px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px -2px var(--aui-shadow2), 0 0 1px var(--aui-shadow2);
+  padding: 3px 0;
+  margin: 0;
+  z-index: 10;
+
+  li {
+    list-style: none;
+    padding: 5px 10px;
+    width: 100%;
+    &:hover {
+      background: #ccc;
+    }
+    a {
+      color: rgb(14, 14, 14);
+    }
+  }
+}
+
+/*position the label*/
+.lebelMenu {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  margin: 0;
+
+  .aui-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background: #ccc;
+    &::before {
+      color: rgb(14, 14, 14);
+    }
+  }
+}
+
+/*show the submenu when input is checked*/
+input:checked ~ ul.submenu {
+  display: block;
 }

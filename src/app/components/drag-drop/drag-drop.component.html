@@ -88,16 +88,16 @@
           >
             <mat-card-header>
               <mat-card-title class="drotTextItems">
-                <div class="row">
-                  <div class="col-lg-10">
+                <div class="d-flex justify-content-between">
+                  <div class="">
                     <mat-card-title class="drotText">{{
                       item.text
                     }}</mat-card-title>
                   </div>
-                  <div class="col-lg-2">
+                  <div class="dropMenu">
                     <div class="aui-buttons">
                       <button
-                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem btnItemSize"
+                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
                         [attr.aria-controls]="
                           'split-container-dropdown' + idx + idx2
                         "
@@ -109,16 +109,44 @@
                     <aui-dropdown-menu
                       [id]="'split-container-dropdown' + idx + idx2"
                     >
-                      <!-- (click)="onCardDelete(item.id, column.id)" -->
-                      {{ item.id }}
-                      <hr />
                       {{ column.id }}
                       <aui-item-link (click)="onCardDelete(item.id, column.id)"
-                        >delete cart</aui-item-link
+                        >delete column</aui-item-link
                       >
                       <aui-item-link>Menu item 2</aui-item-link>
                       <aui-item-link>Menu item 3</aui-item-link>
                     </aui-dropdown-menu>
+
+                    <!-- <div class="dropMenu">
+                      <button class="aui-button aui-button-split-main">
+                        <span class="aui-icon aui-icon-small aui-iconfont-more"
+                          >Insert meaningful text here for accessibility</span
+                        >
+                      </button>
+                      <ul class="menu">
+                        <li (click)="onCardDelete(item.id, column.id)">
+                          Удалить
+                        </li>
+                      </ul>
+                    </div> -->
+
+                    <!-- <input
+                      class="inputMenu"
+                      [id]="'check' + idx + idx2"
+                      type="checkbox"
+                      name="menu"
+                    />
+                    <label class="lebelMenu" [attr.for]="'check' + idx + idx2">
+                      <span class="aui-icon aui-icon-small aui-iconfont-more"
+                        >Insert meaningful text here for accessibility</span
+                      >
+                    </label>
+                    <ul class="submenu">
+                      <li (click)="onCardDelete(item.id, column.id)">
+                        <a href="#">Удалить</a>
+                      </li>
+                      <li><a href="#">Item 2</a></li>
+                    </ul> -->
                   </div>
                 </div>
               </mat-card-title>
