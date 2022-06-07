@@ -10,11 +10,13 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { BoardService } from './drag.service';
 
 // NEW ------------------------------------------------------------
@@ -24,7 +26,7 @@ import { BoardService } from './drag.service';
   templateUrl: './drag-drop.component.html',
   styleUrls: ['./drag-drop.component.scss'],
 })
-export class DragDropComponent implements OnInit {
+export class DragDropComponent implements OnInit, OnDestroy {
   // NEW ------------------------------------------------------------
 
   @Input() item: any;
@@ -41,17 +43,50 @@ export class DragDropComponent implements OnInit {
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.onDropEnter();
+  }
 
+  ngOnDestroy() {
+    console.log('asdasdadad');
+
+    this.subscription.unsubscribe();
+  }
   // NEW ------------------------------------------------------------
+  private subscription: Subscription = new Subscription();
 
   open = false;
 
   newColumnText: any = '';
   newCartText: any = '';
 
-  addColumn() {
+  canAddItem: any = true;
+
+  noTitleColumnId: any = null;
+
+  addColumn(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
     this.boardService.addColumn();
+
+    this.subscription = this.boardService.getBoard$().subscribe((data) => {
+      if (data) {
+        data.forEach((element) => {
+          console.log(element.id);
+          this.noTitleColumnId = element.id;
+
+          setTimeout(() => {
+            if (element.title == '') {
+              this.canAddItem = false;
+            }
+            if (element.title != '') {
+              this.canAddItem = true;
+            }
+          }, 10);
+        });
+      }
+    });
+    // this.boardService.newColumnId = columnId;
     setTimeout(() => {
       this.focusRef.nativeElement.focus();
     }, 10);
@@ -91,9 +126,41 @@ export class DragDropComponent implements OnInit {
   enableAddCartPanel() {
     this.newCartText = null;
     this.boardService.modaleId = null;
+    // this.boardService.deleteColumn(this.noTitleColumnId);
+    this.boardService.deleteColumnNoTitle();
+
+    this.subscription = this.boardService.getBoard$().subscribe((data) => {
+      if (data) {
+        data.forEach((element) => {
+          setTimeout(() => {
+            if (element.title == '') {
+              // console.log(element.id);
+              this.canAddItem = false;
+              // this.boardService.deleteColumn(element.id);
+              console.log(element);
+              console.log(data);
+              console.log(this.noTitleColumnId);
+              // this.boardService.deleteColumn(this.noTitleColumnId);
+            }
+            if (element.title != '') {
+              this.canAddItem = true;
+              // this.noTitleColumnId = null;
+            }
+          }, 10);
+        });
+      }
+    });
+
+    // console.log(this.boardService.columnIdForDelete);
+  }
+
+  clearTitleItem() {
+    // this.boardService.deleteColumn(this.noTitleColumnId);
   }
 
   onDeleteColumn(columnId: number) {
+    // console.log(columnId);
+
     this.boardService.deleteColumn(columnId);
   }
 
@@ -119,42 +186,48 @@ export class DragDropComponent implements OnInit {
   }
 
   setTitle(event: any, id: any) {
-    console.log(event.target.value);
+    // this.boardService.columnIdForDelete = id;
+
     this.boardService.updateColumn(event.target.value, id);
+  }
+  prevDef(e: any) {
+    e.stopPropagation();
   }
 
   // NEW ------------------------------------------------------------
 
-  // getMaxHeight(els: any) {
-  //   let maxHeight: any = 0;
+  getMaxHeight(els: any) {
+    let maxHeight: any = 0;
 
-  //   // debugger;
+    // debugger;
 
-  //   els.forEach((e: any) => {
-  //     if (e.clientHeight > maxHeight) {
-  //       maxHeight = e.clientHeight;
-  //     }
-  //   });
-  //   console.log(maxHeight, 'maxHeight');
-  //   return maxHeight;
-  // }
+    els.forEach((e: any) => {
+      if (e.clientHeight > maxHeight) {
+        maxHeight = e.clientHeight;
+      }
+    });
+    console.log(maxHeight, 'maxHeight');
+    return maxHeight;
+  }
 
-  // setMaxHeightEl() {
-  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
-  //   const maxHeight = this.getMaxHeight(columnsAllHeight);
-  //   columnsAllHeight.forEach((el: any) => {
-  //     el.style.height = maxHeight + 'px';
-  //   });
-  // }
+  setMaxHeightEl() {
+    const columnsAllHeight = document.querySelectorAll('.heightControl');
+    const maxHeight = this.getMaxHeight(columnsAllHeight);
+    columnsAllHeight.forEach((el: any) => {
+      el.style.height = maxHeight + 'px';
+    });
+  }
 
-  // onDropEnter(els: any) {
-  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
-  //   columnsAllHeight.forEach((e: any) => {
-  //     e.style.height = 'auto';
-  //   });
+  onDropEnter() {
+    console.log(555);
 
-  //   setTimeout(() => {
-  //     this.setMaxHeightEl();
-  //   }, 4);
-  // }
+    const columnsAllHeight = document.querySelectorAll('.heightControl');
+    columnsAllHeight.forEach((e: any) => {
+      e.style.height = 'auto';
+    });
+
+    setTimeout(() => {
+      this.setMaxHeightEl();
+    }, 20);
+  }
 }
