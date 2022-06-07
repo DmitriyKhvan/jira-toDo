@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+// import { Card, Column } from '../models/column.model';
 
 export interface Card {
   id: number;
@@ -15,9 +16,7 @@ export interface Column {
   providedIn: 'root',
 })
 export class BoardService {
-  modaleId: any;
-  columnIdForDelete: any = null;
-  initBoard: any = [
+  private initBoard = [
     {
       id: 1,
       title: 'To Do',
@@ -38,14 +37,6 @@ export class BoardService {
           id: 4,
           text: 'Example card item33',
         },
-        {
-          id: 5,
-          text: 'Example card item33',
-        },
-        {
-          id: 6,
-          text: 'Example card item33',
-        },
       ],
     },
     {
@@ -54,19 +45,19 @@ export class BoardService {
       list: [
         {
           id: 1,
-          text: 'Example card itemq',
+          text: 'Example card item',
         },
         {
           id: 2,
-          text: 'Example card item11q',
+          text: 'Example card item11',
         },
         {
           id: 3,
-          text: 'Example card item22q',
+          text: 'Example card item22',
         },
         {
           id: 4,
-          text: 'Example card item33q',
+          text: 'Example card item33',
         },
       ],
     },
@@ -76,19 +67,19 @@ export class BoardService {
       list: [
         {
           id: 1,
-          text: 'Example card itemw',
+          text: 'Example card item',
         },
         {
           id: 2,
-          text: 'Example card item11w',
+          text: 'Example card item11',
         },
         {
           id: 3,
-          text: 'Example card item22w',
+          text: 'Example card item22',
         },
         {
           id: 4,
-          text: 'Example card item33w',
+          text: 'Example card item33',
         },
       ],
     },
@@ -98,15 +89,15 @@ export class BoardService {
       list: [
         {
           id: 1,
-          text: 'Example card iteme',
+          text: 'Example card item',
         },
         {
           id: 2,
-          text: 'Example card item11e',
+          text: 'Example card item11',
         },
         {
           id: 3,
-          text: 'Example card item22e',
+          text: 'Example card item22',
         },
         {
           id: 4,
@@ -123,21 +114,14 @@ export class BoardService {
     return this.board$.asObservable();
   }
 
-  addColumn() {
+  addColumn(title: string) {
     const newColumn: Column = {
       id: Date.now(),
-      title: '',
+      title: title,
       list: [],
     };
 
     this.board = [...this.board, newColumn];
-    this.board$.next([...this.board]);
-  }
-
-  updateColumn(title: string, id: any) {
-    const idx = this.board.findIndex((el) => el.id === id);
-    this.board[idx].title = title;
-
     this.board$.next([...this.board]);
   }
 
@@ -162,11 +146,6 @@ export class BoardService {
     this.board$.next([...this.board]);
   }
 
-  deleteColumnNoTitle() {
-    this.board = this.board.filter((column: Column) => column.title !== '');
-    this.board$.next([...this.board]);
-  }
-
   deleteCard(cardId: number, columnId: number) {
     this.board = this.board.map((column: Column) => {
       if (column.id === columnId) {
@@ -176,5 +155,5 @@ export class BoardService {
     });
 
     this.board$.next([...this.board]);
-  } //
+  }
 }
