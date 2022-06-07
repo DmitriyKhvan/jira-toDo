@@ -176,5 +176,5 @@ export class BoardService {
     });
 
     this.board$.next([...this.board]);
-  } //
+  }
 }
