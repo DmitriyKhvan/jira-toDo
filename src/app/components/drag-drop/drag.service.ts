@@ -16,8 +16,8 @@ export interface Column {
 })
 export class BoardService {
   modaleId: any;
-
-  private initBoard = [
+  columnIdForDelete: any = null;
+  initBoard: any = [
     {
       id: 1,
       title: 'To Do',
@@ -36,6 +36,14 @@ export class BoardService {
         },
         {
           id: 4,
+          text: 'Example card item33',
+        },
+        {
+          id: 5,
+          text: 'Example card item33',
+        },
+        {
+          id: 6,
           text: 'Example card item33',
         },
       ],
@@ -154,6 +162,11 @@ export class BoardService {
     this.board$.next([...this.board]);
   }
 
+  deleteColumnNoTitle() {
+    this.board = this.board.filter((column: Column) => column.title !== '');
+    this.board$.next([...this.board]);
+  }
+
   deleteCard(cardId: number, columnId: number) {
     this.board = this.board.map((column: Column) => {
       if (column.id === columnId) {
@@ -163,5 +176,5 @@ export class BoardService {
     });
 
     this.board$.next([...this.board]);
-  }
+  } //
 }
