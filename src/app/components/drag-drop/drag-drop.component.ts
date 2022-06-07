@@ -43,7 +43,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.onDropEnter();
+  }
 
   ngOnDestroy() {
     console.log('asdasdadad');
@@ -194,36 +196,38 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   // NEW ------------------------------------------------------------
 
-  // getMaxHeight(els: any) {
-  //   let maxHeight: any = 0;
+  getMaxHeight(els: any) {
+    let maxHeight: any = 0;
 
-  //   // debugger;
+    // debugger;
 
-  //   els.forEach((e: any) => {
-  //     if (e.clientHeight > maxHeight) {
-  //       maxHeight = e.clientHeight;
-  //     }
-  //   });
-  //   console.log(maxHeight, 'maxHeight');
-  //   return maxHeight;
-  // }
+    els.forEach((e: any) => {
+      if (e.clientHeight > maxHeight) {
+        maxHeight = e.clientHeight;
+      }
+    });
+    console.log(maxHeight, 'maxHeight');
+    return maxHeight;
+  }
 
-  // setMaxHeightEl() {
-  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
-  //   const maxHeight = this.getMaxHeight(columnsAllHeight);
-  //   columnsAllHeight.forEach((el: any) => {
-  //     el.style.height = maxHeight + 'px';
-  //   });
-  // }
+  setMaxHeightEl() {
+    const columnsAllHeight = document.querySelectorAll('.heightControl');
+    const maxHeight = this.getMaxHeight(columnsAllHeight);
+    columnsAllHeight.forEach((el: any) => {
+      el.style.height = maxHeight + 'px';
+    });
+  }
 
-  // onDropEnter(els: any) {
-  //   const columnsAllHeight = document.querySelectorAll('.heightControl');
-  //   columnsAllHeight.forEach((e: any) => {
-  //     e.style.height = 'auto';
-  //   });
+  onDropEnter() {
+    console.log(555);
 
-  //   setTimeout(() => {
-  //     this.setMaxHeightEl();
-  //   }, 4);
-  // }
+    const columnsAllHeight = document.querySelectorAll('.heightControl');
+    columnsAllHeight.forEach((e: any) => {
+      e.style.height = 'auto';
+    });
+
+    setTimeout(() => {
+      this.setMaxHeightEl();
+    }, 20);
+  }
 }

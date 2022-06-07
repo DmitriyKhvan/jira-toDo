@@ -66,6 +66,10 @@ mat-card {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.example-list {
+  height: 90%;
+}
+
 a {
   text-decoration: none;
   color: dodgerblue;
@@ -80,7 +84,7 @@ a {
 /* 655555555555555555555555555555555555555555 */
 
 .cdk-drag-animating {
-  transition: transform 150ms cubic-bezier(0.01, 0.01, 0.01, 0.01);
+  transition: transform 150ms cubic-bezier(0.01, 0.02, 0.03, 0.04) !important;
 }
 // *************************************
 

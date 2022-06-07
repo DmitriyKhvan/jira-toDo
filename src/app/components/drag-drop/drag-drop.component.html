@@ -7,12 +7,12 @@
 
 <div class="container-fluid MainEl" (click)="enableAddCartPanel()">
   <div cdkDropListGroup class="drag-row">
+    <!-- d-flex -->
     <div
-      style="display: flex"
-      class="drag-column"
+      class="d-flex"
       *ngFor="let column of boardService.getBoard$() | async; let idx = index"
     >
-      <div class="bgColorItems">
+      <div class="drag-column bgColorItems heightControl">
         <div class="splitBROP">
           <div class="borderItems2" (click)="prevDef($event)">
             <input
@@ -83,7 +83,7 @@
         <!-- create new cart -->
 
         <!-- create new cart -->
-
+        <!-- (cdkDropListEntered)="onDropEnter()" -->
         <div
           cdkDropList
           [cdkDropListData]="column.list"
@@ -115,7 +115,7 @@
                     }}</mat-card-title>
                   </div>
                   <div class="dropMenu">
-                    <div class="aui-buttons">
+                    <!-- <div class="aui-buttons">
                       <button
                         class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
                         [attr.aria-controls]="
@@ -135,7 +135,7 @@
                       >
                       <aui-item-link>Menu item 2</aui-item-link>
                       <aui-item-link>Menu item 3</aui-item-link>
-                    </aui-dropdown-menu>
+                    </aui-dropdown-menu> -->
 
                     <!-- <div class="dropMenu">
                       <button class="aui-button aui-button-split-main">
@@ -150,7 +150,7 @@
                       </ul>
                     </div> -->
 
-                    <!-- <input
+                    <input
                       class="inputMenu"
                       [id]="'check' + idx + idx2"
                       type="checkbox"
@@ -166,7 +166,7 @@
                         <a href="#">Удалить</a>
                       </li>
                       <li><a href="#">Item 2</a></li>
-                    </ul> -->
+                    </ul>
                   </div>
                 </div>
               </mat-card-title>
@@ -194,52 +194,52 @@
               </mat-card-subtitle>
             </mat-card-header>
           </mat-card>
-        </div>
 
-        <!-- -- -->
-        <div
-          *ngIf="boardService.modaleId !== column.id && idx === 0"
-          class="flexItem1 columnAddEndItem"
-          (click)="onAddCard(column.id, $event)"
-        >
-          <button class="btnIcons">
-            <span
-              class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-              >Insert meaningful text here for accessibility</span
-            >
-          </button>
-          <p class="pTextIcons">Create notes</p>
-        </div>
-        <!-- ------- -->
-        <div
-          *ngIf="boardService.modaleId !== column.id && idx !== 0"
-          class="flexItem2 columnAddEndItem"
-          (click)="onAddCard(column.id, $event)"
-        >
-          <button class="btnIcons2">
-            <span
-              class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-              >Insert meaningful text here for accessibility</span
-            >
-          </button>
-          <p class="pTextIcons">Create notes</p>
-        </div>
+          <!-- -- -->
+          <div
+            *ngIf="boardService.modaleId !== column.id && idx === 0"
+            class="flexItem1 columnAddEndItem"
+            (click)="onAddCard(column.id, $event)"
+          >
+            <button class="btnIcons">
+              <span
+                class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+                >Insert meaningful text here for accessibility</span
+              >
+            </button>
+            <p class="pTextIcons">Create notes</p>
+          </div>
+          <!-- ------- -->
+          <div
+            *ngIf="boardService.modaleId !== column.id && idx !== 0"
+            class="flexItem2 columnAddEndItem"
+            (click)="onAddCard(column.id, $event)"
+          >
+            <button class="btnIcons2">
+              <span
+                class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+                >Insert meaningful text here for accessibility</span
+              >
+            </button>
+            <p class="pTextIcons">Create notes</p>
+          </div>
 
-        <div
-          *ngIf="boardService.modaleId === column.id"
-          (click)="stPr($event)"
-          class="styleBorder"
-        >
-          <textarea
-            class="textarea textareaItemStyle"
-            name="comment"
-            id="textarea-id"
-            placeholder="Что нужно сделать?"
-            [(ngModel)]="newCartText"
-          ></textarea>
-          <button (click)="onAddCards(column.id, $event)">
-            Создать задачу
-          </button>
+          <div
+            *ngIf="boardService.modaleId === column.id"
+            (click)="stPr($event)"
+            class="styleBorder"
+          >
+            <textarea
+              class="textarea textareaItemStyle"
+              name="comment"
+              id="textarea-id"
+              placeholder="Что нужно сделать?"
+              [(ngModel)]="newCartText"
+            ></textarea>
+            <button (click)="onAddCards(column.id, $event)">
+              Создать задачу
+            </button>
+          </div>
         </div>
       </div>
       <!-- <div (click)="addColumn(column.id)">
