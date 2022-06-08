@@ -5,7 +5,13 @@ export interface Card {
   flag: boolean;
   id: number;
   text: string;
+  filterFluf: any[];
 }
+
+// interface filterFluf {
+//   id: number;
+//   name: any;
+// }
 
 export interface Column {
   id: number;
@@ -17,6 +23,7 @@ export interface Column {
 })
 export class BoardService {
   modaleId: any;
+  modaleIdDeleteColumn: any;
   columnIdForDelete: any = null;
   initBoard: any = [
     {
@@ -27,31 +34,55 @@ export class BoardService {
           id: 1,
           text: 'Example card item',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 's' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 2,
           text: 'Example card item11',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 3,
           text: 'Example card item22',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 4,
           text: 'Example card item33',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 5,
           text: 'Example card item33',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 6,
           text: 'Example card item33',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
       ],
     },
@@ -63,21 +94,37 @@ export class BoardService {
           id: 1,
           text: 'Example card itemq',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 2,
           text: 'Example card item11q',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 3,
           text: 'Example card item22q',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 4,
           text: 'Example card item33q',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
       ],
     },
@@ -89,21 +136,37 @@ export class BoardService {
           id: 1,
           text: 'Example card itemw',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 2,
           text: 'Example card item11w',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 3,
           text: 'Example card item22w',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 4,
           text: 'Example card item33w',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
       ],
     },
@@ -115,33 +178,60 @@ export class BoardService {
           id: 1,
           text: 'Example card iteme',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 2,
           text: 'Example card item11e',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 3,
           text: 'Example card item22e',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
         {
           id: 4,
           text: 'Example card item33',
           flag: false,
+          filterFluf: [
+            { id: 1, name: 'Прочитано' },
+            { id: 2, name: 'fd' },
+          ],
         },
       ],
     },
   ];
 
-  private board: Column[] = this.initBoard;
+  board: Column[] = this.initBoard;
   private board$ = new BehaviorSubject<Column[]>(this.initBoard);
+  modaleIdAddFlag: any;
+  modaleIdAddFlagCart: any;
 
   getBoard$() {
     return this.board$.asObservable();
   }
+  addFilterFlag(columnId: any, cardId: any, name: any, idx: any, idx2: any) {
+    const newFilter: any = {
+      id: Date.now(),
+      name: name,
+    };
+    console.log(idx, idx2, 'service index');
 
+    this.board[idx].list[idx2].filterFluf.push(newFilter);
+    this.board$.next(this.board);
+  }
   addColumn() {
     const newColumn: Column = {
       id: Date.now(),
@@ -220,6 +310,7 @@ export class BoardService {
       id: Date.now(),
       flag: false,
       text,
+      filterFluf: [],
     };
 
     this.board = this.board.map((column: Column) => {

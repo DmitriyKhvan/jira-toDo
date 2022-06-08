@@ -21,6 +21,7 @@ import { BoardService } from './drag.service';
 
 // NEW ------------------------------------------------------------
 
+declare var AJS: any;
 @Component({
   selector: 'app-drag-drop',
   templateUrl: './drag-drop.component.html',
@@ -44,13 +45,34 @@ export class DragDropComponent implements OnInit, OnDestroy {
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // this.onDropEnter();
+    AJS.$('#select2-example2').auiSelect2();
+
+    AJS.$('#dialog-show-button').on('click', function (e: any) {
+      e.preventDefault();
+      AJS.dialog2('#demo-dialog').show();
+    });
+
+    AJS.$('#dialog-submit-button').on('click', function (e: any) {
+      e.preventDefault();
+      AJS.dialog2('#demo-dialog').hide();
+    });
   }
 
   ngOnDestroy() {
     console.log('asdasdadad');
 
     this.subscription.unsubscribe();
+  }
+  selectedFild: any = 'select';
+
+  openDialogForDelete: any = true;
+
+  openDeleteModal(id: any) {
+    this.boardService.modaleIdDeleteColumn = id;
+    this.openDialogForDelete = false;
+  }
+  closeModalDelete() {
+    this.openDialogForDelete = true;
   }
   // NEW ------------------------------------------------------------
   private subscription: Subscription = new Subscription();
@@ -66,6 +88,10 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   updateColumnTitle: any = true;
   flagItem: any = true;
+  openModalAddFlags: any = true;
+
+  columnIndex: any;
+  cartIndex: any;
 
   addColumn(e: any) {
     e.preventDefault();
@@ -222,6 +248,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
   prevDef(e: any) {
     e.stopPropagation();
+    e.preventDefault();
   }
 
   // NEW ------------------------------------------------------------
@@ -259,5 +286,31 @@ export class DragDropComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setMaxHeightEl();
     }, 20);
+  }
+
+  onAddFilterFlug(columnId: any, cardId: any, idx: any, idx2: any) {
+    // console.log(columnId, cardId, 'ts actions');
+    console.log(this.columnIndex, this.cartIndex, 'ts index');
+
+    this.boardService.addFilterFlag(
+      columnId,
+      cardId,
+      this.selectedFild,
+      this.columnIndex,
+      this.cartIndex
+    );
+    // this.openModalAddFlags = true;
+  }
+  onModallAddFlug(columnId: any, cardId: any, idx: any, idx2: any) {
+    this.columnIndex = idx;
+    this.cartIndex = idx2;
+    console.log(idx, idx2, 'ts Index');
+    this.boardService.modaleIdAddFlag = columnId;
+    this.boardService.modaleIdAddFlagCart = cardId;
+    this.openModalAddFlags = false;
+  }
+
+  closeModalAddFlag() {
+    this.openModalAddFlags = true;
   }
 }

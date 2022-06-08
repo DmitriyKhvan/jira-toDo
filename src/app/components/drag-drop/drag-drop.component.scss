@@ -320,3 +320,25 @@ a {
   color: rgb(58, 58, 99);
   font-size: 20px;
 }
+// ----
+
+.modalDelete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  // width: 100%;
+  // height: 100%;
+  position: absolute;
+  background-color: #e7e7e7;
+}
+
+.filterFlugsItem {
+  color: #000;
+  background-color: #e7e7e7;
+  border-radius: 20%;
+  padding: 5px;
+}
+.itemFlags {
+  display: flex !important;
+}
