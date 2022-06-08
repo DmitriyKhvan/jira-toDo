@@ -42,9 +42,55 @@
           </div>
 
           <ng-template #title>
-            <p class="dropTitleText">
+            <p
+              class="dropTitleText"
+              (click)="upDateColTitleSow($event)"
+              *ngIf="updateColumnTitle"
+            >
               {{ column.title }} {{ column.list.length }} задачи
             </p>
+
+            <div
+              class="borderItems2"
+              (click)="prevDef($event)"
+              *ngIf="!updateColumnTitle"
+            >
+              <input
+                type="text"
+                name="columnTitle"
+                value="{{ column.title }}"
+                #focus
+                class="columnTitleBorder"
+                (change)="
+                  updateText(column.title, column.id, column.list, $event)
+                "
+                (click)="prevDef($event)"
+              />
+              <div
+                class="btnRowItems"
+                *ngIf="!updateColumnTitle"
+                (click)="prevDef($event)"
+              >
+                <button
+                  class="itemsBtnItems"
+                  (click)="
+                    updateText(column.title, column.id, column.list, $event)
+                  "
+                >
+                  <span
+                    class="aui-icon aui-iconfont-check iconsItemsSize"
+                  ></span>
+                </button>
+                <button
+                  class="itemsBtnItems"
+                  (click)="onDeleteColumn(column.id)"
+                >
+                  <span
+                    class="aui-icon aui-iconfont-cross iconsItemsSize"
+                  ></span>
+                </button>
+              </div>
+            </div>
           </ng-template>
 
           <div class="aui-buttons" *ngIf="column.title">
@@ -185,11 +231,19 @@
                     </div>
                   </div>
 
-                  <img
-                    src="../../../assets/images/jpg.svg"
-                    alt="Person McRealface"
-                    class="aui-avatar-imageRadius"
-                  />
+                  <div class="d-flex">
+                    <span
+                      *ngIf="item.flag"
+                      class="aui-icon aui-icon-small aui-iconfont-flag"
+                      style="color: red"
+                      >Insert meaningful text here for accessibility</span
+                    >
+                    <img
+                      src="../../../assets/images/jpg.svg"
+                      alt="Person McRealface"
+                      class="aui-avatar-imageRadius"
+                    />
+                  </div>
                 </div>
               </mat-card-subtitle>
             </mat-card-header>
