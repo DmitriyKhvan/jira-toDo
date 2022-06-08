@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} //chengesdfsd
 
 h2 {
   display: flex;
@@ -66,21 +66,25 @@ mat-card {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.example-list {
+  height: 90%;
+}
+
 a {
   text-decoration: none;
   color: dodgerblue;
 }
-.mat-card-header-text {
-  width: 100% !important;
-}
+// .mat-card-header-text {
+//   width: 100% !important;
+// }
 
-.mat-card-header {
-  width: 100% !important;
-}
+// .mat-card-header {
+//   width: 100% !important;
+// }
 /* 655555555555555555555555555555555555555555 */
 
 .cdk-drag-animating {
-  transition: transform 150ms cubic-bezier(0.01, 0.01, 0.01, 0.01);
+  transition: transform 150ms cubic-bezier(0.01, 0.02, 0.03, 0.04) !important;
 }
 // *************************************
 
