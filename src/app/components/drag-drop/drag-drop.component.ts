@@ -62,8 +62,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   canAddItem: any = true;
 
-  noTitleColumnId: any = null;
-
   addColumn(e: any) {
     e.preventDefault();
     e.stopPropagation();
@@ -71,19 +69,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
       if (data) {
-        data.forEach((element) => {
-          console.log(element.id);
-          this.noTitleColumnId = element.id;
-
-          setTimeout(() => {
-            if (element.title == '') {
-              this.canAddItem = false;
-            }
-            if (element.title != '') {
-              this.canAddItem = true;
-            }
-          }, 10);
-        });
+        const column = data.find((el) => el.title === '');
+        if (column) {
+          this.canAddItem = false;
+        } else {
+          this.canAddItem = true;
+        }
       }
     });
     // this.boardService.newColumnId = columnId;
@@ -126,36 +117,18 @@ export class DragDropComponent implements OnInit, OnDestroy {
   enableAddCartPanel() {
     this.newCartText = null;
     this.boardService.modaleId = null;
-    // this.boardService.deleteColumn(this.noTitleColumnId);
     this.boardService.deleteColumnNoTitle();
 
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
       if (data) {
-        data.forEach((element) => {
-          setTimeout(() => {
-            if (element.title == '') {
-              // console.log(element.id);
-              this.canAddItem = false;
-              // this.boardService.deleteColumn(element.id);
-              console.log(element);
-              console.log(data);
-              console.log(this.noTitleColumnId);
-              // this.boardService.deleteColumn(this.noTitleColumnId);
-            }
-            if (element.title != '') {
-              this.canAddItem = true;
-              // this.noTitleColumnId = null;
-            }
-          }, 10);
-        });
+        const column = data.find((el) => el.title === '');
+        if (column) {
+          this.canAddItem = false;
+        } else {
+          this.canAddItem = true;
+        }
       }
     });
-
-    // console.log(this.boardService.columnIdForDelete);
-  }
-
-  clearTitleItem() {
-    // this.boardService.deleteColumn(this.noTitleColumnId);
   }
 
   onDeleteColumn(columnId: number) {
@@ -170,12 +143,14 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   drop(event: CdkDragDrop<string[]> | any) {
     if (event.previousContainer === event.container) {
+      console.log(1);
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
+      console.log(2);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
