@@ -13,69 +13,95 @@
       *ngFor="let column of boardService.getBoard$() | async; let idx = index"
     >
       <div class="drag-column bgColorItems heightControl">
-        <div class="splitBROP">
-          <div class="borderItems2" (click)="prevDef($event)">
-            <input
-              *ngIf="!column.title; else title"
-              type="text"
-              name="columnTitle"
-              #focus
-              class="columnTitleBorder"
-              (change)="setTitle($event, column.id)"
-              (click)="prevDef($event)"
-            />
-            <div
-              class="btnRowItems"
-              *ngIf="!column.title"
-              (click)="prevDef($event)"
-            >
+        <div
+          *ngIf="
+            boardService.modaleIdDeleteColumn == column.id &&
+            !openDialogForDelete
+          "
+          class="modalDelete"
+        >
+          <section
+            id="static-dialog"
+            class="aui-dialog2 aui-dialog2-medium"
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="static-dialog--heading"
+          >
+            <!-- Dialog header -->
+            <header class="aui-dialog2-header">
+              <!-- The dialog's title -->
+              <h1 class="aui-dialog2-header-main" id="static-dialog--heading">
+                The modal dialog title
+              </h1>
+              <!-- Actions to render on the right of the header -->
+              <div class="aui-dialog2-header-secondary">
+                <form class="aui" action="#">
+                  <input
+                    id="demo-search"
+                    class="text"
+                    type="search"
+                    name="search"
+                  />
+                </form>
+              </div>
+              <!-- Close icon -->
               <button
-                class="itemsBtnItems"
-                (click)="setTitle($event, column.id)"
-              >
-                <span class="aui-icon aui-iconfont-check iconsItemsSize"></span>
-              </button>
-              <button class="itemsBtnItems" (click)="onDeleteColumn(column.id)">
-                <span class="aui-icon aui-iconfont-cross iconsItemsSize"></span>
-              </button>
+                class="aui-close-button"
+                type="button"
+                aria-label="close"
+              ></button>
+            </header>
+            <!-- Main dialog content -->
+            <div class="aui-dialog2-content">
+              <p>Content for the modal dialog.</p>
             </div>
-          </div>
+            <!-- Dialog footer -->
+            <footer class="aui-dialog2-footer">
+              <!-- Actions to render on the right of the footer -->
+              <div class="aui-dialog2-footer-actions">
+                <button
+                  class="aui-button aui-button-primary"
+                  (click)="onDeleteColumn(column.id)"
+                >
+                  Удалить
+                </button>
 
-          <ng-template #title>
-            <p
-              class="dropTitleText"
-              (click)="upDateColTitleSow($event)"
-              *ngIf="updateColumnTitle"
-            >
-              {{ column.title }} {{ column.list.length }} задачи
-            </p>
+                <button
+                  class="aui-button aui-button-link"
+                  (click)="closeModalDelete()"
+                >
+                  Отменить
+                </button>
+              </div>
+            </footer>
+          </section>
+        </div>
 
-            <div
-              class="borderItems2"
-              (click)="prevDef($event)"
-              *ngIf="!updateColumnTitle"
-            >
+        <div
+          cdkDropList
+          [cdkDropListData]="column.list"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="splitBROP">
+            <div class="borderItems2" (click)="prevDef($event)">
               <input
+                *ngIf="!column.title; else title"
                 type="text"
                 name="columnTitle"
-                value="{{ column.title }}"
                 #focus
                 class="columnTitleBorder"
-                (change)="
-                  updateText(column.title, column.id, column.list, $event)
-                "
+                (change)="setTitle($event, column.id)"
                 (click)="prevDef($event)"
               />
               <div
                 class="btnRowItems"
-                *ngIf="!updateColumnTitle"
+                *ngIf="!column.title"
                 (click)="prevDef($event)"
               >
                 <button
                   class="itemsBtnItems"
-                  (click)="
-                    updateText(column.title, column.id, column.list, $event)
-                  "
+                  (click)="setTitle($event, column.id)"
                 >
                   <span
                     class="aui-icon aui-iconfont-check iconsItemsSize"
@@ -91,61 +117,76 @@
                 </button>
               </div>
             </div>
-          </ng-template>
+            <ng-template #title>
+              <p
+                class="dropTitleText"
+                (click)="upDateColTitleSow($event)"
+                *ngIf="updateColumnTitle"
+              >
+                {{ column.title }} {{ column.list.length }} задачи
+              </p>
 
-          <div class="aui-buttons" *ngIf="column.title">
-            <button
-              class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
-              [attr.aria-controls]="'split-container-dropdown' + idx"
-            >
-              Split more
-            </button>
+              <div
+                class="borderItems2"
+                (click)="prevDef($event)"
+                *ngIf="!updateColumnTitle"
+              >
+                <input
+                  type="text"
+                  name="columnTitle"
+                  value="{{ column.title }}"
+                  #focus
+                  class="columnTitleBorder"
+                  (change)="
+                    updateText(column.title, column.id, column.list, $event)
+                  "
+                  (click)="prevDef($event)"
+                />
+                <div
+                  class="btnRowItems"
+                  *ngIf="!updateColumnTitle"
+                  (click)="prevDef($event)"
+                >
+                  <button
+                    class="itemsBtnItems"
+                    (click)="
+                      updateText(column.title, column.id, column.list, $event)
+                    "
+                  >
+                    <span
+                      class="aui-icon aui-iconfont-check iconsItemsSize"
+                    ></span>
+                  </button>
+                  <button
+                    class="itemsBtnItems"
+                    (click)="onDeleteColumn(column.id)"
+                  >
+                    <span
+                      class="aui-icon aui-iconfont-cross iconsItemsSize"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="aui-buttons" *ngIf="column.title">
+              <button
+                class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
+                [attr.aria-controls]="'split-container-dropdown' + idx"
+              >
+                Split more
+              </button>
+            </div>
+
+            <aui-dropdown-menu [id]="'split-container-dropdown' + idx">
+              {{ column.id }}
+              <aui-item-link (click)="openDeleteModal(column.id)"
+                >delete column</aui-item-link
+              >
+              <aui-item-link>Menu item 2</aui-item-link>
+              <aui-item-link>Menu item 3</aui-item-link>
+            </aui-dropdown-menu>
           </div>
-
-          <aui-dropdown-menu [id]="'split-container-dropdown' + idx">
-            {{ column.id }}
-            <aui-item-link (click)="onDeleteColumn(column.id)"
-              >delete column</aui-item-link
-            >
-            <aui-item-link>Menu item 2</aui-item-link>
-            <aui-item-link>Menu item 3</aui-item-link>
-          </aui-dropdown-menu>
-
-          <!-- <button
-            mat-button
-            [matMenuTriggerFor]="menu"
-            style="background-color: red"
-          >
-            Menu
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onDeleteColumn(column.id)">
-              delete column
-            </button>
-            <button mat-menu-item>Item 2</button>
-          </mat-menu> -->
-        </div>
-
-        <!-- create new cart -->
-
-        <!-- create new cart -->
-        <!-- (cdkDropListEntered)="onDropEnter()" -->
-        <div
-          cdkDropList
-          [cdkDropListData]="column.list"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
-        >
-          <!-- <div cdkDrag class="example-box" *ngFor="let item of column.list">
-            <div>{{ item.text }}</div>
-            <button
-              mat-icon-button
-              class="icon-delete"
-              (click)="onCardDelete(item.id, column.id)"
-            >
-              <mat-icon style="font-size: 18px">delete</mat-icon>
-            </button>
-          </div> -->
 
           <mat-card
             *ngFor="let item of column.list; let idx2 = index"
@@ -161,7 +202,7 @@
                     }}</mat-card-title>
                   </div>
                   <div class="dropMenu">
-                    <div class="aui-buttons">
+                    <!-- <div class="aui-buttons">
                       <button
                         class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
                         [attr.aria-controls]="
@@ -181,7 +222,7 @@
                       >
                       <aui-item-link>Menu item 2</aui-item-link>
                       <aui-item-link>Menu item 3</aui-item-link>
-                    </aui-dropdown-menu>
+                    </aui-dropdown-menu> -->
 
                     <!-- <div class="dropMenu">
                       <button class="aui-button aui-button-split-main">
@@ -196,13 +237,18 @@
                       </ul>
                     </div> -->
 
-                    <!-- <input
+                    <input
+                      (click)="$event.stopPropagation()"
                       class="inputMenu"
                       [id]="'check' + idx + idx2"
                       type="checkbox"
                       name="menu"
                     />
-                    <label class="lebelMenu" [attr.for]="'check' + idx + idx2">
+                    <label
+                      (click)="$event.stopPropagation()"
+                      class="lebelMenu"
+                      [attr.for]="'check' + idx + idx2"
+                    >
                       <span class="aui-icon aui-icon-small aui-iconfont-more"
                         >Insert meaningful text here for accessibility</span
                       >
@@ -211,8 +257,26 @@
                       <li (click)="onCardDelete(item.id, column.id)">
                         <a href="#">Удалить</a>
                       </li>
-                      <li><a href="#">Item 2</a></li>
-                    </ul> -->
+                      <li>
+                        <a
+                          *ngIf="!item.flag"
+                          href="#"
+                          (click)="onAddFlag(item.id, column.id)"
+                          >Добавить флажек</a
+                        >
+                        <a
+                          *ngIf="item.flag"
+                          href="#"
+                          (click)="onDeleteFlag(item.id, column.id)"
+                          >Снять отметку</a
+                        >
+                      </li>
+
+                      <p>ПЕРЕМЕСТИТЬ В</p>
+                      <li (click)="onAddToEnd(idx, idx2)">
+                        <a href="#">Нижняя часть столбца</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </mat-card-title>
@@ -250,19 +314,29 @@
           </mat-card>
 
           <!-- -- -->
-          <div
-            *ngIf="boardService.modaleId !== column.id && idx === 0"
-            class="flexItem1 columnAddEndItem"
+          <!-- <button
+
+            class="aui-button flexItem1 columnAddEndItem"
             (click)="onAddCard(column.id, $event)"
           >
-            <button class="btnIcons">
-              <span
-                class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-                >Insert meaningful text here for accessibility</span
-              >
-            </button>
+            <span
+              class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
+              >Insert meaningful text here for accessibility</span
+            >
             <p class="pTextIcons">Create notes</p>
-          </div>
+          </button> -->
+
+          <button
+            *ngIf="boardService.modaleId !== column.id && idx === 0"
+            (click)="onAddCard(column.id, $event)"
+            class="aui-button aui-button-subtle columnAddEndItem"
+            resolved=""
+          >
+            <span class="aui-icon aui-icon-small aui-iconfont-add"
+              >Configure</span
+            >
+            Создать задачу
+          </button>
           <!-- ------- -->
           <div
             *ngIf="boardService.modaleId !== column.id && idx !== 0"

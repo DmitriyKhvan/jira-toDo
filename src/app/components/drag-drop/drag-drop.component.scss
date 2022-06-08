@@ -25,11 +25,6 @@ h2 {
   vertical-align: top;
 }
 
-mat-card {
-  margin: 1em;
-  cursor: pointer;
-}
-
 .list {
   border-radius: 2px;
 }
@@ -67,7 +62,8 @@ mat-card {
 }
 
 .example-list {
-  height: 90%;
+  height: 100%;
+  margin: 0 5px 5px 5px;
 }
 
 a {
@@ -94,15 +90,18 @@ a {
 }
 
 .todyBody {
-  border-radius: 10px;
-  background-color: #fff;
-  color: #fff;
   cursor: pointer;
-  // transition: all 0.1s;
-  padding: 0;
-  padding-top: 10px;
-  // width: 98%;
-  // margin-left: -1px;
+  margin: 4px 0;
+  padding: 12px;
+  border-radius: 3px;
+  box-shadow: var(
+    --ds-shadow-raised,
+    0 1px 1px rgba(23, 43, 77, 0.2),
+    0 0 1px rgba(23, 43, 77, 0.2)
+  );
+  transition: background-color 140ms ease-in-out 0s, color 140ms ease-in-out 0s;
+  background-color: var(--ds-surface-raised, #ffffff);
+  color: var(--ds-text, #172b4d);
 }
 .todyBody:hover {
   background-color: rgb(182, 182, 182);
@@ -137,18 +136,16 @@ a {
 .dropTitleText {
   color: #969da8;
   font-size: 18px;
-  padding-top: 5px;
-  padding-left: 25px;
+  margin: 0;
 }
 .splitBROP {
   display: flex;
   justify-content: space-between;
-  margin-bottom: -10px;
+  align-items: center;
+  height: 48px;
 }
 .aui-button-primaryItem {
   width: 18px;
-  margin-top: 5px;
-  margin-right: 10px;
   opacity: 0 !important;
   // transition: all 0.2;
 }
@@ -162,26 +159,11 @@ a {
   // transition: all 0.2;
 }
 
-.btnItemSize {
-  width: 20px;
-  margin-left: -12px;
-  background-color: rgb(223, 217, 217);
+.columnAddEndItem {
+  width: 100%;
+  text-align: start;
 }
-.flexItem1 {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  padding-left: 17px;
-  cursor: pointer;
-  padding-top: 10px;
-  margin-top: -10px;
-}
-.flexItem1:hover {
-  background-color: rgb(223, 217, 217);
-}
-.flexItem1:hover .btnIcons {
-  background-color: rgb(223, 217, 217);
-}
+
 .iconColorsPlus {
   color: #6e7a8f;
 }
@@ -193,9 +175,6 @@ a {
 .btnIcons {
   border: none;
   background-color: #f4f5f7;
-  width: 18px;
-  margin-top: -15px;
-  margin-right: 7px;
 }
 
 .MainEl:hover {
@@ -252,9 +231,7 @@ a {
 
 .bgColorItems {
   background-color: #f4f5f7;
-  // padding-left: 5px;
-  // padding-right: 5px;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 .styleBorder {
   background-color: #f4f5f7;
@@ -319,4 +296,15 @@ a {
 .iconsItemsSize {
   color: rgb(58, 58, 99);
   font-size: 20px;
+}
+
+.modalDelete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  // width: 100%;
+  // height: 100%;
+  position: absolute;
+  background-color: #e7e7e7;
 }

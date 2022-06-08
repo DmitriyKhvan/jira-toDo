@@ -135,7 +135,9 @@ export class BoardService {
     },
   ];
 
-  private board: Column[] = this.initBoard;
+  modaleIdDeleteColumn: any;
+
+  public board: Column[] = this.initBoard;
   private board$ = new BehaviorSubject<Column[]>(this.initBoard);
 
   getBoard$() {

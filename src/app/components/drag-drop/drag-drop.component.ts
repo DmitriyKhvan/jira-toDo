@@ -62,6 +62,13 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   canAddItem: any = true;
 
+  noTitleColumnId: any = null;
+
+  updateColumnTitle: any = true;
+  flagItem: any = true;
+
+  openDialogForDelete: any = true;
+
   addColumn(e: any) {
     e.preventDefault();
     e.stopPropagation();
@@ -81,6 +88,33 @@ export class DragDropComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.focusRef.nativeElement.focus();
     }, 10);
+  }
+
+  upDateColTitleSow(e: any) {
+    e.stopPropagation();
+    this.updateColumnTitle = false;
+  }
+
+  updateText(title: any, colId: any, columnList: any, e: any) {
+    e.stopPropagation();
+
+    // console.log(title, colId);
+    console.log(e.target.value);
+    console.log(colId);
+    console.log(columnList);
+    this.boardService.updateTitleColumn(e.target.value, colId, columnList);
+    this.updateColumnTitle = true;
+  }
+  onAddFlag(cartId: any, columnId: any) {
+    this.boardService.addFlag(cartId, columnId);
+  }
+
+  onDeleteFlag(cartId: any, columnId: any) {
+    this.boardService.addFlag(cartId, columnId);
+  }
+
+  onAddToEnd(columnIdx: number, cardIdx: number) {
+    this.boardService.toEnd(columnIdx, cardIdx);
   }
 
   onOpenComment() {
@@ -117,6 +151,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
   enableAddCartPanel() {
     this.newCartText = null;
     this.boardService.modaleId = null;
+    // this.boardService.deleteColumn(this.noTitleColumnId);
     this.boardService.deleteColumnNoTitle();
 
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
@@ -129,6 +164,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    // console.log(this.boardService.columnIdForDelete);
+  }
+
+  clearTitleItem() {
+    // this.boardService.deleteColumn(this.noTitleColumnId);
   }
 
   onDeleteColumn(columnId: number) {
@@ -143,14 +184,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   drop(event: CdkDragDrop<string[]> | any) {
     if (event.previousContainer === event.container) {
-      console.log(1);
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
-      console.log(2);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -204,5 +243,13 @@ export class DragDropComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setMaxHeightEl();
     }, 20);
+  }
+
+  openDeleteModal(id: any) {
+    this.boardService.modaleIdDeleteColumn = id;
+    this.openDialogForDelete = false;
+  }
+  closeModalDelete() {
+    this.openDialogForDelete = true;
   }
 }

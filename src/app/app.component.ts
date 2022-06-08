@@ -33,9 +33,11 @@ export class AppComponent implements OnInit {
     //   }
     // });
   }
-  openAddCardItem: any = true;
   closeAddItems() {
-    this.openAddCardItem = true;
-    localStorage.setItem('close', this.openAddCardItem);
+    const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
+
+    if (el) {
+      el.checked = false;
+    }
   }
 }
