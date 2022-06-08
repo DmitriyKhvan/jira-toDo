@@ -218,6 +218,8 @@ export class BoardService {
   private board$ = new BehaviorSubject<Column[]>(this.initBoard);
   modaleIdAddFlag: any;
   modaleIdAddFlagCart: any;
+  columnIdSer: any;
+  addColumnId: any;
 
   getBoard$() {
     return this.board$.asObservable();
@@ -238,7 +240,6 @@ export class BoardService {
       title: '',
       list: [],
     };
-
     this.board = [...this.board, newColumn];
     this.board$.next([...this.board]);
   }
@@ -249,20 +250,13 @@ export class BoardService {
       title: title,
       list: columnList,
     };
-
     this.board = this.board.map((column: Column) => {
       if (column.id === id) {
         return newColumn;
       }
       return column;
     });
-
     this.board$.next([...this.board]);
-
-    console.log(this.board);
-
-    // this.board = [...this.board, newColumn];
-    // this.board$.next([...this.board]);
   }
   toEnd(columnIdx: number, cardIdx: number) {
     let columnList = [...this.board[columnIdx].list];
@@ -272,6 +266,21 @@ export class BoardService {
       ...columnList.slice(cardIdx + 1),
     ];
     columnList.push(card);
+
+    this.board[columnIdx] = { ...this.board[columnIdx], list: columnList };
+    console.log(this.board[columnIdx]);
+
+    this.board$.next([...this.board]);
+  }
+
+  toStart(columnIdx: number, cardIdx: number) {
+    let columnList = [...this.board[columnIdx].list];
+    const card = columnList[cardIdx];
+    columnList = [
+      ...columnList.slice(0, cardIdx),
+      ...columnList.slice(cardIdx + 1),
+    ];
+    columnList.unshift(card);
 
     this.board[columnIdx] = { ...this.board[columnIdx], list: columnList };
     console.log(this.board[columnIdx]);

@@ -93,6 +93,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
   columnIndex: any;
   cartIndex: any;
 
+  columnId: any;
+  toEnd: any = true;
+
   addColumn(e: any) {
     e.preventDefault();
     e.stopPropagation();
@@ -120,20 +123,24 @@ export class DragDropComponent implements OnInit, OnDestroy {
       this.focusRef.nativeElement.focus();
     }, 10);
   }
-
-  upDateColTitleSow(e: any) {
+  takeColumn(id: any) {
+    this.boardService.addColumnId = id;
+  }
+  upDateColTitleSow(columnId: any, e: any) {
+    this.boardService.columnIdSer = columnId;
     e.stopPropagation();
     this.updateColumnTitle = false;
   }
 
   updateText(title: any, colId: any, columnList: any, e: any) {
     e.stopPropagation();
-
-    // console.log(title, colId);
-    console.log(e.target.value);
-    console.log(colId);
-    console.log(columnList);
     this.boardService.updateTitleColumn(e.target.value, colId, columnList);
+    this.updateColumnTitle = true;
+  }
+
+  updateTextReturn(title: any, colId: any, columnList: any, e: any) {
+    e.stopPropagation();
+    this.boardService.updateTitleColumn(title, colId, columnList);
     this.updateColumnTitle = true;
   }
   onAddFlag(cartId: any, columnId: any) {
@@ -145,7 +152,13 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
 
   onAddToEnd(columnIdx: number, cardIdx: number) {
+    this.toEnd = false;
     this.boardService.toEnd(columnIdx, cardIdx);
+  }
+
+  onAddToStart(columnIdx: number, cardIdx: number) {
+    this.toEnd = true;
+    this.boardService.toStart(columnIdx, cardIdx);
   }
 
   onOpenComment() {
@@ -163,9 +176,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
   onAddCard(columnId: number, e: any) {
     this.boardService.modaleId = columnId;
     e.stopPropagation();
-    // if (this.newCartText) {
-    //   this.boardService.addCard(this.newCartText, columnId);
-    // }
   }
   onAddCards(columnId: number, e: any) {
     if (this.newCartText) {
@@ -182,41 +192,24 @@ export class DragDropComponent implements OnInit, OnDestroy {
   enableAddCartPanel() {
     this.newCartText = null;
     this.boardService.modaleId = null;
-    // this.boardService.deleteColumn(this.noTitleColumnId);
     this.boardService.deleteColumnNoTitle();
-
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
       if (data) {
         data.forEach((element) => {
           setTimeout(() => {
             if (element.title == '') {
-              // console.log(element.id);
               this.canAddItem = false;
-              // this.boardService.deleteColumn(element.id);
-              console.log(element);
-              console.log(data);
-              console.log(this.noTitleColumnId);
-              // this.boardService.deleteColumn(this.noTitleColumnId);
             }
             if (element.title != '') {
               this.canAddItem = true;
-              // this.noTitleColumnId = null;
             }
           }, 10);
         });
       }
     });
-
-    // console.log(this.boardService.columnIdForDelete);
-  }
-
-  clearTitleItem() {
-    // this.boardService.deleteColumn(this.noTitleColumnId);
   }
 
   onDeleteColumn(columnId: number) {
-    // console.log(columnId);
-
     this.boardService.deleteColumn(columnId);
   }
 
@@ -242,8 +235,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
 
   setTitle(event: any, id: any) {
-    // this.boardService.columnIdForDelete = id;
-
     this.boardService.updateColumn(event.target.value, id);
   }
   prevDef(e: any) {
@@ -251,12 +242,8 @@ export class DragDropComponent implements OnInit, OnDestroy {
     e.preventDefault();
   }
 
-  // NEW ------------------------------------------------------------
-
   getMaxHeight(els: any) {
     let maxHeight: any = 0;
-
-    // debugger;
 
     els.forEach((e: any) => {
       if (e.clientHeight > maxHeight) {
@@ -288,10 +275,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
     }, 20);
   }
 
-  onAddFilterFlug(columnId: any, cardId: any, idx: any, idx2: any) {
-    // console.log(columnId, cardId, 'ts actions');
-    console.log(this.columnIndex, this.cartIndex, 'ts index');
-
+  onAddFilterFlug(columnId: any, cardId: any) {
     this.boardService.addFilterFlag(
       columnId,
       cardId,
@@ -299,7 +283,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
       this.columnIndex,
       this.cartIndex
     );
-    // this.openModalAddFlags = true;
   }
   onModallAddFlug(columnId: any, cardId: any, idx: any, idx2: any) {
     this.columnIndex = idx;
