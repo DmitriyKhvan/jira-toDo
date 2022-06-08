@@ -211,25 +211,6 @@
                       <li (click)="onCardDelete(item.id, column.id)">
                         <a href="#">Удалить</a>
                       </li>
-                      <li>
-                        <a
-                          *ngIf="!item.flag"
-                          href="#"
-                          (click)="onAddFlag(item.id, column.id)"
-                          >Добавить флажек</a
-                        >
-                        <a
-                          *ngIf="item.flag"
-                          href="#"
-                          (click)="onDeleteFlag(item.id, column.id)"
-                          >Снять отметку</a
-                        >
-                      </li>
-                      <p style="color: #000">ПЕРЕМЕСТИТЬ В</p>
-
-                      <li (click)="onAddToEnd(idx, idx2)">
-                        <a href="#">Нижняя часть столбца</a>
-                      </li>
                     </ul>
                   </div>
                 </div>
