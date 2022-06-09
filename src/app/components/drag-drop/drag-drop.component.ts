@@ -84,7 +84,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   noTitleColumnId: any = null;
 
-  updateColumnTitle: any = true;
   flagItem: any = true;
   openModalAddFlags: any = true;
 
@@ -95,6 +94,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
   toEnd: any = true;
 
   openDialogForDelete: any = true;
+
+  titleColumn = '';
+
+  changeTitle(value: any) {
+    this.titleColumn = value.target.value;
+  }
 
   addColumn(e: any) {
     e.preventDefault();
@@ -122,19 +127,20 @@ export class DragDropComponent implements OnInit, OnDestroy {
   upDateColTitleSow(columnId: any, e: any) {
     this.boardService.columnIdSer = columnId;
     e.stopPropagation();
-    this.updateColumnTitle = false;
   }
 
   updateText(title: any, colId: any, columnList: any, e: any) {
     e.stopPropagation();
-    this.boardService.updateTitleColumn(e.target.value, colId, columnList);
-    this.updateColumnTitle = true;
+    if (title) {
+      this.boardService.updateTitleColumn(title, colId, columnList);
+    }
+    this.boardService.columnIdSer = null;
   }
 
   updateTextReturn(title: any, colId: any, columnList: any, e: any) {
     e.stopPropagation();
     this.boardService.updateTitleColumn(title, colId, columnList);
-    this.updateColumnTitle = true;
+    this.boardService.columnIdSer = null;
   }
   onAddFlag(cartId: any, columnId: any) {
     this.boardService.addFlag(cartId, columnId);

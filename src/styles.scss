@@ -11,6 +11,10 @@ p {
   padding: 0 !important;
 }
 
+img {
+  display: block;
+}
+
 body {
   width: 100%;
   height: 100vh;
@@ -79,22 +83,22 @@ ul.submenu {
 }
 
 /*position the label*/
-.lebelMenu {
-  position: relative;
-  display: block;
-  cursor: pointer;
-  margin: 0;
+// .lebelMenu {
+//   position: relative;
+//   display: block;
+//   cursor: pointer;
+//   margin: 0;
 
-  .aui-icon {
-    width: 25px;
-    height: 25px;
-    border-radius: 5px;
-    background: #ccc;
-    &::before {
-      color: rgb(14, 14, 14);
-    }
-  }
-}
+//   .aui-icon {
+//     width: 25px;
+//     height: 25px;
+//     border-radius: 5px;
+//     background: #ccc;
+//     &::before {
+//       color: rgb(14, 14, 14);
+//     }
+//   }
+// }
 
 /*show the submenu when input is checked*/
 input:checked ~ ul.submenu {

@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
   }
   closeAddItems() {
     const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
-
     if (el) {
       el.checked = false;
     }

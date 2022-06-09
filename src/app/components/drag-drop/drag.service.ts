@@ -244,20 +244,31 @@ export class BoardService {
     this.board$.next([...this.board]);
   }
 
-  updateTitleColumn(title: any, id: any, columnList: any) {
-    const newColumn: Column = {
-      id: id,
-      title: title,
-      list: columnList,
-    };
-    this.board = this.board.map((column: Column) => {
-      if (column.id === id) {
-        return newColumn;
-      }
-      return column;
-    });
+  // updateTitleColumn(title: any, id: any, columnList: any) {
+  //   const newColumn: Column = {
+  //     id: id,
+  //     title: title,
+  //     list: columnList,
+  //   };
+  //   this.board = this.board.map((column: Column) => {
+  //     if (column.id === id) {
+  //       return newColumn;
+  //     }
+  //     return column;
+  //   });
+  //   this.board$.next([...this.board]);
+  // }
+
+  updateTitleColumn(title: any, columId: any, columnList: any) {
+    const updateEl = this.board.find((el) => el.id === columId);
+
+    if (updateEl) {
+      updateEl.title = title;
+    }
+
     this.board$.next([...this.board]);
   }
+
   toEnd(columnIdx: number, cardIdx: number) {
     let columnList = [...this.board[columnIdx].list];
     const card = columnList[cardIdx];

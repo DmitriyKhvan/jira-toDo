@@ -63,7 +63,7 @@ h2 {
 
 .example-list {
   height: 100%;
-  margin: 0 5px 5px 5px;
+  margin: 0 0 5px 0;
 }
 
 a {
@@ -91,7 +91,7 @@ a {
 
 .todyBody {
   cursor: pointer;
-  margin: 4px 0;
+  margin: 5px;
   padding: 12px;
   border-radius: 3px;
   box-shadow: var(
@@ -104,7 +104,7 @@ a {
   color: var(--ds-text, #172b4d);
 }
 .todyBody:hover {
-  background-color: rgb(182, 182, 182);
+  background-color: var(--ds-background-neutral-subtle-hovered, #f4f5f7);
 }
 .drotText {
   color: #000;
@@ -121,7 +121,10 @@ a {
 }
 
 .colorChe {
-  color: rgb(71, 93, 189);
+  &::before {
+    font-size: 18px;
+    color: #4bade8;
+  }
 }
 .colorTextMs {
   color: #000 !important;
@@ -136,25 +139,30 @@ a {
 .dropTitleText {
   color: #969da8;
   font-size: 18px;
-  margin: 0;
+  padding-left: 8px !important;
 }
 .splitBROP {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 48px;
-}
-.aui-button-primaryItem {
-  width: 18px;
-  opacity: 0 !important;
-  // transition: all 0.2;
-}
-.splitBROP:hover .aui-button-primaryItem {
-  opacity: 1 !important;
-  // transition: all 0.2;
+  border-radius: 6px 6px 0 0;
+  position: sticky;
+  top: 0;
+  background: #f4f5f7;
+  z-index: 1;
 }
 
-.drotTextItems:hover .aui-button-primaryItem {
+.customMoreBtn {
+  opacity: 0 !important;
+  // transition: all 0.2;
+
+  & .aui-icon:before {
+    // font-size: 22px;
+  }
+}
+.splitBROP:hover .customMoreBtn,
+.todyBody:hover .customMoreBtn {
   opacity: 1 !important;
   // transition: all 0.2;
 }
@@ -233,12 +241,7 @@ a {
   background-color: #f4f5f7;
   border-radius: 6px;
 }
-.styleBorder {
-  background-color: #f4f5f7;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 10px;
-}
+
 .MainEl {
   display: flex;
 }
@@ -251,44 +254,41 @@ a {
   margin-right: 1rem;
   width: 270px;
 }
-.textareaItemStyle {
-  width: 100%;
-  height: 100%;
-  border: 2px solid blue;
-  outline: none;
-  resize: none;
-  padding: 10px;
-  font-size: 14px;
-  color: #000;
-  border-radius: 5px;
-  // margin-right: 5px;
-  // margin-left: 5px;
-}
+
 .borderItems2 {
   width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
 }
+
+.titleBlock {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 5px;
+}
+
+.titleChangeBlock {
+  position: relative;
+}
+
 .columnTitleBorder {
+  border-radius: 3px;
+  width: 100%;
+  height: 40px;
+  border: 2px solid #4c9aff !important;
+  outline: none;
   margin-top: 5px;
-  border-radius: 5px;
-  width: 260px;
-  height: 32px;
-  border: 2px solid blue !important;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 .btnRowItems {
-  display: flex;
-  justify-content: end;
-  width: 270px;
+  position: absolute;
+  right: 0;
+  z-index: 1;
 }
 .itemsBtnItems {
   background-color: rgb(221, 221, 221);
   border: none;
   border-radius: 5px;
-  margin-right: 10px;
-  margin-top: -10px;
-  margin-bottom: 15px;
+  margin-left: 10px;
 }
 .itemsBtnItems:hover {
   background-color: rgb(194, 194, 194);
@@ -310,11 +310,53 @@ a {
 }
 
 .filterFlugsItem {
-  color: #000;
-  background-color: #e7e7e7;
-  border-radius: 20%;
-  padding: 5px;
+  color: #253858;
+  background-color: #f4f5f7;
+  border-radius: 3px;
+  margin-right: 8px;
+  padding: 0 4px;
+  font-size: 14px;
 }
 .itemFlags {
   display: flex !important;
+  margin-bottom: 8px;
+}
+
+.mat-card-title {
+  margin-bottom: 8px !important;
+}
+
+.MainEl .mat-card-actions,
+.MainEl .mat-card-content,
+.MainEl .mat-card-subtitle {
+  margin-bottom: 8px;
+}
+
+.addTask {
+  padding: 0 5px;
+}
+
+.styleBorder {
+  width: 100%;
+  height: auto;
+  padding: 12px;
+  border: 2px solid #4c9aff;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.textareaItemStyle {
+  width: 100%;
+  max-height: 40px;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #172b4d;
+  resize: none;
+}
+
+.btnIcon {
+  padding: 0 0 0 4px;
+  height: 24px;
 }
