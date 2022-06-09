@@ -21,6 +21,7 @@ import { BoardService } from './drag.service';
 
 // NEW ------------------------------------------------------------
 
+declare var AJS: any;
 @Component({
   selector: 'app-drag-drop',
   templateUrl: './drag-drop.component.html',
@@ -44,13 +45,32 @@ export class DragDropComponent implements OnInit, OnDestroy {
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // this.onDropEnter();
+    AJS.$('#select2-example2').auiSelect2();
+
+    AJS.$('#dialog-show-button').on('click', function (e: any) {
+      e.preventDefault();
+      AJS.dialog2('#demo-dialog').show();
+    });
+
+    AJS.$('#dialog-submit-button').on('click', function (e: any) {
+      e.preventDefault();
+      AJS.dialog2('#demo-dialog').hide();
+    });
   }
 
   ngOnDestroy() {
     console.log('asdasdadad');
 
     this.subscription.unsubscribe();
+  }
+  selectedFild: any = 'select';
+
+  openDeleteModal(id: any) {
+    this.boardService.modaleIdDeleteColumn = id;
+    this.openDialogForDelete = false;
+  }
+  closeModalDelete() {
+    this.openDialogForDelete = true;
   }
   // NEW ------------------------------------------------------------
   private subscription: Subscription = new Subscription();
@@ -66,6 +86,13 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   updateColumnTitle: any = true;
   flagItem: any = true;
+  openModalAddFlags: any = true;
+
+  columnIndex: any;
+  cartIndex: any;
+
+  columnId: any;
+  toEnd: any = true;
 
   openDialogForDelete: any = true;
 
@@ -89,20 +116,24 @@ export class DragDropComponent implements OnInit, OnDestroy {
       this.focusRef.nativeElement.focus();
     }, 10);
   }
-
-  upDateColTitleSow(e: any) {
+  takeColumn(id: any) {
+    this.boardService.addColumnId = id;
+  }
+  upDateColTitleSow(columnId: any, e: any) {
+    this.boardService.columnIdSer = columnId;
     e.stopPropagation();
     this.updateColumnTitle = false;
   }
 
   updateText(title: any, colId: any, columnList: any, e: any) {
     e.stopPropagation();
-
-    // console.log(title, colId);
-    console.log(e.target.value);
-    console.log(colId);
-    console.log(columnList);
     this.boardService.updateTitleColumn(e.target.value, colId, columnList);
+    this.updateColumnTitle = true;
+  }
+
+  updateTextReturn(title: any, colId: any, columnList: any, e: any) {
+    e.stopPropagation();
+    this.boardService.updateTitleColumn(title, colId, columnList);
     this.updateColumnTitle = true;
   }
   onAddFlag(cartId: any, columnId: any) {
@@ -114,7 +145,13 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
 
   onAddToEnd(columnIdx: number, cardIdx: number) {
+    this.toEnd = false;
     this.boardService.toEnd(columnIdx, cardIdx);
+  }
+
+  onAddToStart(columnIdx: number, cardIdx: number) {
+    this.toEnd = true;
+    this.boardService.toStart(columnIdx, cardIdx);
   }
 
   onOpenComment() {
@@ -132,9 +169,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
   onAddCard(columnId: number, e: any) {
     this.boardService.modaleId = columnId;
     e.stopPropagation();
-    // if (this.newCartText) {
-    //   this.boardService.addCard(this.newCartText, columnId);
-    // }
   }
   onAddCards(columnId: number, e: any) {
     if (this.newCartText) {
@@ -151,9 +185,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
   enableAddCartPanel() {
     this.newCartText = null;
     this.boardService.modaleId = null;
-    // this.boardService.deleteColumn(this.noTitleColumnId);
     this.boardService.deleteColumnNoTitle();
-
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
       if (data) {
         const column = data.find((el) => el.title === '');
@@ -164,17 +196,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
         }
       }
     });
-
-    // console.log(this.boardService.columnIdForDelete);
-  }
-
-  clearTitleItem() {
-    // this.boardService.deleteColumn(this.noTitleColumnId);
   }
 
   onDeleteColumn(columnId: number) {
-    // console.log(columnId);
-
     this.boardService.deleteColumn(columnId);
   }
 
@@ -200,20 +224,15 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
 
   setTitle(event: any, id: any) {
-    // this.boardService.columnIdForDelete = id;
-
     this.boardService.updateColumn(event.target.value, id);
   }
   prevDef(e: any) {
     e.stopPropagation();
+    e.preventDefault();
   }
-
-  // NEW ------------------------------------------------------------
 
   getMaxHeight(els: any) {
     let maxHeight: any = 0;
-
-    // debugger;
 
     els.forEach((e: any) => {
       if (e.clientHeight > maxHeight) {
@@ -245,11 +264,25 @@ export class DragDropComponent implements OnInit, OnDestroy {
     }, 20);
   }
 
-  openDeleteModal(id: any) {
-    this.boardService.modaleIdDeleteColumn = id;
-    this.openDialogForDelete = false;
+  onAddFilterFlug(columnId: any, cardId: any) {
+    this.boardService.addFilterFlag(
+      columnId,
+      cardId,
+      this.selectedFild,
+      this.columnIndex,
+      this.cartIndex
+    );
   }
-  closeModalDelete() {
-    this.openDialogForDelete = true;
+  onModallAddFlug(columnId: any, cardId: any, idx: any, idx2: any) {
+    this.columnIndex = idx;
+    this.cartIndex = idx2;
+    console.log(idx, idx2, 'ts Index');
+    this.boardService.modaleIdAddFlag = columnId;
+    this.boardService.modaleIdAddFlagCart = cardId;
+    this.openModalAddFlags = false;
+  }
+
+  closeModalAddFlag() {
+    this.openModalAddFlags = true;
   }
 }

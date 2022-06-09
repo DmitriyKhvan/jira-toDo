@@ -82,6 +82,7 @@
           [cdkDropListData]="column.list"
           class="example-list"
           (cdkDropListDropped)="drop($event)"
+          (mouseenter)="takeColumn(column.id)"
         >
           <div class="splitBROP">
             <div class="borderItems2" (click)="prevDef($event)">
@@ -107,6 +108,7 @@
                     class="aui-icon aui-iconfont-check iconsItemsSize"
                   ></span>
                 </button>
+
                 <button
                   class="itemsBtnItems"
                   (click)="onDeleteColumn(column.id)"
@@ -120,7 +122,7 @@
             <ng-template #title>
               <p
                 class="dropTitleText"
-                (click)="upDateColTitleSow($event)"
+                (click)="upDateColTitleSow(column.id, $event)"
                 *ngIf="updateColumnTitle"
               >
                 {{ column.title }} {{ column.list.length }} задачи
@@ -129,7 +131,9 @@
               <div
                 class="borderItems2"
                 (click)="prevDef($event)"
-                *ngIf="!updateColumnTitle"
+                *ngIf="
+                  !updateColumnTitle && boardService.columnIdSer === column.id
+                "
               >
                 <input
                   type="text"
@@ -157,9 +161,17 @@
                       class="aui-icon aui-iconfont-check iconsItemsSize"
                     ></span>
                   </button>
+
                   <button
                     class="itemsBtnItems"
-                    (click)="onDeleteColumn(column.id)"
+                    (click)="
+                      updateTextReturn(
+                        column.title,
+                        column.id,
+                        column.list,
+                        $event
+                      )
+                    "
                   >
                     <span
                       class="aui-icon aui-iconfont-cross iconsItemsSize"
@@ -178,6 +190,75 @@
               </button>
             </div>
 
+            <!-- modal +++++++++++++++++++++++++++++++++++++++++++-->
+            <div
+              *ngIf="
+                boardService.modaleIdDeleteColumn == column.id &&
+                !openDialogForDelete
+              "
+              class="modalDelete"
+            >
+              <section
+                id="static-dialog"
+                class="aui-dialog2 aui-dialog2-medium"
+                role="dialog"
+                tabindex="-1"
+                aria-labelledby="static-dialog--heading"
+              >
+                <!-- Dialog header -->
+                <header class="aui-dialog2-header">
+                  <!-- The dialog's title -->
+                  <h1
+                    class="aui-dialog2-header-main"
+                    id="static-dialog--heading"
+                  >
+                    The modal dialog title
+                  </h1>
+                  <!-- Actions to render on the right of the header -->
+                  <div class="aui-dialog2-header-secondary">
+                    <form class="aui" action="#">
+                      <input
+                        id="demo-search"
+                        class="text"
+                        type="search"
+                        name="search"
+                      />
+                    </form>
+                  </div>
+                  <!-- Close icon -->
+                  <button
+                    class="aui-close-button"
+                    type="button"
+                    aria-label="close"
+                  ></button>
+                </header>
+                <!-- Main dialog content -->
+                <div class="aui-dialog2-content">
+                  <p>Content for the modal dialog.</p>
+                </div>
+                <!-- Dialog footer -->
+                <footer class="aui-dialog2-footer">
+                  <!-- Actions to render on the right of the footer -->
+                  <div class="aui-dialog2-footer-actions">
+                    <button
+                      class="aui-button aui-button-primary"
+                      (click)="onDeleteColumn(column.id)"
+                    >
+                      Удалить
+                    </button>
+
+                    <button
+                      class="aui-button aui-button-link"
+                      (click)="closeModalDelete()"
+                    >
+                      Отменить
+                    </button>
+                  </div>
+                </footer>
+              </section>
+            </div>
+            <!-- modal +++++++++++++++++++++++++++++++++++++++++++++ -->
+
             <aui-dropdown-menu [id]="'split-container-dropdown' + idx">
               {{ column.id }}
               <aui-item-link (click)="openDeleteModal(column.id)"
@@ -193,6 +274,125 @@
             cdkDrag
             class="todyBody example-box"
           >
+            <!-- modal +++++++++++++++++++++++++++++++++++++++++++-->
+            <div
+              *ngIf="
+                boardService.modaleIdAddFlag == column.id &&
+                !openModalAddFlags &&
+                boardService.modaleIdAddFlag == item.id
+              "
+              class="modalDelete"
+            >
+              <section
+                id="static-dialog"
+                class="aui-dialog2 aui-dialog2-medium"
+                role="dialog"
+                tabindex="-1"
+                aria-labelledby="static-dialog--heading"
+              >
+                <!-- Dialog header -->
+                <header class="aui-dialog2-header">
+                  <!-- The dialog's title -->
+                  <h2
+                    class="aui-dialog2-header-main"
+                    id="static-dialog--heading"
+                  >
+                    Добавить метки к ключу MSB-33
+                  </h2>
+                  <!-- Actions to render on the right of the header -->
+
+                  <!-- Close icon -->
+                </header>
+                <!-- Main dialog content -->
+                <div class="aui-dialog2-content">
+                  <p>Начните набирать для поиска и создания меток</p>
+                  <input type="text" [(ngModel)]="selectedFild" />
+                  <!-- <form class="aui">
+                <select
+                  id="select2-example"
+                  multiple
+                  [(ngModel)]="selectedFild"
+                >
+                  <option value="CONF">Confluence</option>
+                  <option value="JIRA">JIRA</option>
+                  <option value="BAM">Bamboo</option>
+                  <option value="JAG">JIRA Agile</option>
+                  <option value="CAP">JIRA Capture</option>
+                  <option value="AUI">AUI</option>
+                  <option value="{{ selectedFild }}">
+                    {{ selectedFild }}
+                  </option>
+                </select>
+              </form> -->
+                  {{ selectedFild }}
+                </div>
+                <!-- Dialog footer -->
+                <footer class="aui-dialog2-footer">
+                  <!-- Actions to render on the right of the footer -->
+                  <div class="aui-dialog2-footer-actions">
+                    <button
+                      class="aui-button aui-button-primary"
+                      (click)="onAddFilterFlug(column.id, item.id)"
+                    >
+                      Готово
+                    </button>
+
+                    <button
+                      class="aui-button aui-button-link"
+                      (click)="closeModalAddFlag()"
+                    >
+                      Отменить
+                    </button>
+                  </div>
+                  <div class="aui-dialog2-footer-hint">
+                    Выбрать несколько карточек с CTRL + клик
+                  </div>
+                </footer>
+              </section>
+
+              <!-- <section
+            id="demo-dialog"
+            class="aui-dialog2 aui-dialog2-small aui-layer"
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="dialog-show-button--heading"
+            hidden
+          >
+            <header class="aui-dialog2-header">
+              <h2 class="aui-dialog2-header-main" id="static-dialog--heading">
+                Добавить метки к ключу MSB-33
+              </h2>
+            </header>
+            <div class="aui-dialog2-content">
+              <p>Начните набирать для поиска и создания меток</p>
+              <input type="text" [(ngModel)]="selectedFild" />
+            </div>
+            <footer class="aui-dialog2-footer">
+              <div class="aui-dialog2-footer-actions d-flex">
+                <div class="d-flex">
+                  <button
+                    class="aui-button aui-button-primary"
+                    (click)="onAddFilterFlug(column.id, item.id)"
+                  >
+                    Готово
+                  </button>
+
+                  <button
+                    class="aui-button aui-button-link"
+                    (click)="closeModalAddFlag()"
+                  >
+                    Отменить
+                  </button>
+                </div>
+
+                <div class="aui-dialog2-footer-hint">
+                  Выбрать несколько карточек с CTRL + клик
+                </div>
+              </div>
+            </footer>
+          </section> -->
+            </div>
+            <!-- modal +++++++++++++++++++++++++++++++++++++++++++++ -->
             <mat-card-header>
               <mat-card-title class="drotTextItems">
                 <div class="d-flex justify-content-between">
@@ -200,43 +400,16 @@
                     <mat-card-title class="drotText">{{
                       item.text
                     }}</mat-card-title>
+                    <div
+                      *ngFor="let itemFlag of item.filterFluf"
+                      class="itemFlags"
+                    >
+                      <span class="filterFlugsItem">
+                        {{ itemFlag.name }}
+                      </span>
+                    </div>
                   </div>
                   <div class="dropMenu">
-                    <!-- <div class="aui-buttons">
-                      <button
-                        class="aui-button aui-dropdown2-trigger aui-button-split-more aui-button-primaryItem"
-                        [attr.aria-controls]="
-                          'split-container-dropdown' + idx + idx2
-                        "
-                      >
-                        Split more
-                      </button>
-                    </div>
-
-                    <aui-dropdown-menu
-                      [id]="'split-container-dropdown' + idx + idx2"
-                    >
-                      {{ column.id }}
-                      <aui-item-link (click)="onCardDelete(item.id, column.id)"
-                        >delete column</aui-item-link
-                      >
-                      <aui-item-link>Menu item 2</aui-item-link>
-                      <aui-item-link>Menu item 3</aui-item-link>
-                    </aui-dropdown-menu> -->
-
-                    <!-- <div class="dropMenu">
-                      <button class="aui-button aui-button-split-main">
-                        <span class="aui-icon aui-icon-small aui-iconfont-more"
-                          >Insert meaningful text here for accessibility</span
-                        >
-                      </button>
-                      <ul class="menu">
-                        <li (click)="onCardDelete(item.id, column.id)">
-                          Удалить
-                        </li>
-                      </ul>
-                    </div> -->
-
                     <input
                       (click)="$event.stopPropagation()"
                       class="inputMenu"
@@ -271,10 +444,20 @@
                           >Снять отметку</a
                         >
                       </li>
+                      <li
+                        id="dialog-show-button"
+                        (click)="onModallAddFlug(column.id, item.id, idx, idx2)"
+                      >
+                        <a href="#">Добавить метку</a>
+                      </li>
+                      <p style="color: #000">ПЕРЕМЕСТИТЬ В</p>
 
-                      <p>ПЕРЕМЕСТИТЬ В</p>
                       <li (click)="onAddToEnd(idx, idx2)">
                         <a href="#">Нижняя часть столбца</a>
+                      </li>
+
+                      <li (click)="onAddToStart(idx, idx2)">
+                        <a href="#">Верхняя часть столбца</a>
                       </li>
                     </ul>
                   </div>
@@ -313,19 +496,6 @@
             </mat-card-header>
           </mat-card>
 
-          <!-- -- -->
-          <!-- <button
-
-            class="aui-button flexItem1 columnAddEndItem"
-            (click)="onAddCard(column.id, $event)"
-          >
-            <span
-              class="aui-icon aui-icon-small aui-iconfont-add iconColorsPlus"
-              >Insert meaningful text here for accessibility</span
-            >
-            <p class="pTextIcons">Create notes</p>
-          </button> -->
-
           <button
             *ngIf="boardService.modaleId !== column.id && idx === 0"
             (click)="onAddCard(column.id, $event)"
@@ -339,7 +509,11 @@
           </button>
           <!-- ------- -->
           <div
-            *ngIf="boardService.modaleId !== column.id && idx !== 0"
+            *ngIf="
+              boardService.modaleId !== column.id &&
+              idx !== 0 &&
+              boardService.addColumnId === column.id
+            "
             class="flexItem2 columnAddEndItem"
             (click)="onAddCard(column.id, $event)"
           >
