@@ -155,16 +155,91 @@ a {
 
 .customMoreBtn {
   opacity: 0 !important;
-  // transition: all 0.2;
+  padding: 0;
+  width: 32px;
+  height: 32px;
 
-  & .aui-icon:before {
-    // font-size: 22px;
+  .aui-icon {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    &:before {
+      font-size: 24px;
+    }
   }
 }
+
+input:checked ~ .customMoreBtn,
+.active.customMoreBtn {
+  background: #253858;
+  color: #fff;
+  opacity: 1 !important;
+}
+
 .splitBROP:hover .customMoreBtn,
 .todyBody:hover .customMoreBtn {
   opacity: 1 !important;
   // transition: all 0.2;
+}
+
+.dropMenu {
+  position: relative;
+}
+
+/*hide the inputs/checkmarks and submenu*/
+.inputMenu,
+ul.submenu {
+  position: absolute;
+  display: none;
+  top: 118%;
+  right: 0;
+  margin-bottom: 8px;
+}
+
+.submenu {
+  max-width: 221px;
+  background: rgb(255, 255, 255);
+  border-radius: 3px;
+  box-shadow: rgb(9 30 66 / 25%) 0px 4px 8px -2px,
+    rgb(9 30 66 / 31%) 0px 0px 1px;
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 4px 0px;
+  z-index: 100;
+
+  li {
+    list-style: none;
+    padding: 5px 10px;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex: 0 0 auto;
+    color: rgb(23, 43, 77);
+    padding: 8px 12px 7px;
+    &:hover {
+      background: #ccc;
+    }
+    //обрезать текст
+    span {
+      display: block;
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.14286;
+      padding-bottom: 1px;
+    }
+  }
+}
+
+/*show the submenu when input is checked*/
+input:checked ~ ul.submenu {
+  display: block;
+}
+
+.lebelMenu {
+  margin: 0;
 }
 
 .columnAddEndItem {
@@ -229,6 +304,8 @@ a {
   border: none;
   margin-left: -10px;
   cursor: pointer;
+  position: sticky;
+  top: 0;
 }
 
 .list {
@@ -359,4 +436,70 @@ a {
 .btnIcon {
   padding: 0 0 0 4px;
   height: 24px;
+}
+
+.titleMenu {
+  align-items: center;
+  color: rgb(107, 119, 140);
+  display: flex;
+  flex: 1 1 auto;
+  padding: 8px 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.aui-dropdown2.aui-layer {
+  left: 105px !important;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #de350c;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+}
+
+.flag {
+  color: #de350c;
+  margin-right: 4px;
+}
+
+// .heightControl {
+//   transition: height 20s ease;
+// }
+
+.itemsss {
+  background-color: #0052cc;
+  height: 2px;
+  width: 100%;
+  border-radius: 0, 50%, 50%, 0;
+  cursor: pointer;
+}
+.btnAddPlus {
+  background-color: #0052cc;
+  border: none;
+  margin-left: -8px;
+  width: 19px;
+  height: 19px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+}
+.pl1z1 {
+  display: flex;
+  align-items: center;
+  margin-top: -11px;
+  margin-bottom: -11px;
+  z-index: 200;
+  position: relative;
+  margin-right: 5px;
+}
+.plusIcons {
+  color: white;
 }

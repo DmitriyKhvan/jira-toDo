@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BoardService } from './components/drag-drop/drag.service';
 
 declare var AJS: any;
 
@@ -33,10 +34,12 @@ export class AppComponent implements OnInit {
     //   }
     // });
   }
+  constructor(public boardService: BoardService) {}
   closeAddItems() {
     const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
     if (el) {
-      el.checked = false;
+      // if ()
+      el.checked = !el.checked;
     }
   }
 }

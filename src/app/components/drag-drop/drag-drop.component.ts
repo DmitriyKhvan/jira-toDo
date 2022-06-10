@@ -171,6 +171,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
   onCardDelete(itemId: number, columnId: number) {
     this.boardService.deleteCard(itemId, columnId);
   }
+  onAddCardMiddle(columnId: number, idx: any, e: any) {}
 
   onAddCard(columnId: number, e: any) {
     this.boardService.modaleId = columnId;
@@ -253,6 +254,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
     const columnsAllHeight = document.querySelectorAll('.heightControl');
     const maxHeight = this.getMaxHeight(columnsAllHeight);
     columnsAllHeight.forEach((el: any) => {
+      el.style.transition = 'height 0.2s ease 0s';
       el.style.height = maxHeight + 'px';
     });
   }

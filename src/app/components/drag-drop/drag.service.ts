@@ -335,7 +335,7 @@ export class BoardService {
 
     this.board = this.board.map((column: Column) => {
       if (column.id === columnId) {
-        column.list = [newCard, ...column.list];
+        column.list = [...column.list, newCard];
       }
       return column;
     });
