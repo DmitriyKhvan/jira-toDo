@@ -97,14 +97,9 @@ a {
   border-radius: 10px;
 }
 
-.wrapCard {
-  position: relative;
-  width: 100%;
-}
-
 .todyBody {
   cursor: pointer;
-  margin: 4px 5px;
+  margin: 1px 5px;
   padding: 12px;
   border-radius: 3px;
   box-shadow: var(
@@ -461,6 +456,7 @@ input:checked ~ ul.submenu {
   border: 2px solid #4c9aff;
   background: #fff;
   border-radius: 3px;
+  margin: 3px 0;
 }
 
 .textareaItemStyle {
@@ -535,13 +531,12 @@ input:checked ~ ul.submenu {
   position: absolute;
 }
 .pl1z1 {
+  position: relative;
   display: flex;
   align-items: center;
   z-index: 200;
-  position: absolute;
   top: 0;
   left: 0;
-  margin-top: -3px !important;
   opacity: 0;
   transition: opacity 0.3s ease;
 
