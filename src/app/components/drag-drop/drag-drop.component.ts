@@ -96,9 +96,34 @@ export class DragDropComponent implements OnInit, OnDestroy {
   openDialogForDelete: any = true;
 
   titleColumn = '';
+  newCartTextMiddle: any = '';
 
   changeTitle(value: any) {
     this.titleColumn = value.target.value;
+  }
+
+  onAddCardMiddleOpen(idx: any, idx2: any, $event: any) {
+    this.boardService.findColumnIndex = idx;
+    this.boardService.findCartIndex = idx2;
+    $event.stopPropagation();
+  }
+
+  onAddCardMiddle(
+    idx: any,
+    idx2: any,
+    $event: any,
+    columnId: any,
+    itemId: any,
+    list: any
+  ) {
+    this.boardService.addBottomCard(
+      idx,
+      idx2,
+      this.newCartTextMiddle,
+      columnId,
+      itemId,
+      list
+    );
   }
 
   addColumn(e: any) {
@@ -171,7 +196,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
   onCardDelete(itemId: number, columnId: number) {
     this.boardService.deleteCard(itemId, columnId);
   }
-  onAddCardMiddle(columnId: number, idx: any, e: any) {}
 
   onAddCard(columnId: number, e: any) {
     this.boardService.modaleId = columnId;

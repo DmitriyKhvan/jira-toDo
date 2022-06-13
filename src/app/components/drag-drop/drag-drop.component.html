@@ -459,11 +459,8 @@
                 </mat-card-subtitle>
               </mat-card-header>
             </mat-card>
-            <!-- addMidleCard -->
-            <div
-              class="pl1z1"
-              (click)="onAddCardMiddle(column.id, idx2, $event)"
-            >
+            <!-- addMidleCard --------------------------------------------------------------------- -->
+            <div class="pl1z1" (click)="onAddCardMiddleOpen(idx, idx2, $event)">
               <button class="btnAddPlus">
                 <span class="aui-icon aui-icon-small aui-iconfont-add plusIcons"
                   >Insert meaningful text here for accessibility</span
@@ -471,19 +468,33 @@
               </button>
               <div class="itemsss"></div>
             </div>
-            <div (click)="stPr($event)" class="styleBorder">
+
+            <!-- ************************************** -->
+            <div
+              (click)="stPr($event)"
+              class="styleBorder"
+              *ngIf="
+                boardService.findColumnIndex == idx &&
+                boardService.findCartIndex === idx2
+              "
+            >
               <textarea
                 class="textarea textareaItemStyle"
                 name="comment"
                 id="textarea-id"
                 placeholder="Что нужно сделать?"
-                [(ngModel)]="newCartText"
-                (keyup.enter)="onAddCards(column.id, $event)"
+                [(ngModel)]="newCartTextMiddle"
+                (keyup.enter)="
+                  onAddCardMiddle(
+                    idx,
+                    idx2,
+                    $event,
+                    column.id,
+                    item.id,
+                    column.list
+                  )
+                "
               ></textarea>
-
-              <!-- <button (click)="onAddCards(column.id, $event)">
-            Создать задачу
-          </button> -->
 
               <button
                 class="aui-button aui-dropdown2-trigger btnIcon"

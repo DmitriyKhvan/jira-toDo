@@ -221,6 +221,96 @@ export class BoardService {
   columnIdSer: any;
   addColumnId: any;
 
+  findColumnIndex: any;
+  findCartIndex: any;
+
+  addBottomCard(
+    indexColumn: any,
+    indexCart: any,
+    newCartTextMiddle: any,
+    columnId: any,
+    cartId: any,
+    lists: any
+  ) {
+    const newCard: Card = {
+      id: cartId + 1,
+      flag: false,
+      text: newCartTextMiddle,
+      filterFluf: [],
+    };
+
+    const idx = this.board.findIndex((el) => el.id === indexColumn);
+    // const idx2 = this.board.list.findIndex((el:any) => el.id === indexColumn);
+    console.log(this.board);
+
+    // this.board[idx].title = title;
+
+    // this.board$.next([...this.board]);
+
+    // this.board = this.board.map((column: any) => {
+    //   if (column.id === columnId) {
+    //     column.list = [...column.list, newCard];
+    //     console.log(column.list);
+    //   }
+    //   return column;
+    // });
+
+    // // this.board[idx].list[idx2].filterFluf.push(newFilter);
+    // this.board$.next(this.board);
+
+    // this.board[indexColumn].list[indexCart].list.push(newCard);
+
+    // if ((this.board[indexColumn] = indexColumn)) {
+    //   if ((this.board[indexColumn].list[indexCart] = indexCart)) {
+    //     this.board = this.board.map((column: any) => {
+    //       if (column.id === columnId) {
+    //         column.list = [column[indexColumn].list[indexCart], newCard];
+    //       }
+    //       return column;
+    //     });
+    //   }
+    // }
+
+    // this.board$.next(this.board);
+
+    // this.board[indexColumn].list[indexCart].list.push(newCard);
+
+    // this.board = this.board.map((column: Column) => {
+    //   for (let col = 0; col < column.list.length; col++) {
+    //     if (col === indexColumn) {
+    //       console.log(col, 'column index service');
+    //       for (let cart = 0; cart < column.list.length; cart++) {
+    //         if (cart === indexCart) {
+    //           console.log(cart, 'cart index service');
+    //           this.board[indexColumn].list.push(newCard);
+    //           // column.list[col].list[cart].list.push(newCard);
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   return column;
+    // });
+  }
+
+  addCard(text: string, columnId: number) {
+    const newCard: Card = {
+      id: Date.now(),
+      flag: false,
+      text,
+      filterFluf: [],
+    };
+
+    this.board = this.board.map((column: Column) => {
+      if (column.id === columnId) {
+        column.list = [...column.list, newCard];
+      }
+      return column;
+    });
+
+    this.board$.next([...this.board]);
+  }
+
   getBoard$() {
     return this.board$.asObservable();
   }
@@ -243,21 +333,6 @@ export class BoardService {
     this.board = [...this.board, newColumn];
     this.board$.next([...this.board]);
   }
-
-  // updateTitleColumn(title: any, id: any, columnList: any) {
-  //   const newColumn: Column = {
-  //     id: id,
-  //     title: title,
-  //     list: columnList,
-  //   };
-  //   this.board = this.board.map((column: Column) => {
-  //     if (column.id === id) {
-  //       return newColumn;
-  //     }
-  //     return column;
-  //   });
-  //   this.board$.next([...this.board]);
-  // }
 
   updateTitleColumn(title: any, columId: any, columnList: any) {
     const updateEl = this.board.find((el) => el.id === columId);
@@ -321,24 +396,6 @@ export class BoardService {
   updateColumn(title: string, id: any) {
     const idx = this.board.findIndex((el) => el.id === id);
     this.board[idx].title = title;
-
-    this.board$.next([...this.board]);
-  }
-
-  addCard(text: string, columnId: number) {
-    const newCard: Card = {
-      id: Date.now(),
-      flag: false,
-      text,
-      filterFluf: [],
-    };
-
-    this.board = this.board.map((column: Column) => {
-      if (column.id === columnId) {
-        column.list = [...column.list, newCard];
-      }
-      return column;
-    });
 
     this.board$.next([...this.board]);
   }
