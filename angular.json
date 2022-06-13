@@ -30,7 +30,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/assets/css/jiraIcons.css", "src/styles.scss"],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/@atlassian/aui/dist/aui/aui-prototyping.js"

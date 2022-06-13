@@ -325,20 +325,24 @@ export class BoardService {
     this.board$.next([...this.board]);
   }
 
-  addCard(text: string, columnId: number) {
+  addCard({ columnIdx, cardIdx, value }: any) {
     const newCard: Card = {
       id: Date.now(),
       flag: false,
-      text,
+      text: value,
       filterFluf: [],
     };
 
-    this.board = this.board.map((column: Column) => {
-      if (column.id === columnId) {
-        column.list = [...column.list, newCard];
-      }
-      return column;
-    });
+    console.log(this.board[columnIdx]);
+
+    const columnCards = JSON.parse(JSON.stringify(this.board[columnIdx]));
+    columnCards.list = [
+      ...columnCards.list.slice(0, cardIdx),
+      newCard,
+      ...columnCards.list.slice(cardIdx),
+    ];
+
+    this.board[columnIdx] = columnCards;
 
     this.board$.next([...this.board]);
   }
