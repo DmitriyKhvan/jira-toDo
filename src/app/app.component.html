@@ -373,4 +373,47 @@
       </div>
     </section>
   </footer> -->
+  <button id="warning-dialog-show-button" class="aui-button">
+    Show warning dialog
+  </button>
+
+  <section
+    id="demo-warning-dialog"
+    class="aui-dialog2 aui-dialog2-medium aui-dialog2-warning aui-layer"
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="demo-warning-dialog--heading"
+    hidden
+  >
+    <header class="aui-dialog2-header">
+      <h1 class="aui-dialog2-header-main" id="demo-warning-dialog--heading">
+        Confirm you want to delete this thing
+      </h1>
+      <button
+        class="aui-close-button"
+        type="button"
+        aria-label="close"
+      ></button>
+    </header>
+    <div class="aui-dialog2-content">
+      <p>
+        If you do this, there's no going back. Are you certain that you want
+        this thing to be gone forever?
+      </p>
+    </div>
+    <footer class="aui-dialog2-footer">
+      <div class="aui-dialog2-footer-actions">
+        <button
+          id="warning-dialog-confirm"
+          class="aui-button aui-button-primary"
+          (click)="removeColumn()"
+        >
+          Delete the thing
+        </button>
+        <button id="warning-dialog-cancel" class="aui-button aui-button-link">
+          Cancel
+        </button>
+      </div>
+    </footer>
+  </section>
 </div>

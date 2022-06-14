@@ -26,20 +26,38 @@ export class AppComponent implements OnInit {
       console.log('Sidebar is now collapsed!');
     });
 
-    // Event delegation for custom interactions.
-    // sidebar.$el.on('click', '.clone', function (e: any) {
-    //   if (sidebar.isCollapsed()) {
-    //     e.preventDefault();
-    //     cloneDialog.show();
-    //   }
-    // });
+    AJS.$(document).on(
+      'click',
+      '#demo-warning-dialog button',
+      function (e: any) {
+        e.preventDefault();
+        AJS.dialog2('#demo-warning-dialog').hide();
+      }
+    );
   }
   constructor(public boardService: BoardService) {}
   closeAddItems() {
+    console.log(111);
+
+    this.boardService.columnIdSer = null;
+    console.log('this.boardService.titleColumn', this.boardService.titleColumn);
+
+    if (!this.boardService.titleColumn) {
+      this.boardService.deleteColumnNoTitle();
+    } else {
+      this.boardService.updateColumn(
+        this.boardService.titleColumn,
+        this.boardService.columnNewId
+      );
+    }
+
     const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
     if (el) {
-      // if ()
       el.checked = !el.checked;
     }
+  }
+
+  removeColumn() {
+    this.boardService.deleteColumn(this.boardService.modaleIdDeleteColumn);
   }
 }

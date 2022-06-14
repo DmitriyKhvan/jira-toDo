@@ -9,6 +9,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -18,6 +19,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { BoardService } from './drag.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 // NEW ------------------------------------------------------------
 
@@ -26,6 +28,16 @@ declare var AJS: any;
   selector: 'app-drag-drop',
   templateUrl: './drag-drop.component.html',
   styleUrls: ['./drag-drop.component.scss'],
+  animations: [
+    trigger('grow', [
+      transition('void <=> *', []),
+      transition(
+        '* <=> *',
+        [style({ height: '{{startHeight}}px' }), animate('.5s')],
+        { params: { startHeight: 'auto' } }
+      ),
+    ]),
+  ],
 })
 export class DragDropComponent implements OnInit, OnDestroy {
   // NEW ------------------------------------------------------------
@@ -40,11 +52,20 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   @ViewChild('focus', { static: false }) focusRef!: ElementRef;
 
+  startHeight!: number;
+
   // NEW ------------------------------------------------------------
   textareaColumnIdx: any = null;
   textareaCardIdx: any = null;
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
+
+  // @HostBinding('@grow') get grow() {
+  //   return {
+  //     // value: document.querySelectorAll('.example-list'),
+  //     params: { startHeight: this.startHeight },
+  //   };
+  // }
 
   ngOnInit(): void {
     AJS.$('#select2-example2').auiSelect2();
@@ -58,6 +79,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
       e.preventDefault();
       AJS.dialog2('#demo-dialog').hide();
     });
+
+    // Shows the warning dialog when the "Show warning dialog" button is clicked
+    // AJS.$('#warning-dialog-show-button').on('click', function (e: any) {
+    //   e.preventDefault();
+    //   AJS.dialog2('#demo-warning-dialog').show();
+    // });
   }
 
   ngOnDestroy() {
@@ -69,7 +96,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   openDeleteModal(id: any) {
     this.boardService.modaleIdDeleteColumn = id;
-    this.openDialogForDelete = false;
+    AJS.dialog2('#demo-warning-dialog').show();
   }
   closeModalDelete() {
     this.openDialogForDelete = true;
@@ -97,15 +124,15 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   openDialogForDelete: any = true;
 
-  titleColumn = '';
+  changeTitle(value: any, columnId: any) {
+    console.log(444);
 
-  changeTitle(value: any) {
-    this.titleColumn = value.target.value;
+    this.boardService.columnNewId = columnId;
+
+    this.boardService.titleColumn = value.target.value;
   }
 
   addColumn(e: any) {
-    e.preventDefault();
-    e.stopPropagation();
     this.boardService.addColumn();
 
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
@@ -122,25 +149,47 @@ export class DragDropComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.focusRef.nativeElement.focus();
     }, 10);
-  }
-  takeColumn(id: any) {
-    this.boardService.addColumnId = id;
+
+    this.boardService.columnIdSer = null;
+    e.stopPropagation();
   }
   upDateColTitleSow(columnId: any, e: any) {
     this.boardService.columnIdSer = columnId;
+
+    // повторяется в app.component.ts
+    if (!this.boardService.titleColumn) {
+      this.boardService.deleteColumnNoTitle();
+    } else {
+      this.boardService.updateColumn(
+        this.boardService.titleColumn,
+        this.boardService.columnNewId
+      );
+    }
+    //---------------------------------
+
     e.stopPropagation();
   }
 
   updateText(title: any, colId: any, columnList: any, e: any) {
-    e.stopPropagation();
+    // e.stopPropagation();
+
     if (title) {
       this.boardService.updateTitleColumn(title, colId, columnList);
     }
     this.boardService.columnIdSer = null;
   }
 
+  setTitle(event: any, id: any) {
+    if (event) {
+      this.boardService.updateColumn(event, id);
+      // this.boardService.titleColumn = null;
+    } else {
+      this.onDeleteColumn(id);
+    }
+  }
+
   updateTextReturn(title: any, colId: any, columnList: any, e: any) {
-    e.stopPropagation();
+    // e.stopPropagation();
     this.boardService.updateTitleColumn(title, colId, columnList);
     this.boardService.columnIdSer = null;
   }
@@ -193,27 +242,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddCard(columnId: number, e: any) {
-    this.boardService.modaleId = columnId;
-    e.stopPropagation();
-  }
-
-  onAddCards(columnId: number, e: any) {
-    // if (this.newCartText) {
-    //   this.boardService.addCard(this.newCartText, columnId);
-    // }
-    // this.boardService.modaleId = null;
-    // this.newCartText = null;
-    // e.stopPropagation();
-  }
-
   stPr(e: any) {
-    e.stopPropagation();
+    // e.stopPropagation();
   }
   enableAddCartPanel() {
     this.newCartText = null;
-    this.boardService.modaleId = null;
-    this.boardService.deleteColumnNoTitle();
+    // this.boardService.deleteColumnNoTitle();
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
       if (data) {
         const column = data.find((el) => el.title === '');
@@ -251,12 +285,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
     }
   }
 
-  setTitle(event: any, id: any) {
-    this.boardService.updateColumn(event.target.value, id);
-  }
   prevDef(e: any) {
-    e.stopPropagation();
-    e.preventDefault();
+    // e.stopPropagation();
+    // e.preventDefault();
   }
 
   getMaxHeight(els: any) {
@@ -284,13 +315,16 @@ export class DragDropComponent implements OnInit, OnDestroy {
     console.log(555);
 
     const columnsAllHeight = document.querySelectorAll('.heightControl');
-    columnsAllHeight.forEach((e: any) => {
-      e.style.height = 'auto';
-    });
+    const maxHeight = this.getMaxHeight(columnsAllHeight);
 
-    setTimeout(() => {
-      this.setMaxHeightEl();
-    }, 20);
+    this.startHeight = maxHeight;
+    // columnsAllHeight.forEach((e: any) => {
+    //   e.style.height = 'auto';
+    // });
+
+    // setTimeout(() => {
+    //   this.setMaxHeightEl();
+    // }, 20);
   }
 
   onAddFilterFlug(columnId: any, cardId: any) {

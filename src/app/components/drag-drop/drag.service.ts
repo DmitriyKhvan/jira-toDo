@@ -22,7 +22,6 @@ export interface Column {
   providedIn: 'root',
 })
 export class BoardService {
-  modaleId: any;
   modaleIdDeleteColumn: any;
   columnIdForDelete: any = null;
   initBoard: any = [
@@ -48,42 +47,6 @@ export class BoardService {
             { id: 2, name: 'fd' },
           ],
         },
-        {
-          id: 3,
-          text: 'Example card item22',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 4,
-          text: 'Example card item33',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 5,
-          text: 'Example card item33',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 6,
-          text: 'Example card item33',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
       ],
     },
     {
@@ -93,33 +56,6 @@ export class BoardService {
         {
           id: 1,
           text: 'Example card itemq',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 2,
-          text: 'Example card item11q',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 3,
-          text: 'Example card item22q',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 4,
-          text: 'Example card item33q',
           flag: false,
           filterFluf: [
             { id: 1, name: 'Прочитано' },
@@ -150,76 +86,18 @@ export class BoardService {
             { id: 2, name: 'fd' },
           ],
         },
-        {
-          id: 3,
-          text: 'Example card item22w',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 4,
-          text: 'Example card item33w',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 4,
-      title: 'To Do444',
-      list: [
-        {
-          id: 1,
-          text: 'Example card iteme',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 2,
-          text: 'Example card item11e',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 3,
-          text: 'Example card item22e',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 4,
-          text: 'Example card item33',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
       ],
     },
   ];
+
+  titleColumn: any = '';
+  columnNewId: any;
 
   board: Column[] = this.initBoard;
   private board$ = new BehaviorSubject<Column[]>(this.initBoard);
   modaleIdAddFlag: any;
   modaleIdAddFlagCart: any;
   columnIdSer: any;
-  addColumnId: any;
 
   getBoard$() {
     return this.board$.asObservable();
@@ -243,21 +121,6 @@ export class BoardService {
     this.board = [...this.board, newColumn];
     this.board$.next([...this.board]);
   }
-
-  // updateTitleColumn(title: any, id: any, columnList: any) {
-  //   const newColumn: Column = {
-  //     id: id,
-  //     title: title,
-  //     list: columnList,
-  //   };
-  //   this.board = this.board.map((column: Column) => {
-  //     if (column.id === id) {
-  //       return newColumn;
-  //     }
-  //     return column;
-  //   });
-  //   this.board$.next([...this.board]);
-  // }
 
   updateTitleColumn(title: any, columId: any, columnList: any) {
     const updateEl = this.board.find((el) => el.id === columId);
@@ -319,6 +182,8 @@ export class BoardService {
   }
 
   updateColumn(title: string, id: any) {
+    console.log('title', title);
+
     const idx = this.board.findIndex((el) => el.id === id);
     this.board[idx].title = title;
 
