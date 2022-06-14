@@ -1,1 +1,53 @@
+.aui-nav.aui-nav-breadcrumbs {
+  margin-bottom: 20px;
+}
 
+.titleTodo {
+  font-size: 1.71429em;
+  font-style: inherit;
+  line-height: 1.16667;
+  color: var(--ds-text, var(--ds-text, #172b4d));
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#content > main > .aui-page-header .aui-page-header-inner {
+  padding: 25px 40px 32px;
+}
+
+.aui-page-panel {
+  border: none;
+
+  .aui-page-panel-content {
+    padding: 0px 0px 40px 34px;
+  }
+}
+
+.filterBlock {
+  padding-left: 34px;
+  margin-bottom: 32px;
+  .search {
+    padding: 8px 6px;
+    margin: 0;
+    background-color: var(--ds-background-input, #fafbfc);
+    border-color: var(--ds-border, #dfe1e6);
+    color: var(--ds-text, #091e42);
+    cursor: text;
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
+    input {
+      flex-grow: 1;
+      border: none;
+      outline: none;
+    }
+
+    i {
+      flex-grow: 1;
+      font-size: 20px;
+    }
+  }
+}

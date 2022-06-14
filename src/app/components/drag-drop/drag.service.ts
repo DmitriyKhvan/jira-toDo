@@ -293,23 +293,23 @@ export class BoardService {
     // });
   }
 
-  addCard(text: string, columnId: number) {
-    const newCard: Card = {
-      id: Date.now(),
-      flag: false,
-      text,
-      filterFluf: [],
-    };
+  // addCard(text: string, columnId: number) {
+  //   const newCard: Card = {
+  //     id: Date.now(),
+  //     flag: false,
+  //     text,
+  //     filterFluf: [],
+  //   };
 
-    this.board = this.board.map((column: Column) => {
-      if (column.id === columnId) {
-        column.list = [...column.list, newCard];
-      }
-      return column;
-    });
+  //   this.board = this.board.map((column: Column) => {
+  //     if (column.id === columnId) {
+  //       column.list = [...column.list, newCard];
+  //     }
+  //     return column;
+  //   });
 
-    this.board$.next([...this.board]);
-  }
+  //   this.board$.next([...this.board]);
+  // }
 
   getBoard$() {
     return this.board$.asObservable();
@@ -396,6 +396,28 @@ export class BoardService {
   updateColumn(title: string, id: any) {
     const idx = this.board.findIndex((el) => el.id === id);
     this.board[idx].title = title;
+
+    this.board$.next([...this.board]);
+  }
+
+  addCard({ columnIdx, cardIdx, value }: any) {
+    const newCard: Card = {
+      id: Date.now(),
+      flag: false,
+      text: value,
+      filterFluf: [],
+    };
+
+    console.log(this.board[columnIdx]);
+
+    const columnCards = JSON.parse(JSON.stringify(this.board[columnIdx]));
+    columnCards.list = [
+      ...columnCards.list.slice(0, cardIdx),
+      newCard,
+      ...columnCards.list.slice(cardIdx),
+    ];
+
+    this.board[columnIdx] = columnCards;
 
     this.board$.next([...this.board]);
   }

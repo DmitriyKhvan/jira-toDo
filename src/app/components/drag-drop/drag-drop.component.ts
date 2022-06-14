@@ -41,6 +41,8 @@ export class DragDropComponent implements OnInit, OnDestroy {
   @ViewChild('focus', { static: false }) focusRef!: ElementRef;
 
   // NEW ------------------------------------------------------------
+  textareaColumnIdx: any = null;
+  textareaCardIdx: any = null;
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
@@ -197,19 +199,39 @@ export class DragDropComponent implements OnInit, OnDestroy {
     this.boardService.deleteCard(itemId, columnId);
   }
 
+  setPositionTextarea(columnIdx: number, cardIdx: number) {
+    this.textareaColumnIdx = columnIdx;
+    this.textareaCardIdx = cardIdx;
+  }
+
+  addCard(value: any) {
+    if (value.target.value.trim()) {
+      console.log(value.target.value);
+
+      this.boardService.addCard({
+        columnIdx: this.textareaColumnIdx,
+        cardIdx: this.textareaCardIdx,
+        value: value.target.value,
+      });
+      this.textareaColumnIdx = null;
+      this.textareaCardIdx = null;
+    }
+  }
+
   onAddCard(columnId: number, e: any) {
     this.boardService.modaleId = columnId;
     e.stopPropagation();
   }
-  onAddCards(columnId: number, e: any) {
-    if (this.newCartText) {
-      this.boardService.addCard(this.newCartText, columnId);
-    }
-    this.boardService.modaleId = null;
-    this.newCartText = null;
 
-    e.stopPropagation();
+  onAddCards(columnId: number, e: any) {
+    // if (this.newCartText) {
+    //   this.boardService.addCard(this.newCartText, columnId);
+    // }
+    // this.boardService.modaleId = null;
+    // this.newCartText = null;
+    // e.stopPropagation();
   }
+
   stPr(e: any) {
     e.stopPropagation();
   }
