@@ -43,6 +43,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
   // NEW ------------------------------------------------------------
   textareaColumnIdx: any = null;
   textareaCardIdx: any = null;
+  textAddColumn: any;
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
@@ -108,24 +109,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
     this.boardService.findColumnIndex = idx;
     this.boardService.findCartIndex = idx2;
     $event.stopPropagation();
-  }
-
-  onAddCardMiddle(
-    idx: any,
-    idx2: any,
-    $event: any,
-    columnId: any,
-    itemId: any,
-    list: any
-  ) {
-    this.boardService.addBottomCard(
-      idx,
-      idx2,
-      this.newCartTextMiddle,
-      columnId,
-      itemId,
-      list
-    );
   }
 
   addColumn(e: any) {
@@ -223,14 +206,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
     e.stopPropagation();
   }
 
-  onAddCards(columnId: number, e: any) {
-    // if (this.newCartText) {
-    //   this.boardService.addCard(this.newCartText, columnId);
-    // }
-    // this.boardService.modaleId = null;
-    // this.newCartText = null;
-    // e.stopPropagation();
-  }
+  onAddCards(columnId: number, e: any) {}
 
   stPr(e: any) {
     e.stopPropagation();
@@ -249,10 +225,19 @@ export class DragDropComponent implements OnInit, OnDestroy {
         }
       }
     });
+    // this.boardService.updateColumn(
+    //   this.textAddColumn,
+    //   this.boardService.columnIdEls
+    // );
   }
 
-  onDeleteColumn(columnId: number) {
-    this.boardService.deleteColumn(columnId);
+  onDeleteColumn(e: any, columnId: number, title: any) {
+    e.stopPropagation();
+    e.preventDefault();
+    console.log('delete');
+
+    this.boardService.deleteColumn(columnId, title);
+    console.log('dddd');
   }
 
   onDeleteCard(cardId: number, columnId: number) {
@@ -277,9 +262,19 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
 
   setTitle(event: any, id: any) {
-    this.boardService.updateColumn(event.target.value, id);
+    // this.boardService.updateColumn(event.target.value, id);
+    this.boardService.updateColumn(this.textAddColumn, id);
   }
   prevDef(e: any) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  staticElements(e: any, columnId: any, title: any) {
+    this.boardService.oldColumnTitle = title;
+    this.boardService.columnIdEls = columnId;
+    console.log(this.boardService.oldColumnTitle);
+
     e.stopPropagation();
     e.preventDefault();
   }

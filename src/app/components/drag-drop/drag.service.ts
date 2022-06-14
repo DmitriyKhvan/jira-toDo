@@ -128,90 +128,90 @@ export class BoardService {
         },
       ],
     },
-    {
-      id: 3,
-      title: 'To Do333',
-      list: [
-        {
-          id: 1,
-          text: 'Example card itemw',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 2,
-          text: 'Example card item11w',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 3,
-          text: 'Example card item22w',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 4,
-          text: 'Example card item33w',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 4,
-      title: 'To Do444',
-      list: [
-        {
-          id: 1,
-          text: 'Example card iteme',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 2,
-          text: 'Example card item11e',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 3,
-          text: 'Example card item22e',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-        {
-          id: 4,
-          text: 'Example card item33',
-          flag: false,
-          filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
-          ],
-        },
-      ],
-    },
+    // {
+    //   id: 3,
+    //   title: 'To Do333',
+    //   list: [
+    //     {
+    //       id: 1,
+    //       text: 'Example card itemw',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //     {
+    //       id: 2,
+    //       text: 'Example card item11w',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //     {
+    //       id: 3,
+    //       text: 'Example card item22w',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //     {
+    //       id: 4,
+    //       text: 'Example card item33w',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: 4,
+    //   title: 'To Do444',
+    //   list: [
+    //     {
+    //       id: 1,
+    //       text: 'Example card iteme',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //     {
+    //       id: 2,
+    //       text: 'Example card item11e',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //     {
+    //       id: 3,
+    //       text: 'Example card item22e',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //     {
+    //       id: 4,
+    //       text: 'Example card item33',
+    //       flag: false,
+    //       filterFluf: [
+    //         { id: 1, name: 'Прочитано' },
+    //         { id: 2, name: 'fd' },
+    //       ],
+    //     },
+    //   ],
+    // },
   ];
 
   board: Column[] = this.initBoard;
@@ -223,93 +223,8 @@ export class BoardService {
 
   findColumnIndex: any;
   findCartIndex: any;
-
-  addBottomCard(
-    indexColumn: any,
-    indexCart: any,
-    newCartTextMiddle: any,
-    columnId: any,
-    cartId: any,
-    lists: any
-  ) {
-    const newCard: Card = {
-      id: cartId + 1,
-      flag: false,
-      text: newCartTextMiddle,
-      filterFluf: [],
-    };
-
-    const idx = this.board.findIndex((el) => el.id === indexColumn);
-    // const idx2 = this.board.list.findIndex((el:any) => el.id === indexColumn);
-    console.log(this.board);
-
-    // this.board[idx].title = title;
-
-    // this.board$.next([...this.board]);
-
-    // this.board = this.board.map((column: any) => {
-    //   if (column.id === columnId) {
-    //     column.list = [...column.list, newCard];
-    //     console.log(column.list);
-    //   }
-    //   return column;
-    // });
-
-    // // this.board[idx].list[idx2].filterFluf.push(newFilter);
-    // this.board$.next(this.board);
-
-    // this.board[indexColumn].list[indexCart].list.push(newCard);
-
-    // if ((this.board[indexColumn] = indexColumn)) {
-    //   if ((this.board[indexColumn].list[indexCart] = indexCart)) {
-    //     this.board = this.board.map((column: any) => {
-    //       if (column.id === columnId) {
-    //         column.list = [column[indexColumn].list[indexCart], newCard];
-    //       }
-    //       return column;
-    //     });
-    //   }
-    // }
-
-    // this.board$.next(this.board);
-
-    // this.board[indexColumn].list[indexCart].list.push(newCard);
-
-    // this.board = this.board.map((column: Column) => {
-    //   for (let col = 0; col < column.list.length; col++) {
-    //     if (col === indexColumn) {
-    //       console.log(col, 'column index service');
-    //       for (let cart = 0; cart < column.list.length; cart++) {
-    //         if (cart === indexCart) {
-    //           console.log(cart, 'cart index service');
-    //           this.board[indexColumn].list.push(newCard);
-    //           // column.list[col].list[cart].list.push(newCard);
-    //         }
-    //       }
-    //     }
-    //   }
-
-    //   return column;
-    // });
-  }
-
-  // addCard(text: string, columnId: number) {
-  //   const newCard: Card = {
-  //     id: Date.now(),
-  //     flag: false,
-  //     text,
-  //     filterFluf: [],
-  //   };
-
-  //   this.board = this.board.map((column: Column) => {
-  //     if (column.id === columnId) {
-  //       column.list = [...column.list, newCard];
-  //     }
-  //     return column;
-  //   });
-
-  //   this.board$.next([...this.board]);
-  // }
+  oldColumnTitle: any;
+  columnIdEls: any;
 
   getBoard$() {
     return this.board$.asObservable();
@@ -394,6 +309,8 @@ export class BoardService {
   }
 
   updateColumn(title: string, id: any) {
+    console.log(title, id, 'updateColumn');
+
     const idx = this.board.findIndex((el) => el.id === id);
     this.board[idx].title = title;
 
@@ -422,8 +339,11 @@ export class BoardService {
     this.board$.next([...this.board]);
   }
 
-  deleteColumn(columnId: any) {
+  deleteColumn(columnId: any, title: any) {
+    // if (title == this.oldColumnTitle) {
     this.board = this.board.filter((column: Column) => column.id !== columnId);
+    // }
+
     this.board$.next([...this.board]);
   }
 
