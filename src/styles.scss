@@ -1,3 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@atlassian/aui/dist/aui/aui-prototyping.css";
+@import "~@atlassian/aui/dist/aui/aui-prototyping-browserfocus.css";
+@import "~@atlassian/aui/dist/aui/aui-prototyping.nodeps.css";
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+body,
+h1 {
+  font-family: "Segoe UI", sans-serif;
+}
+
 p {
   margin: 0;
   padding: 0;
@@ -13,17 +26,9 @@ body {
   overflow: hidden;
 }
 
-/* You can add global styles to this file, and also import other style files */
-@import "~@atlassian/aui/dist/aui/aui-prototyping.css";
-@import "~@atlassian/aui/dist/aui/aui-prototyping-browserfocus.css";
-@import "~@atlassian/aui/dist/aui/aui-prototyping.nodeps.css";
-
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "~font-awesome/css/font-awesome.css";
-
 .aui-page-panel {
   height: calc(100vh - 243px);
-  overflow: scroll;
+  // overflow: scroll;
 
   // &::-webkit-scrollbar {
   //   width: 0;

@@ -5,7 +5,7 @@
   </mat-form-field>
 </div> -->
 
-<div class="MainEl" (click)="enableAddCartPanel()">
+<div class="MainEl">
   <div cdkDropListGroup class="drag-row">
     <!-- d-flex -->
     <div
@@ -69,7 +69,7 @@
               <ng-template #title>
                 <p
                   class="dropTitleText"
-                  (click)="upDateColTitleSow(column.id, $event)"
+                  (click)="upDateEmptyColTitle(column.id, $event)"
                   *ngIf="boardService.columnIdSer !== column.id"
                 >
                   {{ column.title }} {{ column.list.length }} задачи
@@ -128,32 +128,6 @@
                   </div>
                 </div>
               </ng-template>
-
-              <!-- <div
-                class="aui-buttons"
-                *ngIf="column.title && boardService.columnIdSer !== column.id"
-              >
-                <button
-                  [attr.aria-controls]="'split-container-dropdown' + idx"
-                  class="customMoreBtn aui-button aui-button-compact aui-button-subtle aui-dropdown2-trigger aui-dropdown2-trigger-arrowless"
-                  resolved=""
-                  aria-controls="compact-button-dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <span class="aui-icon aui-icon-small aui-iconfont-more"
-                    >More</span
-                  >
-                </button>
-              </div>
-
-              <aui-dropdown-menu [id]="'split-container-dropdown' + idx">
-                <aui-item-link (click)="openDeleteModal(column.id)"
-                  >delete column</aui-item-link
-                >
-                <aui-item-link>Menu item 2</aui-item-link>
-                <aui-item-link>Menu item 3</aui-item-link>
-              </aui-dropdown-menu> -->
 
               <div
                 *ngIf="column.title && boardService.columnIdSer !== column.id"
@@ -254,9 +228,12 @@
             <!-- addMidleCard Start-->
             <!-- addMiddleCart button Start-->
             <div
-              *ngIf="textareaColumnIdx !== idx || textareaCardIdx !== idx2"
+              *ngIf="
+                boardService.textareaColumnIdx !== idx ||
+                boardService.textareaCardIdx !== idx2
+              "
               class="pl1z1"
-              (click)="setPositionTextarea(idx, idx2)"
+              (click)="setPositionTextarea(idx, idx2, $event)"
             >
               <button class="btnAddPlus">
                 <span class="aui-icon aui-icon-small aui-iconfont-add plusIcons"
@@ -268,7 +245,10 @@
             <!-- addMiddleCart button End-->
             <div
               class="addTask"
-              *ngIf="textareaColumnIdx === idx && textareaCardIdx === idx2"
+              *ngIf="
+                boardService.textareaColumnIdx === idx &&
+                boardService.textareaCardIdx === idx2
+              "
             >
               <div (click)="stPr($event)" class="styleBorder">
                 <textarea
@@ -298,7 +278,13 @@
 
             <!-- addMiddleCart End-->
 
-            <mat-card cdkDrag class="todyBody example-box">
+            <mat-card
+              cdkDrag
+              class="todyBody example-box"
+              [class]="idx === 1 ? item.className : ''"
+              (cdkDragEnded)="findCartId(item.id)"
+              (cdkDragStarted)="dropEntered()"
+            >
               <!-- modal +++++++++++++++++++++++++++++++++++++++++++-->
               <div
                 *ngIf="
@@ -475,11 +461,11 @@
           <div class="addTask">
             <button
               *ngIf="
-                (textareaColumnIdx !== idx ||
-                  textareaCardIdx !== column.list.length) &&
+                (boardService.textareaColumnIdx !== idx ||
+                  boardService.textareaCardIdx !== column.list.length) &&
                 idx === 0
               "
-              (click)="setPositionTextarea(idx, column.list.length)"
+              (click)="setPositionTextarea(idx, column.list.length, $event)"
               class="aui-button aui-button-subtle columnAddEndItem"
               resolved=""
             >
@@ -492,12 +478,12 @@
             <!-- Кнопка на ховер -->
             <button
               *ngIf="
-                (textareaColumnIdx !== idx ||
-                  textareaCardIdx !== column.list.length) &&
+                (boardService.textareaColumnIdx !== idx ||
+                  boardService.textareaCardIdx !== column.list.length) &&
                 idx > 0 &&
                 column.title
               "
-              (click)="setPositionTextarea(idx, column.list.length)"
+              (click)="setPositionTextarea(idx, column.list.length, $event)"
               class="aui-button aui-button-subtle columnAddEndItem flexItem2"
               resolved=""
             >
@@ -509,8 +495,8 @@
 
             <div
               *ngIf="
-                textareaColumnIdx === idx &&
-                textareaCardIdx === column.list.length
+                boardService.textareaColumnIdx === idx &&
+                boardService.textareaCardIdx === column.list.length
               "
             >
               <div (click)="stPr($event)" class="styleBorder">
@@ -547,12 +533,10 @@
       </div>
     </div>
 
-    <button
-      (click)="addColumn($event)"
-      *ngIf="canAddItem"
-      class="addColumns aui-button"
-    >
-      <span class="aui-icon aui-iconfont-add fwss"></span>
+    <button (click)="addColumn($event)" *ngIf="canAddItem" class="addColumns">
+      <i class="icon-add"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
     </button>
   </div>
 </div>
