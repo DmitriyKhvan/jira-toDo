@@ -1,6 +1,5 @@
 .dranDropColumn {
-  display: flex;
-  // transition: all 2s;
+  // display: flex;
 }
 
 .container {
@@ -118,21 +117,30 @@ a {
   background-color: var(--ds-background-neutral-subtle-hovered, #f4f5f7);
 }
 
-@keyframes border-pulsate {
+.red {
+  outline: none;
+  background-color: #e7e7e7 !important;
+}
+
+@keyframes outline-pulsate {
   0% {
-    border: 10px solid transparent;
+    outline: 7px solid rgba(56, 180, 127, 1);
   }
   50% {
-    border-color: rgba(0, 255, 255, 1);
+    outline-color: rgba(56, 180, 127, 0.5);
   }
   100% {
-    border: 10px solid transparent;
+    outline-color: rgba(56, 180, 127, 0);
+    outline: 13px solid transparent;
   }
 }
 
 .active {
-  border: 10px solid transparent;
-  animation: border-pulsate 1s 1;
+  outline: 7px solid rgba(56, 180, 127, 0);
+  animation: outline-pulsate 0.6s 1;
+
+  position: relative;
+  z-index: 1000;
 }
 
 .drotText {
@@ -276,6 +284,8 @@ input:checked ~ ul.submenu {
 
 .lebelMenu {
   margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .columnAddEndItem {
@@ -316,31 +326,6 @@ input:checked ~ ul.submenu {
 .fwss {
   font-weight: 100 !important;
 }
-.addColumns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f5f6f8;
-  border: none;
-  outline: none;
-  width: 32px;
-  height: 32px;
-  position: sticky;
-  top: 0;
-  border-radius: 3px;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: #ecedf0;
-  }
-
-  i {
-    font-size: 24px;
-    .path1::before {
-      color: #42526e;
-    }
-  }
-}
 
 .list {
   height: 100%;
@@ -354,7 +339,8 @@ input:checked ~ ul.submenu {
 }
 
 .MainEl {
-  display: flex;
+  // display: flex;
+  transition: height 0.3s linear;
 }
 
 .drag-row {
@@ -364,6 +350,7 @@ input:checked ~ ul.submenu {
 .drag-column {
   margin-right: 1rem;
   width: 270px;
+  height: 100%;
 }
 
 .borderItems2 {

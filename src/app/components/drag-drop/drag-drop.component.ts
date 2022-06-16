@@ -7,13 +7,16 @@ import {
 // NEW ------------------------------------------------------------
 import {
   Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
   HostBinding,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +25,7 @@ import { BoardService } from './drag.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { PopUpService } from 'src/app/services/pop-up.service';
 
 // NEW ------------------------------------------------------------
 
@@ -41,7 +45,9 @@ declare var AJS: any;
     ]),
   ],
 })
-export class DragDropComponent implements OnInit, OnDestroy {
+export class DragDropComponent
+  implements OnInit, OnChanges, DoCheck, OnDestroy
+{
   // NEW ------------------------------------------------------------
 
   @Input() item: any;
@@ -60,7 +66,11 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   // NEW ------------------------------------------------------------
 
-  constructor(public boardService: BoardService, public dialog: MatDialog) {}
+  constructor(
+    public boardService: BoardService,
+    public dialog: MatDialog,
+    private cardPopUpService: PopUpService
+  ) {}
 
   // @HostBinding('@grow') get grow() {
   //   return {
@@ -68,6 +78,18 @@ export class DragDropComponent implements OnInit, OnDestroy {
   //     params: { startHeight: this.startHeight },
   //   };
   // }
+  ngOnChanges(columIdx: any): void {
+    console.log('changes');
+    const idx = this.boardService.board[1].list.findIndex(
+      (el) => el.id === this.boardService.findCartIdWhenExited
+    );
+    if (columIdx == 1) {
+      console.log('columIdx', columIdx);
+      this.boardService.board[1].list[idx].className = '';
+    }
+  }
+
+  ngDoCheck(): void {}
 
   ngOnInit(): void {
     console.log(this.el);
@@ -118,7 +140,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
   open = false;
 
   newColumnText: any = '';
-  newCartText: any = '';
 
   canAddItem: any = true;
 
@@ -325,6 +346,8 @@ export class DragDropComponent implements OnInit, OnDestroy {
     }
   }
   drop(event: CdkDragDrop<string[]> | any) {
+    console.log('drop');
+
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -333,8 +356,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
       );
 
       console.log(1);
-
-      console.log(this.boardService.board);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -343,14 +364,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
 
-      console.log(777);
-
-      console.log(
-        'elem',
-        this.boardService.board[1].list.find(
-          (el) => el.id === this.boardService.findCartIdWhenExited
-        )
-      );
+      console.log(2);
 
       const idx = this.boardService.board[1].list.findIndex(
         (el) => el.id === this.boardService.findCartIdWhenExited
@@ -360,10 +374,21 @@ export class DragDropComponent implements OnInit, OnDestroy {
         this.boardService.board[1].list[idx].className = 'active';
       }
 
-      // setTimeout(() => {
-      //   this.boardService.board[1].list[idx].className = '';
-      // }, 1000);
+      setTimeout(() => {
+        this.boardService.board[1].list.forEach((el) => (el.className = ''));
+      }, 600);
     }
+
+    // const columnsAllHeight = document.querySelectorAll('.heightControl');
+    // const maxHeight = this.getMaxHeight(columnsAllHeight);
+    // console.log('maxHeight', maxHeight);
+
+    // const el = document.querySelector('.MainEl') as HTMLInputElement;
+
+    // if (el) {
+    //   console.log('el', el);
+    //   el.style.height = maxHeight + 'px';
+    // }
   }
 
   prevDef(e: any) {
@@ -430,21 +455,24 @@ export class DragDropComponent implements OnInit, OnDestroy {
     this.openModalAddFlags = true;
   }
 
-  findCartId(cartId: any) {
+  findCartId(cartId: any, columnIndex: any, event: any) {
     console.log('cartId', cartId);
     this.boardService.findCartIdWhenExited = cartId;
     console.log('this.boardService.board', this.boardService.board);
 
-    const idx = this.boardService.board[1].list.findIndex(
-      (el) => el.id === this.boardService.findCartIdWhenExited
-    );
+    console.log('columnIndex', columnIndex);
 
-    if (idx !== -1) {
-      if (this.boardService.board[1].list[idx].className !== 'active') {
-        this.boardService.board[1].list[idx].className = 'active';
-      } else {
-        this.boardService.board[1].list[idx].className = '';
-      }
+    console.log(888);
+    // this.boardService.board[1].list.forEach((el) => (el.className = 'red'));
+  }
+
+  cardInfo(event: any) {
+    // console.log(event.target.classList.contains('aui-iconfont-more'));
+    if (
+      !event.target.classList.contains('aui-iconfont-more') &&
+      !event.target.classList.contains('aui-button')
+    ) {
+      this.cardPopUpService.cardPopUp$.next('open');
     }
   }
 }

@@ -256,7 +256,6 @@
                   name="comment"
                   id="textarea-id"
                   placeholder="Что нужно сделать?"
-                  [(ngModel)]="newCartText"
                   (keyup.enter)="addCard($event)"
                 ></textarea>
 
@@ -281,10 +280,11 @@
             <mat-card
               cdkDrag
               class="todyBody example-box"
-              [class]="idx === 1 ? item.className : ''"
-              (cdkDragEnded)="findCartId(item.id)"
-              (cdkDragStarted)="dropEntered()"
+              [class]="item.className"
+              (cdkDragStarted)="findCartId(item.id, idx, $event)"
+              (click)="cardInfo($event)"
             >
+              <!-- (cdkDragEnded)="dropEntered()" -->
               <!-- modal +++++++++++++++++++++++++++++++++++++++++++-->
               <div
                 *ngIf="
@@ -505,7 +505,6 @@
                   name="comment"
                   id="textarea-id"
                   placeholder="Что нужно сделать?"
-                  [(ngModel)]="newCartText"
                   (keyup.enter)="addCard($event)"
                 ></textarea>
 
