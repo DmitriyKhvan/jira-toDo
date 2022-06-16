@@ -9,11 +9,6 @@ export interface Card {
   className?: string;
 }
 
-// interface filterFluf {
-//   id: number;
-//   name: any;
-// }
-
 function createGuidId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
@@ -31,8 +26,6 @@ export interface Column {
   providedIn: 'root',
 })
 export class BoardService {
-  modaleIdDeleteColumn: any;
-  columnIdForDelete: any = null;
   initBoard: any = [
     {
       id: createGuidId(),
@@ -103,31 +96,29 @@ export class BoardService {
   columnNewId: any;
   textareaColumnIdx: any = null;
   textareaCardIdx: any = null;
-
   board: Column[] = this.initBoard;
   public board$ = new BehaviorSubject<Column[]>(this.initBoard);
   modaleIdAddFlag: any;
   modaleIdAddFlagCart: any;
   columnIdSer: any;
-
   findCartIdWhenExited: any;
+  modaleIdDeleteColumn: any;
+  columnIdForDelete: any = null;
 
   getBoard$() {
     return this.board$.asObservable();
   }
   addFilterFlag(columnId: any, cardId: any, name: any, idx: any, idx2: any) {
     const newFilter: any = {
-      id: Date.now(),
+      id: createGuidId(),
       name: name,
     };
-    console.log(idx, idx2, 'service index');
-
     this.board[idx].list[idx2].filterFluf.push(newFilter);
     this.board$.next(this.board);
   }
   addColumn() {
     const newColumn: Column = {
-      id: Date.now(),
+      id: createGuidId(),
       title: '',
       list: [],
     };
@@ -137,11 +128,9 @@ export class BoardService {
 
   updateTitleColumn(title: any, columId: any, columnList: any) {
     const updateEl = this.board.find((el) => el.id === columId);
-
     if (updateEl) {
       updateEl.title = title;
     }
-
     this.board$.next([...this.board]);
   }
 
@@ -153,10 +142,7 @@ export class BoardService {
       ...columnList.slice(cardIdx + 1),
     ];
     columnList.push(card);
-
     this.board[columnIdx] = { ...this.board[columnIdx], list: columnList };
-    console.log(this.board[columnIdx]);
-
     this.board$.next([...this.board]);
   }
 
@@ -168,10 +154,7 @@ export class BoardService {
       ...columnList.slice(cardIdx + 1),
     ];
     columnList.unshift(card);
-
     this.board[columnIdx] = { ...this.board[columnIdx], list: columnList };
-    console.log(this.board[columnIdx]);
-
     this.board$.next([...this.board]);
   }
 
@@ -184,44 +167,34 @@ export class BoardService {
           } else {
             card.flag = false;
           }
-
           return card;
         });
       }
       return column;
     });
-
     this.board$.next([...this.board]);
   }
 
   updateColumn(title: string, id: any) {
-    console.log('title', title);
-
     const idx = this.board.findIndex((el) => el.id === id);
     this.board[idx].title = title;
-
     this.board$.next([...this.board]);
   }
 
   addCard({ columnIdx, cardIdx, value }: any) {
     const newCard: Card = {
-      id: Date.now(),
+      id: createGuidId(),
       flag: false,
       text: value,
       filterFluf: [],
     };
-
-    console.log(this.board[columnIdx]);
-
     const columnCards = JSON.parse(JSON.stringify(this.board[columnIdx]));
     columnCards.list = [
       ...columnCards.list.slice(0, cardIdx),
       newCard,
       ...columnCards.list.slice(cardIdx),
     ];
-
     this.board[columnIdx] = columnCards;
-
     this.board$.next([...this.board]);
   }
 
@@ -242,7 +215,6 @@ export class BoardService {
       }
       return column;
     });
-
     this.board$.next([...this.board]);
-  } //
+  }
 }

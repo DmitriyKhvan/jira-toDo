@@ -1,18 +1,12 @@
 <div id="page" (click)="closeAddItems()">
   <header id="header" role="banner">
-    <!-- The skip links make it easier for keyboard-only users to jump to the crucial page content -->
-    <!-- Some of them may be optionally available for unauthenticated users... -->
     <a class="aui-skip-link" href="https://example.com/log-in">Log in</a>
-    <!-- ...some are helpful anyway. -->
     <a class="aui-skip-link" href="#main">Skip to main content</a>
-    <!-- Remember to translate all aria-label values!
-           Use the aui.landmarks.site i18n key here. -->
+
     <nav class="aui-header aui-dropdown2-trigger-group" aria-label="site">
       <div class="aui-header-inner">
         <div class="aui-header-primary">
           <span id="logo" class="aui-header-logo aui-header-logo-textonly">
-            <!-- Remember to translate all aria-label values!
-                           Use the aui.header.home.link i18n key here. -->
             <a href="https://example.com/" aria-label="Go to home page">
               <span class="aui-header-logo-device">AUI</span>
             </a>
@@ -26,15 +20,6 @@
         <div class="aui-header-secondary">
           <ul class="aui-nav" resolved="">
             <li>
-              <!--
-                      Keep in mind the quicksearch should have an unique id
-                      so that you can target it with a skip-link.
-
-                      See page layout docs for an example.
-
-                      Also for the purpose of landmark navigation using
-                      screen reader software use the role="search".
-                  -->
               <form
                 class="aui-quicksearch"
                 method="post"
@@ -288,14 +273,6 @@
 
         <!-- Sidebar footer contains the expand/collapse trigger, and optionally a button or a dropdown with configuration settings -->
         <div class="aui-sidebar-footer">
-          <!-- <a
-            href="https://example.com"
-            class="aui-button aui-button-subtle aui-sidebar-settings-button"
-            title="Settings"
-          >
-            <span class="aui-icon aui-icon-small aui-iconfont-configure"></span>
-            <span class="aui-button-label">Settings</span>
-          </a> -->
           <button
             class="aui-button aui-button-subtle aui-sidebar-toggle aui-sidebar-footer-tipsy"
             title="Collapse sidebar ( [ )"

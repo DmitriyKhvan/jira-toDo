@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { BoardService } from './components/drag-drop/drag.service';
 
 declare var AJS: any;
