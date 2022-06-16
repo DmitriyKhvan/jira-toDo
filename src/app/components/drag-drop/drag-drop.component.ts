@@ -4,48 +4,29 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
-// NEW ------------------------------------------------------------
 import {
   Component,
   ElementRef,
   EventEmitter,
-  HostBinding,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { BoardService } from './drag.service';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { fromEvent } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
-
-// NEW ------------------------------------------------------------
+import { PopUpService } from 'src/app/services/pop-up.service';
 
 declare var AJS: any;
 @Component({
   selector: 'app-drag-drop',
   templateUrl: './drag-drop.component.html',
   styleUrls: ['./drag-drop.component.scss'],
-  // animations: [
-  //   trigger('grow', [
-  //     transition('void <=> *', []),
-  //     transition(
-  //       '* <=> *',
-  //       [style({ height: '{{startHeight}}px' }), animate('5s')],
-  //       { params: { startHeight: 'auto' } }
-  //     ),
-  //   ]),
-  // ],
 })
-export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
-  // NEW ------------------------------------------------------------
-
+export class DragDropComponent implements OnInit, OnDestroy {
   @Input() item: any;
   @Output() emitText: EventEmitter<{ id: number; text: string }> =
     new EventEmitter();
@@ -57,29 +38,30 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('focus', { static: false }) focusRef!: ElementRef;
 
   startHeight!: number;
-
   el: any = document.querySelector('.aui-page-panel');
+  private subscription: Subscription = new Subscription();
+  open = false;
+  newColumnText: any = '';
+  canAddItem: any = true;
+  noTitleColumnId: any = null;
+  flagItem: any = true;
+  openModalAddFlags: any = true;
+  columnIndex: any;
+  cartIndex: any;
+  columnId: any;
+  toEnd: any = true;
+  openDialogForDelete: any = true;
 
-  // NEW ------------------------------------------------------------
-
-  constructor(public boardService: BoardService, public dialog: MatDialog) {}
-
-  // @HostBinding('@grow') get grow() {
-  //   return {
-  //     // value: document.querySelectorAll('.example-list'),
-  //     params: { startHeight: this.startHeight },
-  //   };
-  // }
+  constructor(
+    public boardService: BoardService,
+    public dialog: MatDialog,
+    private cardPopUpService: PopUpService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.el);
-
-    fromEvent(window, 'scroll')
-      // .pipe(debounceTime(250))
-      .subscribe((res) => {
-        console.log('res', res);
-        this.el.style.overflowX = 'auto';
-      });
+    fromEvent(window, 'scroll').subscribe((res) => {
+      this.el.style.overflowX = 'auto';
+    });
 
     AJS.$('#select2-example2').auiSelect2();
 
@@ -108,40 +90,14 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
   closeModalDelete() {
     this.openDialogForDelete = true;
   }
-  // NEW ------------------------------------------------------------
-  private subscription: Subscription = new Subscription();
-
-  open = false;
-
-  newColumnText: any = '';
-  newCartText: any = '';
-
-  canAddItem: any = true;
-
-  noTitleColumnId: any = null;
-
-  flagItem: any = true;
-  openModalAddFlags: any = true;
-
-  columnIndex: any;
-  cartIndex: any;
-
-  columnId: any;
-  toEnd: any = true;
-
-  openDialogForDelete: any = true;
 
   changeTitle(value: any, columnId: any) {
-    console.log(444);
-
     this.boardService.columnNewId = columnId;
-
     this.boardService.titleColumn = value.target.value;
   }
 
   addColumn(e: any) {
     this.boardService.addColumn();
-
     this.subscription = this.boardService.getBoard$().subscribe((data) => {
       if (data) {
         const column = data.find((el) => el.title === '');
@@ -156,14 +112,11 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
     setTimeout(() => {
       this.focusRef.nativeElement.focus();
     }, 10);
-
     //close empty column title
     this.boardService.columnIdSer = null;
-
     // close textarea
     this.boardService.textareaColumnIdx = null;
     this.boardService.textareaCardIdx = null;
-
     // close card menu
     const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
     if (el) {
@@ -312,15 +265,11 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
       console.log('GGG');
       this.boardService.board[1].list[idx].className = 'red';
       console.log(this.boardService.board[1].list[idx]);
-
-      // if (this.boardService.board[1].list[idx].className !== 'active') {
-      //   this.boardService.board[1].list[idx].className = '';
-      // } else {
-      //   this.boardService.board[1].list[idx].className = 'active';
-      // }
     }
   }
   drop(event: CdkDragDrop<string[]> | any) {
+    console.log('drop');
+
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -329,8 +278,6 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
       );
 
       console.log(1);
-
-      console.log(this.boardService.board);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -339,14 +286,7 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
         event.currentIndex
       );
 
-      console.log(777);
-
-      console.log(
-        'elem',
-        this.boardService.board[1].list.find(
-          (el) => el.id === this.boardService.findCartIdWhenExited
-        )
-      );
+      console.log(2);
 
       const idx = this.boardService.board[1].list.findIndex(
         (el) => el.id === this.boardService.findCartIdWhenExited
@@ -356,16 +296,13 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
         this.boardService.board[1].list[idx].className = 'active';
       }
 
-      // setTimeout(() => {
-      //   this.boardService.board[1].list[idx].className = '';
-      // }, 1000);
+      setTimeout(() => {
+        this.boardService.board[1].list.forEach((el) => (el.className = ''));
+      }, 600);
     }
   }
 
-  prevDef(e: any) {
-    // e.stopPropagation();
-    // e.preventDefault();
-  }
+  prevDef(e: any) {}
 
   getMaxHeight(els: any) {
     let maxHeight: any = 0;
@@ -389,19 +326,9 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onDropEnter() {
-    console.log(555);
-
     const columnsAllHeight = document.querySelectorAll('.heightControl');
     const maxHeight = this.getMaxHeight(columnsAllHeight);
-
     this.startHeight = maxHeight;
-    // columnsAllHeight.forEach((e: any) => {
-    //   e.style.height = 'auto';
-    // });
-
-    // setTimeout(() => {
-    //   this.setMaxHeightEl();
-    // }, 20);
   }
 
   onAddFilterFlug(columnId: any, cardId: any) {
@@ -426,25 +353,16 @@ export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
     this.openModalAddFlags = true;
   }
 
-  findCartId(cartId: any) {
-    console.log('cartId', cartId);
+  findCartId(cartId: any, columnIndex: any, event: any) {
     this.boardService.findCartIdWhenExited = cartId;
-    console.log('this.boardService.board', this.boardService.board);
-
-    const idx = this.boardService.board[1].list.findIndex(
-      (el) => el.id === this.boardService.findCartIdWhenExited
-    );
-
-    if (idx !== -1) {
-      if (this.boardService.board[1].list[idx].className !== 'active') {
-        this.boardService.board[1].list[idx].className = 'active';
-      } else {
-        this.boardService.board[1].list[idx].className = '';
-      }
-    }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    throw new Error('Method not implemented.');
+  cardInfo(event: any) {
+    if (
+      !event.target.classList.contains('aui-iconfont-more') &&
+      !event.target.classList.contains('aui-button')
+    ) {
+      this.cardPopUpService.cardPopUp$.next('open');
+    }
   }
 }
