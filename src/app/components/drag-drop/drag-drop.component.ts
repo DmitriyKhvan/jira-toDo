@@ -33,7 +33,7 @@ declare var AJS: any;
       transition('void <=> *', []),
       transition(
         '* <=> *',
-        [style({ height: '{{startHeight}}px' }), animate('.5s')],
+        [style({ height: '{{startHeight}}px' }), animate('5s')],
         { params: { startHeight: 'auto' } }
       ),
     ]),
