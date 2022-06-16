@@ -379,7 +379,7 @@ export class DragDropComponent
       }, 600);
     }
 
-    // const columnsAllHeight = document.querySelectorAll('.heightControl');
+    //// const columnsAllHeight = document.querySelectorAll('.heightControl');
     // const maxHeight = this.getMaxHeight(columnsAllHeight);
     // console.log('maxHeight', maxHeight);
 
