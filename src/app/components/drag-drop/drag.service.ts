@@ -3,9 +3,10 @@ import { BehaviorSubject } from 'rxjs';
 
 export interface Card {
   flag: boolean;
-  id: number;
+  id: any;
   text: string;
   filterFluf: any[];
+  className?: string;
 }
 
 // interface filterFluf {
@@ -13,8 +14,16 @@ export interface Card {
 //   name: any;
 // }
 
+function createGuidId() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export interface Column {
-  id: number;
+  id: any;
   title: string;
   list: Card[];
 }
@@ -26,64 +35,64 @@ export class BoardService {
   columnIdForDelete: any = null;
   initBoard: any = [
     {
-      id: 1,
+      id: createGuidId(),
       title: 'To Do',
       list: [
         {
-          id: 1,
+          id: createGuidId(),
           text: 'Example card item',
           flag: false,
           filterFluf: [
-            { id: 1, name: 's' },
-            { id: 2, name: 'fd' },
+            { id: createGuidId(), name: 's' },
+            { id: createGuidId(), name: 'fd' },
           ],
         },
         {
-          id: 2,
+          id: createGuidId(),
           text: 'Example card item11',
           flag: false,
           filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
+            { id: createGuidId(), name: 'Прочитано' },
+            { id: createGuidId(), name: 'fd' },
           ],
         },
       ],
     },
     {
-      id: 2,
+      id: createGuidId(),
       title: 'To Do2222',
       list: [
         {
-          id: 1,
+          id: createGuidId(),
           text: 'Example card itemq',
           flag: false,
           filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
+            { id: createGuidId(), name: 'Прочитано' },
+            { id: createGuidId(), name: 'fd' },
           ],
         },
       ],
     },
     {
-      id: 3,
+      id: createGuidId(),
       title: 'To Do333',
       list: [
         {
-          id: 1,
+          id: createGuidId(),
           text: 'Example card itemw',
           flag: false,
           filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
+            { id: createGuidId(), name: 'Прочитано' },
+            { id: createGuidId(), name: 'fd' },
           ],
         },
         {
-          id: 2,
+          id: createGuidId(),
           text: 'Example card item11w',
           flag: false,
           filterFluf: [
-            { id: 1, name: 'Прочитано' },
-            { id: 2, name: 'fd' },
+            { id: createGuidId(), name: 'Прочитано' },
+            { id: createGuidId(), name: 'fd' },
           ],
         },
       ],
@@ -92,12 +101,16 @@ export class BoardService {
 
   titleColumn: any = '';
   columnNewId: any;
+  textareaColumnIdx: any = null;
+  textareaCardIdx: any = null;
 
   board: Column[] = this.initBoard;
-  private board$ = new BehaviorSubject<Column[]>(this.initBoard);
+  public board$ = new BehaviorSubject<Column[]>(this.initBoard);
   modaleIdAddFlag: any;
   modaleIdAddFlagCart: any;
   columnIdSer: any;
+
+  findCartIdWhenExited: any;
 
   getBoard$() {
     return this.board$.asObservable();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { BoardService } from './components/drag-drop/drag.service';
 
 declare var AJS: any;
@@ -36,12 +37,16 @@ export class AppComponent implements OnInit {
     );
   }
   constructor(public boardService: BoardService) {}
+
   closeAddItems() {
-    console.log(111);
-
+    //close empty column title
     this.boardService.columnIdSer = null;
-    console.log('this.boardService.titleColumn', this.boardService.titleColumn);
 
+    // close textarea
+    this.boardService.textareaColumnIdx = null;
+    this.boardService.textareaCardIdx = null;
+
+    // delete new column title or update column title
     if (!this.boardService.titleColumn) {
       this.boardService.deleteColumnNoTitle();
     } else {
@@ -51,6 +56,7 @@ export class AppComponent implements OnInit {
       );
     }
 
+    // close card menu
     const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
     if (el) {
       el.checked = !el.checked;

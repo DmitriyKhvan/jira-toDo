@@ -20,6 +20,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { BoardService } from './drag.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { fromEvent } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 // NEW ------------------------------------------------------------
 
@@ -54,9 +56,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   startHeight!: number;
 
+  el: any = document.querySelector('.aui-page-panel');
+
   // NEW ------------------------------------------------------------
-  textareaColumnIdx: any = null;
-  textareaCardIdx: any = null;
 
   constructor(public boardService: BoardService, public dialog: MatDialog) {}
 
@@ -68,6 +70,15 @@ export class DragDropComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit(): void {
+    console.log(this.el);
+
+    fromEvent(window, 'scroll')
+      // .pipe(debounceTime(250))
+      .subscribe((res) => {
+        console.log('res', res);
+        this.el.style.overflowX = 'auto';
+      });
+
     AJS.$('#select2-example2').auiSelect2();
 
     AJS.$('#dialog-show-button').on('click', function (e: any) {
@@ -150,13 +161,29 @@ export class DragDropComponent implements OnInit, OnDestroy {
       this.focusRef.nativeElement.focus();
     }, 10);
 
+    //close empty column title
     this.boardService.columnIdSer = null;
+
+    // close textarea
+    this.boardService.textareaColumnIdx = null;
+    this.boardService.textareaCardIdx = null;
+
+    // close card menu
+    const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
+    if (el) {
+      el.checked = !el.checked;
+    }
     e.stopPropagation();
   }
-  upDateColTitleSow(columnId: any, e: any) {
+
+  upDateEmptyColTitle(columnId: any, e: any) {
     this.boardService.columnIdSer = columnId;
 
-    // повторяется в app.component.ts
+    // close textarea
+    this.boardService.textareaColumnIdx = null;
+    this.boardService.textareaCardIdx = null;
+
+    // delete new column title or update column title
     if (!this.boardService.titleColumn) {
       this.boardService.deleteColumnNoTitle();
     } else {
@@ -165,7 +192,12 @@ export class DragDropComponent implements OnInit, OnDestroy {
         this.boardService.columnNewId
       );
     }
-    //---------------------------------
+
+    // close card menu
+    const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
+    if (el) {
+      el.checked = !el.checked;
+    }
 
     e.stopPropagation();
   }
@@ -223,9 +255,29 @@ export class DragDropComponent implements OnInit, OnDestroy {
     this.boardService.deleteCard(itemId, columnId);
   }
 
-  setPositionTextarea(columnIdx: number, cardIdx: number) {
-    this.textareaColumnIdx = columnIdx;
-    this.textareaCardIdx = cardIdx;
+  setPositionTextarea(columnIdx: number, cardIdx: number, e: any) {
+    this.boardService.textareaColumnIdx = columnIdx;
+    this.boardService.textareaCardIdx = cardIdx;
+
+    //close empty column title
+    this.boardService.columnIdSer = null;
+
+    // delete new column title or update column title
+    if (!this.boardService.titleColumn) {
+      this.boardService.deleteColumnNoTitle();
+    } else {
+      this.boardService.updateColumn(
+        this.boardService.titleColumn,
+        this.boardService.columnNewId
+      );
+    }
+
+    // close card menu
+    const el = document.querySelector('.inputMenu:checked') as HTMLInputElement;
+    if (el) {
+      el.checked = !el.checked;
+    }
+    e.stopPropagation();
   }
 
   addCard(value: any) {
@@ -233,31 +285,17 @@ export class DragDropComponent implements OnInit, OnDestroy {
       console.log(value.target.value);
 
       this.boardService.addCard({
-        columnIdx: this.textareaColumnIdx,
-        cardIdx: this.textareaCardIdx,
+        columnIdx: this.boardService.textareaColumnIdx,
+        cardIdx: this.boardService.textareaCardIdx,
         value: value.target.value,
       });
-      this.textareaColumnIdx = null;
-      this.textareaCardIdx = null;
+      this.boardService.textareaColumnIdx = null;
+      this.boardService.textareaCardIdx = null;
     }
   }
 
   stPr(e: any) {
-    // e.stopPropagation();
-  }
-  enableAddCartPanel() {
-    this.newCartText = null;
-    // this.boardService.deleteColumnNoTitle();
-    this.subscription = this.boardService.getBoard$().subscribe((data) => {
-      if (data) {
-        const column = data.find((el) => el.title === '');
-        if (column) {
-          this.canAddItem = false;
-        } else {
-          this.canAddItem = true;
-        }
-      }
-    });
+    e.stopPropagation();
   }
 
   onDeleteColumn(columnId: number) {
@@ -267,7 +305,25 @@ export class DragDropComponent implements OnInit, OnDestroy {
   onDeleteCard(cardId: number, columnId: number) {
     this.boardService.deleteCard(cardId, columnId);
   }
+  dropEntered() {
+    console.log('sdsd');
 
+    const idx = this.boardService.board[1].list.findIndex(
+      (el) => el.id === this.boardService.findCartIdWhenExited
+    );
+
+    if (idx !== -1) {
+      console.log('GGG');
+      this.boardService.board[1].list[idx].className = 'red';
+      console.log(this.boardService.board[1].list[idx]);
+
+      // if (this.boardService.board[1].list[idx].className !== 'active') {
+      //   this.boardService.board[1].list[idx].className = '';
+      // } else {
+      //   this.boardService.board[1].list[idx].className = 'active';
+      // }
+    }
+  }
   drop(event: CdkDragDrop<string[]> | any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -275,6 +331,10 @@ export class DragDropComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex
       );
+
+      console.log(1);
+
+      console.log(this.boardService.board);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -282,6 +342,27 @@ export class DragDropComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex
       );
+
+      console.log(777);
+
+      console.log(
+        'elem',
+        this.boardService.board[1].list.find(
+          (el) => el.id === this.boardService.findCartIdWhenExited
+        )
+      );
+
+      const idx = this.boardService.board[1].list.findIndex(
+        (el) => el.id === this.boardService.findCartIdWhenExited
+      );
+
+      if (idx !== -1) {
+        this.boardService.board[1].list[idx].className = 'active';
+      }
+
+      // setTimeout(() => {
+      //   this.boardService.board[1].list[idx].className = '';
+      // }, 1000);
     }
   }
 
@@ -347,5 +428,23 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
   closeModalAddFlag() {
     this.openModalAddFlags = true;
+  }
+
+  findCartId(cartId: any) {
+    console.log('cartId', cartId);
+    this.boardService.findCartIdWhenExited = cartId;
+    console.log('this.boardService.board', this.boardService.board);
+
+    const idx = this.boardService.board[1].list.findIndex(
+      (el) => el.id === this.boardService.findCartIdWhenExited
+    );
+
+    if (idx !== -1) {
+      if (this.boardService.board[1].list[idx].className !== 'active') {
+        this.boardService.board[1].list[idx].className = 'active';
+      } else {
+        this.boardService.board[1].list[idx].className = '';
+      }
+    }
   }
 }
