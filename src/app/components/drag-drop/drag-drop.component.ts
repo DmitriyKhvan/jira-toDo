@@ -11,9 +11,11 @@ import {
   EventEmitter,
   HostBinding,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,18 +32,18 @@ declare var AJS: any;
   selector: 'app-drag-drop',
   templateUrl: './drag-drop.component.html',
   styleUrls: ['./drag-drop.component.scss'],
-  animations: [
-    trigger('grow', [
-      transition('void <=> *', []),
-      transition(
-        '* <=> *',
-        [style({ height: '{{startHeight}}px' }), animate('5s')],
-        { params: { startHeight: 'auto' } }
-      ),
-    ]),
-  ],
+  // animations: [
+  //   trigger('grow', [
+  //     transition('void <=> *', []),
+  //     transition(
+  //       '* <=> *',
+  //       [style({ height: '{{startHeight}}px' }), animate('5s')],
+  //       { params: { startHeight: 'auto' } }
+  //     ),
+  //   ]),
+  // ],
 })
-export class DragDropComponent implements OnInit, OnDestroy {
+export class DragDropComponent implements OnInit, OnDestroy, OnChanges {
   // NEW ------------------------------------------------------------
 
   @Input() item: any;
@@ -90,12 +92,6 @@ export class DragDropComponent implements OnInit, OnDestroy {
       e.preventDefault();
       AJS.dialog2('#demo-dialog').hide();
     });
-
-    // Shows the warning dialog when the "Show warning dialog" button is clicked
-    // AJS.$('#warning-dialog-show-button').on('click', function (e: any) {
-    //   e.preventDefault();
-    //   AJS.dialog2('#demo-warning-dialog').show();
-    // });
   }
 
   ngOnDestroy() {
@@ -446,5 +442,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
         this.boardService.board[1].list[idx].className = '';
       }
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    throw new Error('Method not implemented.');
   }
 }
