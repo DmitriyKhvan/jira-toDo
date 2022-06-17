@@ -5,6 +5,8 @@ import {
 } from '@angular/cdk/drag-drop';
 
 import {
+  AfterViewChecked,
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -26,7 +28,9 @@ declare var AJS: any;
   templateUrl: './drag-drop.component.html',
   styleUrls: ['./drag-drop.component.scss'],
 })
-export class DragDropComponent implements OnInit, OnDestroy {
+export class DragDropComponent
+  implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy
+{
   @Input() item: any;
   @Output() emitText: EventEmitter<{ id: number; text: string }> =
     new EventEmitter();
@@ -59,6 +63,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // this.setMaxHeightEl();
     fromEvent(window, 'scroll').subscribe((res) => {
       this.el.style.overflowX = 'auto';
     });
@@ -74,6 +79,14 @@ export class DragDropComponent implements OnInit, OnDestroy {
       e.preventDefault();
       AJS.dialog2('#demo-dialog').hide();
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.setMaxHeightEl();
+  }
+
+  ngAfterViewChecked(): void {
+    // this.getMaxHeight();
   }
 
   ngOnDestroy() {
@@ -164,6 +177,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
     if (event) {
       this.boardService.updateColumn(event, id);
       // this.boardService.titleColumn = null;
+      this.setMaxHeightEl();
     } else {
       this.onDeleteColumn(id);
     }
@@ -205,6 +219,9 @@ export class DragDropComponent implements OnInit, OnDestroy {
   }
 
   setPositionTextarea(columnIdx: number, cardIdx: number, e: any) {
+    console.log(555);
+
+    this.setMaxHeightEl();
     this.boardService.textareaColumnIdx = columnIdx;
     this.boardService.textareaCardIdx = cardIdx;
 
@@ -226,6 +243,7 @@ export class DragDropComponent implements OnInit, OnDestroy {
     if (el) {
       el.checked = !el.checked;
     }
+
     e.stopPropagation();
   }
 
@@ -298,8 +316,10 @@ export class DragDropComponent implements OnInit, OnDestroy {
 
       setTimeout(() => {
         this.boardService.board[1].list.forEach((el) => (el.className = ''));
-      }, 600);
+      }, 400);
     }
+
+    // this.setMaxHeightEl();
 
     //// const columnsAllHeight = document.querySelectorAll('.heightControl');
     // const maxHeight = this.getMaxHeight(columnsAllHeight);
@@ -313,33 +333,52 @@ export class DragDropComponent implements OnInit, OnDestroy {
     // }
   }
 
-  prevDef(e: any) {}
+  prevDef(e: any) {
+    e.stopPropagation();
+  }
 
-  getMaxHeight(els: any) {
-    let maxHeight: any = 0;
-
-    els.forEach((e: any) => {
-      if (e.clientHeight > maxHeight) {
-        maxHeight = e.clientHeight;
+  sumHeightEls(el: any) {
+    let sumHeight = 0;
+    el.querySelectorAll('.example-box, .addTask').forEach((el: any) => {
+      console.log('el', el);
+      if (el.classList.contains('addTask')) {
+        sumHeight += el.clientHeight + 2;
+      } else {
+        sumHeight += el.clientHeight + 6;
       }
     });
-    console.log(maxHeight, 'maxHeight');
-    return maxHeight;
+
+    return sumHeight;
+  }
+
+  getMaxHeight(columnsAllHeight: any) {
+    const arrHeight: any[] = [];
+    columnsAllHeight.forEach((e: any) => {
+      // console.log('this.sumHeightEls(e)', this.sumHeightEls(e));
+      arrHeight.push(this.sumHeightEls(e));
+    });
+
+    console.log('arrHeight', arrHeight);
+    // console.log(Array.isArray(arrHeight));
+    const maxHeight = Math.max.apply(null, arrHeight);
+    // console.log('maxHeight', maxHeight);
+    return Math.max.apply(null, arrHeight);
   }
 
   setMaxHeightEl() {
-    const columnsAllHeight = document.querySelectorAll('.heightControl');
-    const maxHeight = this.getMaxHeight(columnsAllHeight);
-    columnsAllHeight.forEach((el: any) => {
-      el.style.transition = 'height 0.2s ease 0s';
-      el.style.height = maxHeight + 'px';
-    });
+    setTimeout(() => {
+      const columnsAllHeight = document.querySelectorAll('.heightControl');
+      const maxHeight = this.getMaxHeight(columnsAllHeight);
+      console.log('maxHeight', maxHeight);
+
+      columnsAllHeight.forEach((el: any) => {
+        el.style.height = maxHeight + 55 + 'px';
+      });
+    }, 4);
   }
 
   onDropEnter() {
-    const columnsAllHeight = document.querySelectorAll('.heightControl');
-    const maxHeight = this.getMaxHeight(columnsAllHeight);
-    this.startHeight = maxHeight;
+    this.setMaxHeightEl();
   }
 
   onAddFilterFlug(columnId: any, cardId: any) {
@@ -371,7 +410,8 @@ export class DragDropComponent implements OnInit, OnDestroy {
   cardInfo(event: any) {
     if (
       !event.target.classList.contains('aui-iconfont-more') &&
-      !event.target.classList.contains('aui-button')
+      !event.target.classList.contains('aui-button') &&
+      !event.target.classList.contains('itemMenu')
     ) {
       this.cardPopUpService.cardPopUp$.next('open');
     }

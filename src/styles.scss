@@ -81,5 +81,10 @@ body {
     position: absolute;
     right: 0;
     top: 0;
+    background: transparent;
+
+    &:hover {
+      background: #ecedf0;
+    }
   }
 }

@@ -5,7 +5,7 @@
       class="dranDropColumn"
       *ngFor="let column of boardService.getBoard$() | async; let idx = index"
     >
-      <div class="drag-column bgColorItems heightControl">
+      <div class="drag-column bgColorItems">
         <!-- (cdkDropListEntered)="onDropEnter()" -->
         <!-- [@grow]="startHeight" -->
         <div
@@ -14,6 +14,7 @@
           class="example-list heightControl"
           entered
           (cdkDropListDropped)="drop($event)"
+          (cdkDropListEntered)="onDropEnter()"
         >
           <div class="splitBROP">
             <div class="titleBlock">
@@ -301,40 +302,51 @@
                       </button>
                       <ul class="submenu">
                         <p class="titleMenu">ДЕЙСТВИЯ</p>
-                        <li (click)="onCardDelete(item.id, column.id)">
-                          <span>Удалить</span>
+                        <li>
+                          <span
+                            class="itemMenu"
+                            (click)="onCardDelete(item.id, column.id)"
+                            >Удалить</span
+                          >
                         </li>
                         <li>
                           <span
+                            class="itemMenu"
                             *ngIf="!item.flag"
                             href="#"
                             (click)="onAddFlag(item.id, column.id)"
                             >Добавить флажек</span
                           >
                           <span
+                            class="itemMenu"
                             *ngIf="item.flag"
                             (click)="onDeleteFlag(item.id, column.id)"
                             >Снять отметку</span
                           >
                         </li>
-                        <li
-                          id="dialog-show-button"
-                          (click)="
-                            onModallAddFlug(column.id, item.id, idx, idx2)
-                          "
-                        >
-                          <span>Добавить метку</span>
+                        <li id="dialog-show-button">
+                          <span
+                            class="itemMenu"
+                            (click)="
+                              onModallAddFlug(column.id, item.id, idx, idx2)
+                            "
+                            >Добавить метку</span
+                          >
                         </li>
                         <p class="titleMenu">ПЕРЕМЕСТИТЬ В</p>
 
-                        <li (click)="onAddToEnd(idx, idx2)">
-                          <span
+                        <li>
+                          <span class="itemMenu" (click)="onAddToEnd(idx, idx2)"
                             >Нижняя часть столбца Lorem ipsum dolor sit.
                           </span>
                         </li>
 
-                        <li (click)="onAddToStart(idx, idx2)">
-                          <span>Верхняя часть столбца</span>
+                        <li>
+                          <span
+                            class="itemMenu"
+                            (click)="onAddToStart(idx, idx2)"
+                            >Верхняя часть столбца</span
+                          >
                         </li>
                       </ul>
                     </div>
