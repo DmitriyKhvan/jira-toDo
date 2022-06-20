@@ -35,5 +35,37 @@
     background: #fff;
     margin: 20% auto;
     transition: all 0.5s ease;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 32px 8px;
+
+      .btns-func {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & > * {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+
+  .watchCount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .count {
+      color: #42526e;
+      font-size: 16px;
+    }
+  }
+
+  .body {
+    padding: 0px 24px 32px 32px;
   }
 }

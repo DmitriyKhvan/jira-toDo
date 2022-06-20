@@ -244,6 +244,10 @@ export class DragDropComponent
       el.checked = !el.checked;
     }
 
+    setTimeout(() => {
+      this.focusRef.nativeElement.focus();
+    }, 10);
+
     e.stopPropagation();
   }
 
@@ -331,6 +335,8 @@ export class DragDropComponent
     //   console.log('el', el);
     //   el.style.height = maxHeight + 'px';
     // }
+
+    console.log(this.boardService.getBoard$());
   }
 
   prevDef(e: any) {
@@ -340,7 +346,7 @@ export class DragDropComponent
   sumHeightEls(el: any) {
     let sumHeight = 0;
     el.querySelectorAll('.example-box, .addTask').forEach((el: any) => {
-      console.log('el', el);
+      // console.log('el', el);
       if (el.classList.contains('addTask')) {
         sumHeight += el.clientHeight + 2;
       } else {
@@ -358,7 +364,7 @@ export class DragDropComponent
       arrHeight.push(this.sumHeightEls(e));
     });
 
-    console.log('arrHeight', arrHeight);
+    // console.log('arrHeight', arrHeight);
     // console.log(Array.isArray(arrHeight));
     const maxHeight = Math.max.apply(null, arrHeight);
     // console.log('maxHeight', maxHeight);
@@ -369,7 +375,7 @@ export class DragDropComponent
     setTimeout(() => {
       const columnsAllHeight = document.querySelectorAll('.heightControl');
       const maxHeight = this.getMaxHeight(columnsAllHeight);
-      console.log('maxHeight', maxHeight);
+      // console.log('maxHeight', maxHeight);
 
       columnsAllHeight.forEach((el: any) => {
         el.style.height = maxHeight + 55 + 'px';

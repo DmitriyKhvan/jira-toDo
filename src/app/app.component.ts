@@ -60,6 +60,8 @@ export class AppComponent implements OnInit {
     if (el) {
       el.checked = !el.checked;
     }
+
+    this.boardService.setMaxHeightEl();
   }
 
   removeColumn() {

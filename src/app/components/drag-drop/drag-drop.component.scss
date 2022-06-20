@@ -81,6 +81,10 @@ a {
   color: dodgerblue;
 }
 
+.cdk-drop-dragging .cdk-drag {
+  transition: transform 500ms cubic-bezier(0, 0, 0.2, 1);
+}
+
 .cdk-drag-animating {
   transition: transform 150ms cubic-bezier(0.01, 0.02, 0.03, 0.04) !important;
 }
@@ -159,7 +163,9 @@ a {
 }
 
 .drotText {
+  width: 200px;
   color: #000;
+  word-wrap: break-word;
 }
 .rowItem {
   width: 100%;
@@ -241,20 +247,24 @@ input:checked ~ .customMoreBtn,
 }
 
 .dropMenu {
-  position: relative;
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 
 .inputMenu,
 ul.submenu {
   position: absolute;
   display: none;
-  top: 118%;
-  right: 0;
-  margin-bottom: 8px;
-  z-index: 100;
+
+  // z-index: 100;
 }
 
 .submenu {
+  top: 35px;
+  right: 0;
+  margin-bottom: 8px;
+
   max-width: 221px;
   background: rgb(255, 255, 255);
   border-radius: 3px;
@@ -353,9 +363,7 @@ input:checked ~ ul.submenu {
 }
 
 .drag-column {
-  // margin-right: 1rem;
   width: 270px;
-  // height: 100%;
 }
 
 .borderItems2 {
@@ -446,6 +454,7 @@ input:checked ~ ul.submenu {
 
 .mat-card-title {
   margin-bottom: 8px !important;
+  width: 100%;
 }
 
 .MainEl .mat-card-actions,
@@ -517,7 +526,7 @@ input:checked ~ ul.submenu {
   max-height: 1000px;
 
   // overflow: hidden;
-  transition: height 0.6s;
+  transition: height 0.3s;
 }
 
 .itemsss {

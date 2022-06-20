@@ -217,4 +217,44 @@ export class BoardService {
     });
     this.board$.next([...this.board]);
   }
+
+  sumHeightEls(el: any) {
+    let sumHeight = 0;
+    el.querySelectorAll('.example-box, .addTask').forEach((el: any) => {
+      console.log('el', el);
+      if (el.classList.contains('addTask')) {
+        sumHeight += el.clientHeight + 2;
+      } else {
+        sumHeight += el.clientHeight + 6;
+      }
+    });
+
+    return sumHeight;
+  }
+
+  getMaxHeight(columnsAllHeight: any) {
+    const arrHeight: any[] = [];
+    columnsAllHeight.forEach((e: any) => {
+      // console.log('this.sumHeightEls(e)', this.sumHeightEls(e));
+      arrHeight.push(this.sumHeightEls(e));
+    });
+
+    console.log('arrHeight', arrHeight);
+    // console.log(Array.isArray(arrHeight));
+    const maxHeight = Math.max.apply(null, arrHeight);
+    // console.log('maxHeight', maxHeight);
+    return Math.max.apply(null, arrHeight);
+  }
+
+  setMaxHeightEl() {
+    setTimeout(() => {
+      const columnsAllHeight = document.querySelectorAll('.heightControl');
+      const maxHeight = this.getMaxHeight(columnsAllHeight);
+      console.log('maxHeight', maxHeight);
+
+      columnsAllHeight.forEach((el: any) => {
+        el.style.height = maxHeight + 55 + 'px';
+      });
+    }, 4);
+  }
 }

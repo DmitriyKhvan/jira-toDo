@@ -1,13 +1,11 @@
 <div class="MainEl">
   <div cdkDropListGroup class="drag-row">
-    <!-- d-flex -->
     <div
       class="dranDropColumn"
       *ngFor="let column of boardService.getBoard$() | async; let idx = index"
     >
+      <!-- Столбец начало-->
       <div class="drag-column bgColorItems">
-        <!-- (cdkDropListEntered)="onDropEnter()" -->
-        <!-- [@grow]="startHeight" -->
         <div
           cdkDropList
           [cdkDropListData]="column.list"
@@ -184,6 +182,7 @@
               <div (click)="stPr($event)" class="styleBorder">
                 <textarea
                   class="textarea textareaItemStyle"
+                  #focus
                   name="comment"
                   id="textarea-id"
                   placeholder="Что нужно сделать?"
@@ -278,9 +277,7 @@
               <mat-card-header>
                 <mat-card-title class="drotTextItems d-flex flex-column">
                   <div class="d-flex justify-content-between">
-                    <mat-card-title class="drotText">{{
-                      item.text
-                    }}</mat-card-title>
+                    <p class="drotText">{{ item.text }}</p>
                     <div class="dropMenu">
                       <input
                         (click)="$event.stopPropagation()"
@@ -437,6 +434,7 @@
                   class="textarea textareaItemStyle"
                   name="comment"
                   id="textarea-id"
+                  #focus
                   placeholder="Что нужно сделать?"
                   (keyup.enter)="addCard($event)"
                 ></textarea>
@@ -463,6 +461,7 @@
           </div>
         </div>
       </div>
+      <!-- Столбец конец -->
     </div>
 
     <button (click)="addColumn($event)" *ngIf="canAddItem" class="addColumns">

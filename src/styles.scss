@@ -77,14 +77,41 @@ body {
     }
   }
 
-  &.add {
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: transparent;
+  // &.add {
+  //   position: absolute;
+  //   right: 0;
+  //   top: 0;
+  //   background: transparent;
 
-    &:hover {
-      background: #ecedf0;
-    }
+  //   &:hover {
+  //     background: #ecedf0;
+  //   }
+  // }
+}
+
+.customBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  overflow: none;
+  background: transparent;
+  border-radius: 3px;
+
+  &:hover {
+    background: var(
+      --ds-background-neutral-subtle-hovered,
+      rgba(9, 30, 66, 0.08)
+    );
+    text-decoration: inherit;
+    transition-duration: 0s, 0.15s;
+    color: var(--ds-text, #42526e) !important;
+  }
+
+  i {
+    font-size: 24px;
   }
 }
