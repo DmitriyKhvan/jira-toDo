@@ -20,9 +20,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { ModalOpenCardComponent } from './components/modal-dialogs/modal-open-card/modal-open-card.component';
+import { DragDropColumnComponent } from './components/drag-drop-column/drag-drop-column.component';
 
 @NgModule({
-  declarations: [AppComponent, DragDropComponent, ModalOpenCardComponent],
+  declarations: [AppComponent, DragDropComponent, ModalOpenCardComponent, DragDropColumnComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
